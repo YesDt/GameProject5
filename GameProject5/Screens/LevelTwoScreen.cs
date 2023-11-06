@@ -131,8 +131,11 @@ namespace GameProject5.Screens
             {
                 new Platform(new Vector2(200, 423), new BoundingRectangle(new Vector2(200 - 200, 423), 300f, 300)),
 
-                new Platform(new Vector2(600, 423), new BoundingRectangle(new Vector2(600, 423), 60f, 300)),
-                new Platform(new Vector2(660, 390), new BoundingRectangle(new Vector2(620, 390), 60f, 300))
+                new Platform(new Vector2(400, 423), new BoundingRectangle(new Vector2(400, 423), 60f, 300)),
+                new Platform(new Vector2(460, 390), new BoundingRectangle(new Vector2(460, 390), 60f, 300)),
+                new Platform(new Vector2(520, 357), new BoundingRectangle(new Vector2(520, 357), 60f, 300)),
+                new Platform(new Vector2(580, 324), new BoundingRectangle(new Vector2(580, 324), 60f, 300)),
+                new Platform(new Vector2(200, 100), new BoundingRectangle(new Vector2(0, 165), 500f, 30))
 
             };
 
@@ -146,11 +149,7 @@ namespace GameProject5.Screens
 
                 new CoinSprite(new Vector2(5, 300)),
                 new CoinSprite(new Vector2(10, 350)),
-                new CoinSprite(new Vector2(80, 250)),
 
-                new CoinSprite(new Vector2(400, 300)),
-
-                new CoinSprite(new Vector2(392, 300))
             };
             _coinsLeft = _coins.Length;
             foreach (var coin in _coins) coin.LoadContent(_content);
@@ -201,7 +200,7 @@ namespace GameProject5.Screens
                     }
                     else
                     {
-                        _mc.offGround = true;
+                        _mc.OffGround = true;
                     }
 
 

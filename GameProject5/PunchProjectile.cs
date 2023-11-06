@@ -46,7 +46,7 @@ namespace GameProject5
         public PunchProjectile(Vector2 pos, mcSprite mc)
         {
             _position = pos;
-            if (mc._flipped) this.Flipped = true;
+            if (mc.Flipped) this.Flipped = true;
         }
 
 

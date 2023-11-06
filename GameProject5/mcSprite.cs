@@ -51,13 +51,9 @@ namespace GameProject5
 
         private double _animationTimer;
 
-        private double _attackingTimer = 0;
+        
 
         private short _animationFrame;
-
-        public bool _flipped;
-
-        public bool offGround = false;
 
 
 
@@ -67,7 +63,11 @@ namespace GameProject5
         #region publicFields
         public Vector2 _position = new Vector2();
 
+        public double Attackingtimer = 0;
 
+        public bool Flipped;
+
+        public bool OffGround = false;
 
         public int coinsCollected;
 
@@ -98,7 +98,7 @@ namespace GameProject5
         public mcSprite(Vector2 pos)
         {
             _position = pos;
-            _bounds = new BoundingRectangle(new Vector2(_position.X - 32, _position.Y - 32), 48, 130);
+            _bounds = new BoundingRectangle(new Vector2(_position.X - 32, _position.Y - 16), 48, 120);
             _feet = new BoundingRectangle(new(_bounds.X, _bounds.Y + 32), 48, 32);
         }
 
@@ -149,14 +149,14 @@ namespace GameProject5
             {
                 _position += -direction;
                 action = Action.Running;
-                _flipped = true;
+                Flipped = true;
             }
             if (currentKeyboardState.IsKeyDown(Keys.D) ||
                 currentKeyboardState.IsKeyDown(Keys.Right))
             {
                 _position += direction;
                 action = Action.Running;
-                _flipped = false;
+                Flipped = false;
             }
             if (!(currentKeyboardState.IsKeyDown(Keys.A) ||
                 currentKeyboardState.IsKeyDown(Keys.Left)) &&
@@ -169,7 +169,7 @@ namespace GameProject5
 
 
             //Gravity Function
-            if (offGround)
+            if (OffGround)
             {
                 action = Action.Jumping;
                 _velocityY += _gravity * (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -178,7 +178,7 @@ namespace GameProject5
 
             }
             //Jump Function
-            if (currentKeyboardState.IsKeyDown(Keys.Space) && !offGround)
+            if (currentKeyboardState.IsKeyDown(Keys.Space) && !OffGround)
             {
                 _velocityY -= _jumpHeight;
                 if (!Attacked) _animationFrame = 0;
@@ -190,7 +190,7 @@ namespace GameProject5
             }
             _position.Y += _velocityY;
 
-            if (!offGround)
+            if (!OffGround)
             {
                 _velocityY = 0;
                 //CollisionHandling(rectangle);
@@ -209,13 +209,13 @@ namespace GameProject5
             if (Attacked)
             {
                 action = Action.Attacking;
-                _attackingTimer += gameTime.ElapsedGameTime.TotalSeconds;
+                Attackingtimer += gameTime.ElapsedGameTime.TotalSeconds;
             }
 
-            if (_attackingTimer > 0.4)
+            if (Attackingtimer > 0.4)
             {
                 Attacked = false;
-                _attackingTimer = 0;
+                Attackingtimer = 0;
             }
 
 
@@ -243,12 +243,12 @@ namespace GameProject5
 
             if (_feet.CollidesWith(rect))
             {
-                offGround = false;
+                OffGround = false;
                 _position.Y = rect.Y - _bounds.Height;
             }
             else if (_bounds.CollidesWith(rect))
             {
-                if (_bounds.Top >= rect.Bottom)
+                if (_bounds.Top == rect.Bottom)
                 {
                     _position.Y = rect.Bottom + 1f;
                 }
@@ -264,7 +264,7 @@ namespace GameProject5
             }
             else
             {
-                offGround = true;
+                OffGround = true;
             }
 
         }
@@ -278,7 +278,7 @@ namespace GameProject5
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
 
-            SpriteEffects spriteEffects = (_flipped) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            SpriteEffects spriteEffects = (Flipped) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             if (Attacked)
             {
 
@@ -291,7 +291,7 @@ namespace GameProject5
                 }
 
             }
-            else if (offGround)
+            else if (OffGround)
             {
 
                 _animationTimer += gameTime.ElapsedGameTime.TotalSeconds;
