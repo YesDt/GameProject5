@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34009.444
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameProject5", "GameProject5\GameProject5.csproj", "{592C296D-7545-4798-8599-3B20290A2687}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileMapExtension", "TileMapExtension\TileMapExtension.csproj", "{355A7082-07B6-433E-B2A0-DD31AE1F62E0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{592C296D-7545-4798-8599-3B20290A2687}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{592C296D-7545-4798-8599-3B20290A2687}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{592C296D-7545-4798-8599-3B20290A2687}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{592C296D-7545-4798-8599-3B20290A2687}.Release|Any CPU.Build.0 = Release|Any CPU
+		{355A7082-07B6-433E-B2A0-DD31AE1F62E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{355A7082-07B6-433E-B2A0-DD31AE1F62E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{355A7082-07B6-433E-B2A0-DD31AE1F62E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{355A7082-07B6-433E-B2A0-DD31AE1F62E0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E0743366-6915-44D8-8DE4-D4E664196CF2}
+	EndGlobalSection
+EndGlobal
