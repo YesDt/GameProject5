@@ -31,7 +31,7 @@ namespace GameProject5.StateManagement
         private readonly ContentManager _content;
         private readonly InputState _input = new InputState();
 
-
+        //public Cube cube;
 
         private bool _isInitialized;
 
@@ -65,6 +65,7 @@ namespace GameProject5.StateManagement
         {
             _content = new ContentManager(game.Services, "Content");
             Game = game;
+            //cube = new Cube(game);
         }
 
         /// <summary>
@@ -142,6 +143,7 @@ namespace GameProject5.StateManagement
                     if (!screen.IsPopup) coveredByOtherScreen = true;
                 }
             }
+           // cube.update(gameTime);
         }
 
         /// <summary>
@@ -155,6 +157,7 @@ namespace GameProject5.StateManagement
                 if (screen.ScreenState == ScreenState.Hidden) continue;
 
                 screen.Draw(gameTime);
+                //cube.Draw();
             }
         }
 

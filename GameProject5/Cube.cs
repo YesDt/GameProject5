@@ -5,7 +5,7 @@ using GameProject5;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Basic3DExample
+namespace GameProject5
 {
     public class Cube
     {
@@ -28,6 +28,8 @@ namespace Basic3DExample
         /// The game this cube belongs to 
         /// </summary>
         Game game;
+
+
 
         /// <summary>
         /// Initialize the vertex buffer
@@ -103,7 +105,7 @@ namespace Basic3DExample
             effect.VertexColorEnabled = true;
         }
 
-        public Cube(Game1 game)
+        public Cube(Game game)
         {
             this.game = game;
             InitializeVertices();

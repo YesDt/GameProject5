@@ -19,6 +19,7 @@ using GameProject5.Screens;
 using GameProject5.StateManagement;
 
 
+
 namespace GameProject5.Screens
 {
     public class LevelTwoScreen : GameScreen, IParticleEmitter
@@ -56,6 +57,8 @@ namespace GameProject5.Screens
         private float _pauseAlpha;
         private readonly InputAction _pauseAction;
 
+        private Cube cube;
+
         #endregion
 
 
@@ -65,6 +68,8 @@ namespace GameProject5.Screens
         public Vector2 Velocity { get; set; }
 
         FireworkParticleSystem _fireworks;
+
+
         #endregion
 
         public LevelTwoScreen()
@@ -103,25 +108,19 @@ namespace GameProject5.Screens
             _graphics = ScreenManager.Game.GraphicsDevice;
             _spriteBatch = ScreenManager.SpriteBatch;
 
-
-
             if (_content == null)
                 _content = new ContentManager(ScreenManager.Game.Services, "Content");
 
             _gameFont = _content.Load<SpriteFont>("gamefont");
-            //_level2 = _content.Load<Texture2D>("level2");
+
             _tilemap = _content.Load<TileMap>("TheSecondLevel");
 
             circle = _content.Load<Texture2D>("circle");
 
-            // A real game would probably have more content than this sample, so
-            // it would take longer to load. We simulate that by delaying for a
-            // while, giving you a chance to admire the beautiful loading screen.
+            //cube = ScreenManager.cube;
+
             Thread.Sleep(1000);
 
-            // once the load has finished, we use ResetElapsedTime to tell the game's
-            // timing mechanism that we have just finished a very long frame, and that
-            // it should not try to catch up.
             ScreenManager.Game.ResetElapsedTime();
             _mc.LoadContent(_content);
             _mc.Wall = 1150;
@@ -129,7 +128,7 @@ namespace GameProject5.Screens
             _platforms = new Platform[]
 
             {
-                new Platform(new Vector2(200, 423), new BoundingRectangle(new Vector2(200 - 200, 423), 310f, 300)),
+                new Platform(new Vector2(200, 423), new BoundingRectangle(new Vector2(200 - 200, 423), 380f, 300)),
 
                 new Platform(new Vector2(400, 423), new BoundingRectangle(new Vector2(400, 423), 60f, 300)),
                 new Platform(new Vector2(460, 390), new BoundingRectangle(new Vector2(460, 390), 60f, 300)),
@@ -227,7 +226,7 @@ namespace GameProject5.Screens
                 {
                     _noCoinsLeft = true;
                 }
-
+                //cube.update(gameTime);
 
 
                 //if (_mc.Bounds.CollidesWith(_goal.Bounds))
@@ -332,6 +331,7 @@ namespace GameProject5.Screens
             spriteBatch.Begin();
 
             spriteBatch.DrawString(_coinCounter, $"Coins Left: {_coinsLeft}", new Vector2(2, 2), Color.Gold);
+            //cube.Draw();
 
 
             spriteBatch.End();
