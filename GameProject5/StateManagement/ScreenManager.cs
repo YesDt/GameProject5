@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GameProject5.StateManagement;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -31,7 +32,7 @@ namespace GameProject5.StateManagement
         private readonly ContentManager _content;
         private readonly InputState _input = new InputState();
 
-        //public Cube cube;
+        public Cube cube;
 
         private bool _isInitialized;
 
@@ -65,7 +66,7 @@ namespace GameProject5.StateManagement
         {
             _content = new ContentManager(game.Services, "Content");
             Game = game;
-            //cube = new Cube(game);
+            
         }
 
         /// <summary>
@@ -83,6 +84,7 @@ namespace GameProject5.StateManagement
         protected override void LoadContent()
         {
             SpriteBatch = new SpriteBatch(GraphicsDevice);
+            cube = new Cube(this.Game);
             Font = _content.Load<SpriteFont>("menufont");
             BlankTexture = _content.Load<Texture2D>("blank");
 
@@ -143,7 +145,7 @@ namespace GameProject5.StateManagement
                     if (!screen.IsPopup) coveredByOtherScreen = true;
                 }
             }
-           // cube.update(gameTime);
+            cube.update(gameTime);
         }
 
         /// <summary>
@@ -157,7 +159,7 @@ namespace GameProject5.StateManagement
                 if (screen.ScreenState == ScreenState.Hidden) continue;
 
                 screen.Draw(gameTime);
-                //cube.Draw();
+                cube.Draw();
             }
         }
 
