@@ -25,6 +25,8 @@ namespace GameProject5.Screens
         private readonly InputAction _menuSelect;
         private readonly InputAction _menuCancel;
 
+  
+
         // Gets the list of menu entries, so derived classes can add or change the menu contents.
         protected IList<MenuEntry> MenuEntries => _menuEntries;
 
@@ -47,6 +49,9 @@ namespace GameProject5.Screens
             _menuCancel = new InputAction(
                 new[] { Buttons.B, Buttons.Back },
                 new[] { Keys.Back, Keys.Escape }, true);
+
+
+
         }
 
         // Responds to user input, changing the selected entry and accepting or cancelling the menu.

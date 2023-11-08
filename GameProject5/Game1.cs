@@ -18,7 +18,7 @@ namespace GameProject5
 
         public GraphicsDeviceManager Graphics => _graphics;
 
-        public static Cube cube;
+        //public static Cube cube;
 
         public Game1()
         {
@@ -33,7 +33,7 @@ namespace GameProject5
 
             _screenManager = new ScreenManager(this);
             Components.Add(_screenManager);
-            cube = new Cube(this);
+           // cube = new Cube(this);
 
             AddInitialScreens();
         }
@@ -66,7 +66,7 @@ namespace GameProject5
             //Exit();
 
             // TODO: Add your update logic here
-            cube.update(gameTime);
+            //cube.update(gameTime);
 
             base.Update(gameTime);
         }
@@ -76,7 +76,7 @@ namespace GameProject5
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            cube.Draw();
+            //cube.Draw();
             base.Draw(gameTime);
         }
     }
