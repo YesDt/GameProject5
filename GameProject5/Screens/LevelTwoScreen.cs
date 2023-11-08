@@ -129,7 +129,7 @@ namespace GameProject5.Screens
             _platforms = new Platform[]
 
             {
-                new Platform(new Vector2(200, 423), new BoundingRectangle(new Vector2(200 - 200, 423), 300f, 300)),
+                new Platform(new Vector2(200, 423), new BoundingRectangle(new Vector2(200 - 200, 423), 310f, 300)),
 
                 new Platform(new Vector2(400, 423), new BoundingRectangle(new Vector2(400, 423), 60f, 300)),
                 new Platform(new Vector2(460, 390), new BoundingRectangle(new Vector2(460, 390), 60f, 300)),
