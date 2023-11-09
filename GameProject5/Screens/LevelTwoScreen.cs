@@ -34,6 +34,7 @@ namespace GameProject5.Screens
 
         private mcSprite _mc = new mcSprite(new Vector2(200, 300));
         private CoinSprite[] _coins;
+        private Collectible _coinstack = new Collectible(new Vector2(20, 150), new BoundingRectangle(20, 150, 64, 32));
         private Platform[] _platforms;
         //private Goal _goal = new Goal(new Vector2(600, 423), new BoundingRectangle(new Vector2(600, 423), 300f, 300));
 
@@ -117,7 +118,7 @@ namespace GameProject5.Screens
 
             circle = _content.Load<Texture2D>("circle");
 
-            //cube = ScreenManager.cube;
+            cube = ScreenManager.cube;
 
             Thread.Sleep(1000);
 
@@ -135,7 +136,7 @@ namespace GameProject5.Screens
                 new Platform(new Vector2(520, 357), new BoundingRectangle(new Vector2(520, 357), 60f, 300)),
                 new Platform(new Vector2(580, 324), new BoundingRectangle(new Vector2(580, 324), 60f, 300)),
                 new Platform(new Vector2(200, 100), new BoundingRectangle(new Vector2(0, 165), 500f, 30)),
-                new Platform(new Vector2(200, 100), new BoundingRectangle(new Vector2(1100, 423), 200f, 300))
+                new Platform(new Vector2(1000, 100), new BoundingRectangle(new Vector2(1000, 423), 300f, 300))
 
             };
 
@@ -154,7 +155,7 @@ namespace GameProject5.Screens
             _coinsLeft = _coins.Length;
             foreach (var coin in _coins) coin.LoadContent(_content);
 
-
+            _coinstack.cTexture = _content.Load<Texture2D>("gold");
 
             _coinPickup = _content.Load<SoundEffect>("Pickup_Coin15");
             _backgroundMusic = _content.Load<Song>("GP4Level2");
@@ -226,7 +227,17 @@ namespace GameProject5.Screens
                 {
                     _noCoinsLeft = true;
                 }
-                //cube.update(gameTime);
+
+                if(_coinstack.RecBounds.CollidesWith(_mc.Bounds))
+                {
+                    _coinstack.cTexture.Dispose();
+                    _coinstack.destroy();
+                    _mc.coinsCollected += 5;
+                }
+
+
+
+                cube.update(gameTime);
 
 
                 //if (_mc.Bounds.CollidesWith(_goal.Bounds))
@@ -303,6 +314,8 @@ namespace GameProject5.Screens
 
                 }
             }
+
+            spriteBatch.Draw(_coinstack.cTexture, new Vector2(20, 150), new Rectangle(0, 64, 32, 32), Color.White, 0f, new Vector2(16, 16), 2.0f, SpriteEffects.None, 0);
             //_goal.Draw(spriteBatch, gameTime);
 
 

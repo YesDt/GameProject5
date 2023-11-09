@@ -209,7 +209,7 @@ namespace GameProject5.Screens
                 {
                     _noCoinsLeft = true;
                 }
-                if (_mc.Attackingtimer == 0 && _mc.Attacked)
+                if (_mc.Attackingtimer == 0.1 && _mc.Attacked)
                 {
                     _p.Add(new PunchProjectile(new Vector2(_mc.Position.X + 60, _mc.Position.Y + 20), _mc));
                     foreach (var proj in _p)

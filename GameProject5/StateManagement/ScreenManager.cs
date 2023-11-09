@@ -145,7 +145,7 @@ namespace GameProject5.StateManagement
                     if (!screen.IsPopup) coveredByOtherScreen = true;
                 }
             }
-            cube.update(gameTime);
+            //cube.update(gameTime);
         }
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace GameProject5.StateManagement
                 if (screen.ScreenState == ScreenState.Hidden) continue;
 
                 screen.Draw(gameTime);
-                cube.Draw();
+                //cube.Draw();
             }
         }
 
