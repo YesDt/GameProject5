@@ -29,7 +29,7 @@ namespace GameProject5
         /// </summary>
         Game game;
 
-
+        public float Offset;
 
         /// <summary>
         /// Initialize the vertex buffer
@@ -37,14 +37,14 @@ namespace GameProject5
         public void InitializeVertices()
         {
             var vertexData = new VertexPositionColor[] {
-            new VertexPositionColor() { Position = new Vector3(-3, 3, -3), Color = Color.Blue},
-            new VertexPositionColor() { Position = new Vector3( 3,  3, -3), Color = Color.Green },
-            new VertexPositionColor() { Position = new Vector3(-3, -3, -3), Color = Color.Red },
-            new VertexPositionColor() { Position = new Vector3( 3, -3, -3), Color = Color.Cyan },
-            new VertexPositionColor() { Position = new Vector3(-3,  3,  3), Color = Color.Blue },
-            new VertexPositionColor() { Position = new Vector3( 3,  3,  3), Color = Color.Red },
-            new VertexPositionColor() { Position = new Vector3(-3, -3,  3), Color = Color.Green },
-            new VertexPositionColor() { Position = new Vector3( 3, -3,  3), Color = Color.Cyan }
+            new VertexPositionColor() { Position = new Vector3(-.5f, .5f, -.5f), Color = Color.Blue},
+            new VertexPositionColor() { Position = new Vector3( .5f,  .5f, -.5f), Color = Color.Green },
+            new VertexPositionColor() { Position = new Vector3(-.5f, -.5f, -.5f), Color = Color.Red },
+            new VertexPositionColor() { Position = new Vector3( .5f, -.5f, -.5f), Color = Color.Cyan },
+            new VertexPositionColor() { Position = new Vector3(-.5f,  .5f,  .5f), Color = Color.Blue },
+            new VertexPositionColor() { Position = new Vector3( .5f,  .5f,  .5f), Color = Color.Red },
+            new VertexPositionColor() { Position = new Vector3(-.5f, -.5f,  .5f), Color = Color.Green },
+            new VertexPositionColor() { Position = new Vector3( .5f, -.5f,  .5f), Color = Color.Cyan }
             };
             vertices = new VertexBuffer(
                 game.GraphicsDevice, // The graphics device to load the buffer on 
@@ -121,7 +121,7 @@ namespace GameProject5
         {
             float angle = (float)gameTime.TotalGameTime.TotalSeconds;
             // Look at the cube from farther away while spinning around it
-            effect.View = Matrix.CreateRotationY(angle) * Matrix.CreateLookAt(
+            effect.World =  Matrix.CreateRotationY(angle) * Matrix.CreateTranslation(0, 2.5f, 0) * Matrix.CreateLookAt(
                 new Vector3(0, 5, -10),
                 Vector3.Zero,
                 Vector3.Up
@@ -133,6 +133,7 @@ namespace GameProject5
         /// </summary>
         public void Draw()
         {
+            effect.View = Matrix.CreateTranslation(Offset, 0, 0);
             // apply the effect 
             effect.CurrentTechnique.Passes[0].Apply();
             // set the vertex buffer
