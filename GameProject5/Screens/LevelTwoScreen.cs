@@ -36,7 +36,7 @@ namespace GameProject5.Screens
         private CoinSprite[] _coins;
         private Collectible _coinstack = new Collectible(new Vector2(20, 150), new BoundingRectangle(20, 150, 64, 32));
         private Platform[] _platforms;
-        //private Goal _goal = new Goal(new Vector2(600, 423), new BoundingRectangle(new Vector2(600, 423), 300f, 300));
+        //private Goal _goal = new Goal(new Vector2(1149, 423), new BoundingRectangle(new Vector2(1149, 423), 300f, 300));
 
 
         //private Texture2D _level2;

@@ -30,7 +30,7 @@ namespace GameProject5.Screens
             if (_content == null)
                 _content = new ContentManager(ScreenManager.Game.Services, "Content");
 
-            _backgroundTexture = _content.Load<Texture2D>("gameproject2maintainence");
+            _backgroundTexture = _content.Load<Texture2D>("gameproject5mscreen2");
         }
 
         public override void Unload()

@@ -100,6 +100,18 @@
 /processorParam:TextureFormat=Color
 /build:gameproject2titlescreen.png
 
+#begin gameproject5mscreen2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:gameproject5mscreen2.png
+
 #begin gold.png
 /importer:TextureImporter
 /processor:TextureProcessor
