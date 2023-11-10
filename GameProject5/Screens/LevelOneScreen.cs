@@ -121,7 +121,7 @@ namespace GameProject5.Screens
             ScreenManager.Game.ResetElapsedTime();
             _mc.LoadContent(_content);
             _mc.Wall = 1150;
-            _platforms = new Platform(new Vector2(200, 423), new BoundingRectangle(new Vector2(200 - 200, 423), 1200f, 2));
+            _platforms = new Platform(new Vector2(200, 443), new BoundingRectangle(new Vector2(200 - 200, 443), 1200f, 2));
             _p = new List<PunchProjectile>();
 
             _coinCounter = _content.Load<SpriteFont>("CoinsLeft");

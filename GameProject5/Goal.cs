@@ -13,9 +13,16 @@ namespace GameProject5
     public class Goal : Platform
     {
         private Texture2D _texture;
-        public Goal(Vector2 Position, BoundingRectangle bounds) : base(Position, bounds)
-        {
 
+
+        public float OriginX;
+
+        public float OriginY;
+
+        public Goal(Vector2 Position, BoundingRectangle bounds, float oX, float oY) : base(Position, bounds)
+        {
+            OriginX = oX;
+            OriginY = oY;
         }
 
         public void LoadContent(ContentManager content)
@@ -28,7 +35,7 @@ namespace GameProject5
         public void Draw(SpriteBatch spriteBatch, GameTime gametime)
         {
 
-            spriteBatch.Draw(_texture, Position, null, Color.White, 0f, new Vector2(Position.X - 640, Position.Y - 280), 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(_texture, Position, null, Color.White, 0f, new Vector2(Position.X - OriginX, Position.Y - OriginY), 1f, SpriteEffects.None, 0f);
         }
     }
 }

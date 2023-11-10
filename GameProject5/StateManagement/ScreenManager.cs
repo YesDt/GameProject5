@@ -34,6 +34,8 @@ namespace GameProject5.StateManagement
 
         public Cube cube;
 
+        public static int score;
+
         private bool _isInitialized;
 
         public GameState gameState;

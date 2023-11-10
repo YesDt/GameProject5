@@ -32,11 +32,11 @@ namespace GameProject5.Screens
 
         private SpriteFont _gameFont;
 
-        private mcSprite _mc = new mcSprite(new Vector2(200, 300));
+        private mcSprite _mc = new mcSprite(new Vector2(200, 330));
         private CoinSprite[] _coins;
-        private Collectible _coinstack = new Collectible(new Vector2(20, 150), new BoundingRectangle(20, 150, 64, 32));
+        private Collectible _coinstack = new Collectible(new Vector2(20, 150), new BoundingRectangle(0, 110, 32, 32));
         private Platform[] _platforms;
-        //private Goal _goal = new Goal(new Vector2(1149, 423), new BoundingRectangle(new Vector2(1149, 423), 300f, 300));
+        private Goal _goal = new Goal(new Vector2(1150, 210), new BoundingRectangle(new Vector2(1150, 210), 30f, 260), 640, 280);
 
 
         //private Texture2D _level2;
@@ -129,19 +129,19 @@ namespace GameProject5.Screens
             _platforms = new Platform[]
 
             {
-                new Platform(new Vector2(200, 423), new BoundingRectangle(new Vector2(200 - 200, 423), 380f, 300)),
+                new Platform(new Vector2(200, 453), new BoundingRectangle(new Vector2(0, 453), 380f, 300)),
 
                 new Platform(new Vector2(400, 423), new BoundingRectangle(new Vector2(400, 423), 60f, 300)),
-                new Platform(new Vector2(460, 390), new BoundingRectangle(new Vector2(460, 390), 60f, 300)),
-                new Platform(new Vector2(520, 357), new BoundingRectangle(new Vector2(520, 357), 60f, 300)),
-                new Platform(new Vector2(580, 324), new BoundingRectangle(new Vector2(580, 324), 60f, 300)),
+                new Platform(new Vector2(460, 400), new BoundingRectangle(new Vector2(460, 400), 60f, 300)),
+                new Platform(new Vector2(520, 377), new BoundingRectangle(new Vector2(520, 377), 60f, 300)),
+                new Platform(new Vector2(580, 334), new BoundingRectangle(new Vector2(580, 334), 60f, 300)),
                 new Platform(new Vector2(200, 100), new BoundingRectangle(new Vector2(0, 165), 500f, 30)),
-                new Platform(new Vector2(1000, 100), new BoundingRectangle(new Vector2(1000, 423), 300f, 300))
+                new Platform(new Vector2(1020, 100), new BoundingRectangle(new Vector2(1020, 453), 300f, 300))
 
             };
 
 
-            //_goal.LoadContent(_content);
+            _goal.LoadContent(_content);
 
             _coinCounter = _content.Load<SpriteFont>("CoinsLeft");
             _coins = new CoinSprite[]
@@ -228,7 +228,7 @@ namespace GameProject5.Screens
                     _noCoinsLeft = true;
                 }
 
-                if(_coinstack.RecBounds.CollidesWith(_mc.Bounds))
+                if(_coinstack.RecBounds.CollidesWith(_mc.Bounds) || _coinstack.RecBounds.CollidesWith(_mc.FeetBounds))
                 {
                     _coinstack.cTexture.Dispose();
                     _coinstack.destroy();
@@ -240,12 +240,12 @@ namespace GameProject5.Screens
                 cube.update(gameTime);
 
 
-                //if (_mc.Bounds.CollidesWith(_goal.Bounds))
-                //{
-                //    MediaPlayer.Stop();
-                //    File.WriteAllText("progress.txt", "");
-                //     LoadingScreen.Load(ScreenManager, false, null, new MaintainenceScreen());
-                //}
+                if (_mc.Bounds.CollidesWith(_goal.Bounds) || _mc.FeetBounds.CollidesWith(_goal.Bounds))
+                {
+                    MediaPlayer.Stop();
+                    File.WriteAllText("progress.txt", "");
+                    LoadingScreen.Load(ScreenManager, false, null, new MaintainenceScreen());
+                }
             }
         }
 
@@ -314,13 +314,13 @@ namespace GameProject5.Screens
 
                 }
             }
-
+            
             spriteBatch.Draw(_coinstack.cTexture, new Vector2(20, 150), new Rectangle(0, 64, 32, 32), Color.White, 0f, new Vector2(16, 16), 2.0f, SpriteEffects.None, 0);
             //_goal.Draw(spriteBatch, gameTime);
 
 
             _mc.Draw(gameTime, spriteBatch);
-
+            
             //Debugging purposes
             foreach (Platform plat in _platforms)
             {
@@ -337,15 +337,23 @@ namespace GameProject5.Screens
                 spriteBatch.Draw(circle, new Vector2(_mc.FeetBounds.Left, _mc.FeetBounds.Bottom), null, Color.Blue, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
                 spriteBatch.Draw(circle, new Vector2(_mc.FeetBounds.Right, _mc.FeetBounds.Bottom), null, Color.Green, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
             }
+            spriteBatch.Draw(circle, new Vector2(_coinstack.RecBounds.Left, _coinstack.RecBounds.Top), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(circle, new Vector2(_coinstack.RecBounds.Right, _coinstack.RecBounds.Top), null, Color.Red, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(circle, new Vector2(_coinstack.RecBounds.Left, _coinstack.RecBounds.Bottom), null, Color.Blue, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(circle, new Vector2(_coinstack.RecBounds.Right, _coinstack.RecBounds.Bottom), null, Color.Green, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
 
+            spriteBatch.Draw(circle, new Vector2(_goal.Bounds.Left, _goal.Bounds.Top), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(circle, new Vector2(_goal.Bounds.Right, _goal.Bounds.Top), null, Color.Red, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(circle, new Vector2(_goal.Bounds.Left, _goal.Bounds.Bottom), null, Color.Blue, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(circle, new Vector2(_goal.Bounds.Right, _goal.Bounds.Bottom), null, Color.Green, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
             spriteBatch.End();
 
 
             spriteBatch.Begin();
 
             spriteBatch.DrawString(_coinCounter, $"Coins Left: {_coinsLeft}", new Vector2(2, 2), Color.Gold);
-            //cube.Draw();
 
+            //cube.Draw();
 
             spriteBatch.End();
 

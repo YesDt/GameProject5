@@ -244,7 +244,7 @@ namespace GameProject5
             if (_feet.CollidesWith(rect))
             {
                 OffGround = false;
-                _position.Y = rect.Y - _bounds.Height;
+                _position.Y = rect.Y - (_bounds.Height + _feet.Height);
             }
             else if (_bounds.CollidesWith(rect))
             {
@@ -252,12 +252,12 @@ namespace GameProject5
                 {
                     _position.Y = rect.Bottom + 1f;
                 }
-                else if (_bounds.Left >= rect.Right)
+                else if (_bounds.Left == rect.Right)
                 {
                     _position.X = rect.Right + 1f;
 
                 }
-                else if (_bounds.Right <= rect.Left)
+                else if (_bounds.Right == rect.Left)
                 {
                     _position.X = rect.Left - 1f;
                 }
