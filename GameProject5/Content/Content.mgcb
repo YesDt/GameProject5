@@ -57,6 +57,18 @@
 /processorParam:TextureFormat=Compressed
 /build:CoinsLeft.spritefont
 
+#begin escToSkip.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:escToSkip.png
+
 #begin gamefont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -179,17 +191,41 @@
 /processorParam:TextureFormat=Compressed
 /build:menufont.spritefont
 
+#begin newGameCutscene.mp4
+/importer:H264Importer
+/processor:VideoProcessor
+/build:newGameCutscene.mp4
+
 #begin Pickup_Coin15.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Pickup_Coin15.wav
 
+#begin Pickup_Coin5.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Pickup_Coin5.wav
+
+#begin Pickup_Special.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Pickup_Special.wav
+
 #begin Project2music.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:Project2music.mp3
+
+#begin SpecialGet.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:SpecialGet.spritefont
 
 #begin Sprite_Finish.png
 /importer:TextureImporter

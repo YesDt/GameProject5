@@ -1,0 +1,73 @@
+﻿﻿﻿﻿﻿﻿Content/Coins.png - created by puddin of OpenGameArt.org (https://opengameart.org/content/rotating-coin) and released under the public domain
+
+
+Content/gold.png - created by Clint Bellanger of OpenGameArt.or (https://opengameart.org/content/gold-treasure-icons) and released under the public domain
+
+
+gradient.png, blank.png, and background.png are from the MonoGame port of the XNA Game State Management Sample, available at:
+
+https://github.com/tomizechsterson/game-state-management-monogame
+
+and relased under the MIT License
+
+
+Content/Pickup_Coin15.wav - created by Nathan Bean with BXFR, released under public domain
+
+
+Sprite_MC.png - created by Darius Tyson with Aseprite, released under public domain
+
+
+Sprite_MC1.png - created by Darius Tyson with Aseprite, released under public domain
+
+
+Sprite_PunchProjectile.png - created by Darius Tyson with Aseprite, released under public domain
+
+
+Sprite_Finish.png - created by Darius Tyson with Aseprite, released under public domain
+
+
+level.png - created by Darius Tyson with fire Alpaca, released under public domain
+
+
+level2.png - created by Darius Tyson with fire Alpaca, released under public domain
+
+
+gameproject2maintainence.png - created by Darius Tyson with fire Alpaca, released under public domain
+
+
+gameproject2titlescreen.png - created by Darius Tyson with fire Alpaca, released under public domain
+
+
+gameproject2loadingscreen.png - created by Darius Tyson with fire Alpaca, released under public domain
+
+
+Content/circle.png - created by Nathan Bean and released under public domain
+
+
+escToSkip.png - created by Darius Tyson with fire Alpaca, released under public domain
+
+
+gameproject5mscreen.png - created by Darius Tyson with fire Alpaca, released under public domain
+
+
+PickupCoin5.wav - ceated by Darius Tyson using BFXR, released under public domain
+
+
+Pickup_Special.wav - created by Darius Tyson using BFXR, released under public domain
+
+
+
+Project2music.mp3 - created by Darius Tyson with LMMS, released under public domain
+
+
+GP4Level2.mp3 - created by Darius Tysom with LMMS, released under public domain
+
+
+newGameCutscene.mp4 - created by Darius Tyson using Fire Alpaca, and Davinci Resolve, released under public domain
+
+
+Level2.tmap - created by Darius Tyson, released under public domain
+
+
+Level2.txt - created by Darius Tyson, released under public domain
+

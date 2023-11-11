@@ -57,7 +57,7 @@ namespace GameProject5.Screens
         {
             ScreenManager.score = 0;
             File.WriteAllText("progress.txt", "");
-            LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new LevelOneScreen());
+            LoadingScreen.Load(ScreenManager, true, e.PlayerIndex,new LevelOneScreen());
 
         }
 

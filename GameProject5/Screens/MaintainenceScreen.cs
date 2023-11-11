@@ -18,6 +18,8 @@ namespace GameProject5.Screens
         private ContentManager _content;
         private Texture2D _backgroundTexture;
 
+        private Texture2D _pressEsc;
+
         public MaintainenceScreen()
         {
             TransitionOnTime = TimeSpan.FromSeconds(0.5);
@@ -31,6 +33,7 @@ namespace GameProject5.Screens
                 _content = new ContentManager(ScreenManager.Game.Services, "Content");
 
             _backgroundTexture = _content.Load<Texture2D>("gameproject5mscreen2");
+            _pressEsc = _content.Load<Texture2D>("escToSkip");
         }
 
         public override void Unload()
@@ -55,6 +58,7 @@ namespace GameProject5.Screens
 
             spriteBatch.Draw(_backgroundTexture, fullscreen,
                 new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha));
+            ScreenManager.SpriteBatch.Draw(_pressEsc, new Vector2(500, 300), Color.White);
 
             spriteBatch.End();
         }

@@ -22,6 +22,8 @@ namespace GameProject5
 
         public BoundingCircle CircleBounds => _circleBounds;
 
+        public Vector2 Position => _position;
+
         public Collectible(Vector2 pos, BoundingRectangle rBounds)
         {
             _position = pos;

@@ -121,7 +121,7 @@ namespace GameProject5
         {
             float angle = (float)gameTime.TotalGameTime.TotalSeconds;
             // Look at the cube from farther away while spinning around it
-            effect.World =  Matrix.CreateRotationY(angle) * Matrix.CreateTranslation(0, 2.5f, 0) * Matrix.CreateLookAt(
+            effect.World =  Matrix.CreateRotationY(angle) * Matrix.CreateTranslation(3, 2.5f, 0) * Matrix.CreateLookAt(
                 new Vector3(0, 5, -10),
                 Vector3.Zero,
                 Vector3.Up
