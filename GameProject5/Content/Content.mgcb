@@ -184,6 +184,11 @@
 /processorParam:Scale=1
 /build:Level2.tmap;TheSecondLevel.tmap
 
+#begin liftoff_of_smap.mp4
+/importer:H264Importer
+/processor:VideoProcessor
+/build:liftoff_of_smap.mp4
+
 #begin menufont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

@@ -37,17 +37,19 @@ namespace GameProject5.Screens
                 _content = new ContentManager(ScreenManager.Game.Services, "Content");
 
             }
-            _video = _content.Load<Video>("newGameCutscene");
-
-        }
-
-        public override void HandleInput(GameTime gameTime, InputState input)
-        {
+            _video = _content.Load<Video>("liftoff_of_smap");
+            _pressEsc = _content.Load<Texture2D>("escToSkip");
             if (!_isPlaying)
             {
                 _player.Play(_video);
                 _isPlaying = true;
             }
+
+        }
+
+        public override void HandleInput(GameTime gameTime, InputState input)
+        {
+
             PlayerIndex player;
             if (_skip.Occurred(input, null, out player))
             {
@@ -75,7 +77,13 @@ namespace GameProject5.Screens
             if (_isPlaying)
             {
                 ScreenManager.SpriteBatch.Begin();
-                ScreenManager.SpriteBatch.Draw(_player.GetTexture(), Vector2.Zero, Color.White);
+                try
+                {
+                    var texture = _player.GetTexture();
+                    ScreenManager.SpriteBatch.Draw(texture, ScreenManager.GraphicsDevice.Viewport.Bounds, Color.White); 
+                }
+                catch (Exception e) { };
+
                 ScreenManager.SpriteBatch.Draw(_pressEsc, new Vector2(600, 300), Color.White);
                 ScreenManager.SpriteBatch.End();
             }
