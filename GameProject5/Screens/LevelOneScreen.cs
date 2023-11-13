@@ -76,7 +76,7 @@ namespace GameProject5.Screens
             using (StreamWriter sw = new StreamWriter("progress.txt"))
             {
 
-                sw.WriteLine("Level: Level 1");
+                sw.WriteLine("Level: Level 1 \n Score: " + ScreenManager.score);
             }
 
 
@@ -201,6 +201,7 @@ namespace GameProject5.Screens
                         _coinPickup.Play();
                         _coinsLeft--;
                         _mc.coinsCollected++;
+                   
 
                     }
 
@@ -257,6 +258,11 @@ namespace GameProject5.Screens
             if (_noCoinsLeft)
             {
                 MediaPlayer.Stop();
+                for (int i = 0; i < _mc.coinsCollected; i++)
+                {
+                    ScreenManager.score += i * 10;
+
+                }
                 LoadingScreen.Load(ScreenManager, false, player, new LevelTwoScreen());
             }
         }
