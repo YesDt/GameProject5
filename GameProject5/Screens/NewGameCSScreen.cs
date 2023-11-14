@@ -12,6 +12,7 @@ using GameProject5.StateManagement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify;
 
 
+
 namespace GameProject5.Screens
 {
     public class NewGameCSScreen: GameScreen
@@ -37,7 +38,7 @@ namespace GameProject5.Screens
                 _content = new ContentManager(ScreenManager.Game.Services, "Content");
 
             }
-            _video = _content.Load<Video>("liftoff_of_smap");
+            _video = _content.Load<Video>("newGameOpCutscene");
             _pressEsc = _content.Load<Texture2D>("escToSkip");
             if (!_isPlaying)
             {

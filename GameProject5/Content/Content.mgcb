@@ -196,10 +196,10 @@
 /processorParam:TextureFormat=Compressed
 /build:menufont.spritefont
 
-#begin newGameCutscene.mp4
+#begin NewGameOpCutscene.mp4
 /importer:H264Importer
 /processor:VideoProcessor
-/build:newGameCutscene.mp4
+/build:NewGameOpCutscene.mp4
 
 #begin Pickup_Coin15.wav
 /importer:WavImporter
