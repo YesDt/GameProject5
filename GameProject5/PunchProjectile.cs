@@ -19,17 +19,18 @@ namespace GameProject5
 
     public class PunchProjectile
     {
-        private Texture2D _texture;
+        private static Texture2D _texture;
 
         private Vector2 _position;
 
         private BoundingRectangle _bounds;
 
-        private double _projTimer;
-
         private double _animationTimer;
 
         private short _animationFrame;
+
+
+        public double ProjTimer;
 
         public float Speed = 300;
 
@@ -50,7 +51,7 @@ namespace GameProject5
         }
 
 
-        public void LoadContent(ContentManager content)
+        public static void LoadContent(ContentManager content)
         {
             _texture = content.Load<Texture2D>("Sprite_PunchProjectile ");
 
@@ -68,9 +69,9 @@ namespace GameProject5
                 _position += new Vector2(Speed * (float)gameTime.ElapsedGameTime.TotalSeconds, 0);
             }
 
-            _bounds = new BoundingRectangle(new Vector2(_position.X - 32, _position.Y - 32), 20, 40);
-            _projTimer += gameTime.ElapsedGameTime.TotalSeconds;
-            if (_projTimer >= 1)
+            _bounds = new BoundingRectangle(new Vector2(_position.X - 32, _position.Y + 32), 32, 40);
+            ProjTimer += gameTime.ElapsedGameTime.TotalSeconds;
+            if (ProjTimer >= 1)
             {
                 Destroy(this);
             }
@@ -79,7 +80,7 @@ namespace GameProject5
 
         public void Destroy(PunchProjectile p)
         {
-            p._texture.Dispose();
+
             p._bounds = new BoundingRectangle(Vector2.Zero, 0, 0);
             Expired = true;
         }
@@ -89,7 +90,7 @@ namespace GameProject5
             SpriteEffects spriteEffects = (Flipped) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             if (projState == state.traveling)
             {
-                if (_projTimer < 2)
+                if (ProjTimer < 2)
                 {
                     _animationTimer += gameTime.ElapsedGameTime.TotalSeconds;
                     if (_animationTimer > 0.1)
