@@ -45,7 +45,9 @@ namespace GameProject5.Screens
         public Texture2D circle;
 
         private SpriteFont _coinCounter;
+        private SpriteFont _scoreDisplay;
         private int _coinsLeft;
+        private int _tempScore = 0;
 
         private Song _backgroundMusic;
         private SoundEffect _coinPickup;
@@ -125,6 +127,7 @@ namespace GameProject5.Screens
            // _p = new List<PunchProjectile>();
 
             _coinCounter = _content.Load<SpriteFont>("CoinsLeft");
+            _scoreDisplay = _content.Load<SpriteFont>("scoreFont");
             _coins = new CoinSprite[]
             {
                 new CoinSprite(new Vector2(300, 300)),
@@ -198,6 +201,7 @@ namespace GameProject5.Screens
                         _coinPickup.Play();
                         _coinsLeft--;
                         _mc.coinsCollected++;
+                        _tempScore += 10;
                    
 
                     }
@@ -255,11 +259,7 @@ namespace GameProject5.Screens
             if (_noCoinsLeft)
             {
                 MediaPlayer.Stop();
-                for (int i = 0; i < _mc.coinsCollected; i++)
-                {
-                    ScreenManager.score += i * 10;
-
-                }
+                ScreenManager.score += _tempScore;
                 LoadingScreen.Load(ScreenManager, false, player, new LevelTwoScreen());
             }
         }
@@ -304,8 +304,8 @@ namespace GameProject5.Screens
             spriteBatch.Begin();
 
             spriteBatch.DrawString(_coinCounter, $"Coins Left: {_coinsLeft}", new Vector2(2, 2), Color.Gold);
+            spriteBatch.DrawString(_scoreDisplay, $"Score: {_tempScore}", new Vector2(2, 50), Color.Orange);
 
-           
 
             //spriteBatch.Draw(circle, new Vector2(_mc.Bounds.Left, _mc.Bounds.Bottom), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
 

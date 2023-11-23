@@ -90,7 +90,7 @@ namespace GameProject5
             SpriteEffects spriteEffects = (Flipped) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             if (projState == state.traveling)
             {
-                if (ProjTimer < 2)
+                if (ProjTimer < 0.6)
                 {
                     _animationTimer += gameTime.ElapsedGameTime.TotalSeconds;
                     if (_animationTimer > 0.1)

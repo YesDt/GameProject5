@@ -46,7 +46,9 @@ namespace GameProject5.Screens
         
 
         private SpriteFont _coinCounter;
+        private SpriteFont _scoreDisplay;
         private int _coinsLeft;
+        private int _tempScore = 0;
 
         private SpriteFont _specialGet;
 
@@ -87,9 +89,9 @@ namespace GameProject5.Screens
         public LevelTwoScreen()
         {
             string text = File.ReadAllText("progress.txt");
-            if (text.Contains("Level: Level 1"))
+            if (text.Contains("Level: Level 1\n Score: " + ScreenManager.score))
             {
-                text = text.Replace("Level: Level 1", "Level: Level 2");
+                text = text.Replace("Level: Level 1", "Level: Level 2\n Score: " + ScreenManager.score);
                 File.WriteAllText("progress.txt", text);
 
 
@@ -155,6 +157,7 @@ namespace GameProject5.Screens
             _goal.LoadContent(_content);
 
             _coinCounter = _content.Load<SpriteFont>("CoinsLeft");
+            _scoreDisplay = _content.Load<SpriteFont>("scoreFont");
             _coins = new CoinSprite[]
             {
                 new CoinSprite(new Vector2(300, 300)),
@@ -234,6 +237,7 @@ namespace GameProject5.Screens
                         _coinPickup.Play();
                         _coinsLeft--;
                         _mc.coinsCollected++;
+                        _tempScore += 10;
                       
 
                     }
@@ -250,6 +254,7 @@ namespace GameProject5.Screens
                     _coinstack.destroy();
                     _stackPickup.Play();
                     _mc.coinsCollected += 5;
+                    _tempScore += 50;
                  
                 }
 
@@ -262,12 +267,7 @@ namespace GameProject5.Screens
                 {
                     MediaPlayer.Stop();
                     File.WriteAllText("progress.txt", "");
-                    for(int i = 0; i < _mc.coinsCollected; i++)
-                    {
-                        ScreenManager.score += i * 10;
-                       
-                    }
-                    if (_secretObtained) ScreenManager.score += 500;
+                    ScreenManager.score += _tempScore;
 
                     LoadingScreen.Load(ScreenManager, false, null, new MaintainenceScreen());
                 }
@@ -277,6 +277,7 @@ namespace GameProject5.Screens
                     _secretObtained = true;
                     _specialPickup.Play();
                     _specialCollectable.destroy();
+                    _tempScore += 500;
                    
                 }
             }
@@ -407,9 +408,10 @@ namespace GameProject5.Screens
 
             spriteBatch.Begin();
 
-            spriteBatch.DrawString(_coinCounter, $"Coins Left: {_coinsLeft}", new Vector2(2, 2), Color.Gold);
+            spriteBatch.DrawString(_coinCounter, $"Coins Collected: {_mc.coinsCollected}", new Vector2(2, 2), Color.Gold);
+            spriteBatch.DrawString(_scoreDisplay, $"Score: {_tempScore + ScreenManager.score}", new Vector2(2, 50), Color.Orange);
 
-            if(_secretObtained) spriteBatch.DrawString(_specialGet, "Special item obtained: \n gambling debt papers" , new Vector2(2, 420), Color.Green);
+            if (_secretObtained) spriteBatch.DrawString(_specialGet, "Special item obtained: \n gambling debt papers" , new Vector2(2, 420), Color.Green);
 
             spriteBatch.End();
 
