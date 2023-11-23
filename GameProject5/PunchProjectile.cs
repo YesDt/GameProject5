@@ -112,7 +112,7 @@ namespace GameProject5
                 }
 
             }
-            var source = new Rectangle(_animationFrame * 250, (int)projState * 512, 268, 480);
+            var source = new Rectangle(_animationFrame * 250, (int)projState * 512, 268, 440);
             spriteBatch.Draw(_texture, _position, source, Color.White, 0f, new Vector2(80, 120), 0.5f, spriteEffects, 0);
         }
     }
