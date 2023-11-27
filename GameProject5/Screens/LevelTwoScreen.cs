@@ -263,14 +263,7 @@ namespace GameProject5.Screens
                 cube.update(gameTime);
 
 
-                if (_mc.Bounds.CollidesWith(_goal.Bounds) || _mc.FeetBounds.CollidesWith(_goal.Bounds))
-                {
-                    MediaPlayer.Stop();
-                    File.WriteAllText("progress.txt", "");
-                    ScreenManager.score += _tempScore;
-
-                    LoadingScreen.Load(ScreenManager, false, null, new MaintainenceScreen());
-                }
+               
 
                 if (_specialCollectable.RecBounds.CollidesWith(_mc.Bounds) || _specialCollectable.RecBounds.CollidesWith(_mc.FeetBounds))
                 {
@@ -312,6 +305,14 @@ namespace GameProject5.Screens
                 MediaPlayer.Resume();
 
                 _mc.Update(gameTime);
+                if (_mc.Bounds.CollidesWith(_goal.Bounds) || _mc.FeetBounds.CollidesWith(_goal.Bounds))
+                {
+                    MediaPlayer.Stop();
+                    //File.WriteAllText("progress.txt", "");
+                    ScreenManager.score += _tempScore;
+
+                    LoadingScreen.Load(ScreenManager, false, player, new LevelThreeScreen());
+                }
                 if (_mc.Position.Y >= 600)
                 {
                     LoadingScreen.Load(ScreenManager, false, player, new LevelTwoScreen());

@@ -51,7 +51,7 @@ namespace GameProject5
 
         private short _animationFrame;
 
-        private Vector2 direction;
+        private Vector2 _direction;
 
         private List<PunchProjectile> _projList = new List<PunchProjectile>();
 
@@ -118,7 +118,7 @@ namespace GameProject5
         {
             _jumpHeight = 150;
             _gravity = 10;
-            direction = new Vector2(200 * (float)gameTime.ElapsedGameTime.TotalSeconds, 0);
+            _direction = new Vector2(200 * (float)gameTime.ElapsedGameTime.TotalSeconds, 0);
 
 
             //priorKeyboardState = _currentKeyboardState;
@@ -128,20 +128,20 @@ namespace GameProject5
 
             for (int i = 0; i < coinsCollected; i++)
             {
-                direction += new Vector2(0.75f, 0);
-                if (direction.X > 300) direction.X = 300;
+                _direction += new Vector2(0.75f, 0);
+                if (_direction.X > 300) _direction.X = 300;
             }
             if (_currentKeyboardState.IsKeyDown(Keys.A) ||
                 _currentKeyboardState.IsKeyDown(Keys.Left))
             {
-                _position += -direction;
+                _position += -_direction;
                 action = Action.Running;
                 Flipped = true;
             }
             if (_currentKeyboardState.IsKeyDown(Keys.D) ||
                 _currentKeyboardState.IsKeyDown(Keys.Right))
             {
-                _position += direction;
+                _position += _direction;
                 action = Action.Running;
                 Flipped = false;
             }

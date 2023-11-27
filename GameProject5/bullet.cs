@@ -7,17 +7,16 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using GameProject5.Collisions;
-using GameProject5;
 
 namespace GameProject5
 {
-    public enum state
+    public enum bulletState
     {
         traveling,
-        connected
+        connected,
     }
 
-    public class PunchProjectile
+    public class bullet
     {
         private static Texture2D _texture;
 
@@ -29,12 +28,12 @@ namespace GameProject5
 
         private short _animationFrame;
 
-
+        private float _gravity = 10;
         public double ProjTimer;
 
         public float Speed = 300;
 
-        public state projState = state.traveling;
+        public bulletState projState = bulletState.traveling;
 
         public bool Flipped;
 
@@ -44,16 +43,15 @@ namespace GameProject5
 
         public BoundingRectangle Bounds => _bounds;
 
-        public PunchProjectile(Vector2 pos, mcSprite mc)
+        public bullet(Vector2 pos, enemy e)
         {
             _position = pos;
-            if (mc.Flipped) this.Flipped = true;
+            if (e.Flipped) this.Flipped = true;
         }
-
 
         public static void LoadContent(ContentManager content)
         {
-            _texture = content.Load<Texture2D>("Sprite_PunchProjectile ");
+            _texture = content.Load<Texture2D>("Sprite_bullet");
 
 
         }
@@ -73,47 +71,24 @@ namespace GameProject5
             ProjTimer += gameTime.ElapsedGameTime.TotalSeconds;
             if (ProjTimer >= 1)
             {
+                _position.Y += _gravity;
                 Destroy(this);
             }
 
         }
 
-        public void Destroy(PunchProjectile p)
+        public void Destroy(bullet b)
         {
 
-            p._bounds = new BoundingRectangle(Vector2.Zero, 0, 0);
+            b._bounds = new BoundingRectangle(Vector2.Zero, 0, 0);
             Expired = true;
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             SpriteEffects spriteEffects = (Flipped) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            if (projState == state.traveling)
-            {
-                if (ProjTimer < 0.6)
-                {
-                    _animationTimer += gameTime.ElapsedGameTime.TotalSeconds;
-                    if (_animationTimer > 0.1)
-                    {
-                        _animationFrame++;
-                        if (_animationFrame > 1) _animationFrame = 0;
-                        _animationTimer -= 0.1;
-                    }
-
-                }
-                else
-                {
-                    _animationTimer += gameTime.ElapsedGameTime.TotalSeconds;
-                    if (_animationTimer > 0.2)
-                    {
-                        _animationFrame++;
-                        if (_animationFrame > 3) _animationFrame = 3;
-                        _animationTimer -= 0.2;
-                    }
-                }
-
-            }
-            var source = new Rectangle(_animationFrame * 250, (int)projState * 512, 268, 400);
+            
+            var source = new Rectangle(_animationFrame * 250, (int)projState * 512, 268, 440);
             spriteBatch.Draw(_texture, _position, source, Color.White, 0f, new Vector2(80, 120), 0.5f, spriteEffects, 0);
         }
     }
