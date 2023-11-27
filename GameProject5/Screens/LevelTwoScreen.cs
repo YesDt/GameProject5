@@ -411,6 +411,8 @@ namespace GameProject5.Screens
 
             spriteBatch.DrawString(_coinCounter, $"Coins Collected: {_mc.coinsCollected}", new Vector2(2, 2), Color.Gold);
             spriteBatch.DrawString(_scoreDisplay, $"Score: {_tempScore + ScreenManager.score}", new Vector2(2, 50), Color.Orange);
+            spriteBatch.Draw(_mc.HealthTexture, _mc.HealthBar, Color.White);
+            spriteBatch.Draw(_mc.HealthBarTexture, _mc.HealthBar, Color.White);
 
             if (_secretObtained) spriteBatch.DrawString(_specialGet, "Special item obtained: \n gambling debt papers" , new Vector2(2, 420), Color.Green);
 

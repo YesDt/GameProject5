@@ -142,6 +142,11 @@ namespace GameProject5
             {
                 _direction += new Vector2(0.75f, 0);
                 if (_direction.X > 300) _direction.X = 300;
+                foreach (var proj in _projList.ToList())
+                {
+                    proj.Speed += 2;
+                    if (proj.Speed > 350) proj.Speed = 350;
+                }
             }
             if (_currentKeyboardState.IsKeyDown(Keys.A) ||
                 _currentKeyboardState.IsKeyDown(Keys.Left))
@@ -253,7 +258,7 @@ namespace GameProject5
 
         public void addProjectile()
         {
-            var proj = new PunchProjectile(new Vector2(_position.X + 30, _position.Y + 20), this);
+            var proj = new PunchProjectile(new Vector2(_position.X + 60, _position.Y + 10), this);
             _projList.Add(proj);
         }
 
