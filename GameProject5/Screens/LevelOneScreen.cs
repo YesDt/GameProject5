@@ -305,6 +305,9 @@ namespace GameProject5.Screens
 
             spriteBatch.DrawString(_coinCounter, $"Coins Left: {_coinsLeft}", new Vector2(2, 2), Color.Gold);
             spriteBatch.DrawString(_scoreDisplay, $"Score: {_tempScore}", new Vector2(2, 50), Color.Orange);
+            spriteBatch.Draw(_mc.HealthTexture, _mc.HealthBar, Color.White);
+            spriteBatch.Draw(_mc.HealthBarTexture, _mc.HealthBar, Color.White);
+           
 
 
             //spriteBatch.Draw(circle, new Vector2(_mc.Bounds.Left, _mc.Bounds.Bottom), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);

@@ -154,6 +154,18 @@
 /processorParam:TextureFormat=Color
 /build:gradient.png
 
+#begin healthBar.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:healthBar.png
+
 #begin level.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -236,6 +248,18 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Pickup_Special.wav
+
+#begin PlayerHealth.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:PlayerHealth.png
 
 #begin Project2music.mp3
 /importer:Mp3Importer

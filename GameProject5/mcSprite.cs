@@ -86,6 +86,14 @@ namespace GameProject5
 
 
         public BoundingRectangle rectangle;
+
+
+        public Rectangle HealthBar;
+
+        public int Health = 100;
+
+        public Texture2D HealthTexture;
+        public Texture2D HealthBarTexture;
         #endregion
 
         #region publicMethods
@@ -107,6 +115,9 @@ namespace GameProject5
            
             PunchProjectile.LoadContent(content);
 
+            HealthTexture = content.Load<Texture2D>("PlayerHealth");
+            HealthBarTexture = content.Load<Texture2D>("healthBar");
+
         }
 
 
@@ -116,6 +127,7 @@ namespace GameProject5
         /// <param name="gameTime">The real time elapsed in the game</param>
         public void Update(GameTime gameTime)
         {
+            HealthBar = new Rectangle(50, 420, Health, 50);
             _jumpHeight = 150;
             _gravity = 10;
             _direction = new Vector2(200 * (float)gameTime.ElapsedGameTime.TotalSeconds, 0);
@@ -331,6 +343,7 @@ namespace GameProject5
             }
 
             var source = new Rectangle(_animationFrame * 250, (int)action * 512, 268, 512);
+            
             spriteBatch.Draw(_texture, _position, source, Color.White, 0f, new Vector2(80, 120), 0.5f, spriteEffects, 0);
             foreach (var proj in _projList)
             {
