@@ -28,12 +28,12 @@ namespace GameProject5.Screens
 
         private SpriteFont _gameFont;
 
-        private mcSprite _mc = new mcSprite(new Vector2(200, 330));
+        private mcSprite _mc = new mcSprite(new Vector2(200, (330 + 900)));
         private CoinSprite[] _coins;
-        private Collectible _coinstack = new Collectible(new Vector2(20, 150), new BoundingRectangle(0, 110, 32, 32));
-        private Collectible _specialCollectable = new Collectible(new Vector2(180, 150), new BoundingRectangle(180, 110, 48, 32));
+        private Collectible _coinstack = new Collectible(new Vector2(20, 150 + 900), new BoundingRectangle(0, 110 + 900, 32, 32));
+        private Collectible _specialCollectable = new Collectible(new Vector2(180, 150 + 900), new BoundingRectangle(180, 110 + 900, 48, 32));
         private Platform[] _platforms;
-        private Goal _goal = new Goal(new Vector2(1150, 210), new BoundingRectangle(new Vector2(1150, 210), 30f, 260), 640, 280);
+        private Goal _goal = new Goal(new Vector2(1150, 210 - 900), new BoundingRectangle(new Vector2(1150, 210 + 900), 30f, 260), 640, 280);
 
 
         //private Texture2D _level2;
@@ -126,7 +126,7 @@ namespace GameProject5.Screens
 
             cube = ScreenManager.cube;
 
-            System.Threading.Thread.Sleep(1000);
+            System.Threading.Thread.Sleep(900);
 
             ScreenManager.Game.ResetElapsedTime();
             _mc.LoadContent(_content);
@@ -135,14 +135,14 @@ namespace GameProject5.Screens
             _platforms = new Platform[]
 
             {
-                new Platform(new Vector2(200, 453), new BoundingRectangle(new Vector2(0, 453), 380f, 300)),
+                new Platform(new Vector2(200, 453+ 900), new BoundingRectangle(new Vector2(0, 453+ 900), 380f, 3000)),
 
-                new Platform(new Vector2(400, 423), new BoundingRectangle(new Vector2(400, 423), 60f, 300)),
-                new Platform(new Vector2(460, 400), new BoundingRectangle(new Vector2(460, 400), 60f, 300)),
-                new Platform(new Vector2(520, 377), new BoundingRectangle(new Vector2(520, 377), 60f, 300)),
-                new Platform(new Vector2(580, 334), new BoundingRectangle(new Vector2(580, 334), 60f, 300)),
-                new Platform(new Vector2(200, 100), new BoundingRectangle(new Vector2(0, 165), 500f, 30)),
-                new Platform(new Vector2(1020, 100), new BoundingRectangle(new Vector2(1020, 453), 300f, 300))
+                new Platform(new Vector2(400, 423+ 900), new BoundingRectangle(new Vector2(400, 423+ 900), 60f, 300)),
+                new Platform(new Vector2(460, 400+ 900), new BoundingRectangle(new Vector2(460, 400+ 900), 60f, 300)),
+                new Platform(new Vector2(520, 377+ 900), new BoundingRectangle(new Vector2(520, 377+ 900), 60f, 300)),
+                new Platform(new Vector2(580, 334+ 900), new BoundingRectangle(new Vector2(580, 334+ 900), 60f, 300)),
+                new Platform(new Vector2(200, 100+ 900), new BoundingRectangle(new Vector2(0, 165+ 900), 500f, 30)),
+                new Platform(new Vector2(1020, 100+ 900), new BoundingRectangle(new Vector2(1020, 453+ 900), 300f, 300))
 
             };
 
@@ -305,7 +305,7 @@ namespace GameProject5.Screens
                 MediaPlayer.Resume();
 
                 _mc.Update(gameTime);
-                if (_mc.Position.Y >= 600)
+                if (_mc.Position.Y >= 600 + 900)
                 {
                     LoadingScreen.Load(ScreenManager, false, player, new LevelThreeScreen());
                 }
@@ -316,8 +316,8 @@ namespace GameProject5.Screens
         {
             float playerX = MathHelper.Clamp(_mc.Position.X, 300, 700);
             float offset = 300 - playerX;
-            float playerY = MathHelper.Clamp(_mc.Position.Y, 300, 700);
-            float offsetY = 300 - playerY;
+            float playerY = MathHelper.Clamp(_mc.Position.Y, 0, 900);
+            float offsetY = 0 - playerY;
 
 
             Matrix transform;
