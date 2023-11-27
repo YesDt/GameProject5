@@ -316,7 +316,8 @@ namespace GameProject5.Screens
         {
             float playerX = MathHelper.Clamp(_mc.Position.X, 300, 700);
             float offset = 300 - playerX;
-
+            float playerY = MathHelper.Clamp(_mc.Position.Y, 300, 700);
+            float offsetY = 300 - playerY;
 
 
             Matrix transform;
@@ -324,7 +325,7 @@ namespace GameProject5.Screens
 
             var spriteBatch = ScreenManager.SpriteBatch;
 
-            transform = Matrix.CreateTranslation(offset, 0, 0);
+            transform = Matrix.CreateTranslation(offset, offsetY, 0);
             _fireworks.Transform = transform;
             spriteBatch.Begin(transformMatrix: transform);
 

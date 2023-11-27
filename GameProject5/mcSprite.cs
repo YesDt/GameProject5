@@ -258,8 +258,16 @@ namespace GameProject5
 
         public void addProjectile()
         {
-            var proj = new PunchProjectile(new Vector2(_position.X + 60, _position.Y + 10), this);
-            _projList.Add(proj);
+            if (!Flipped)
+            {
+                var proj = new PunchProjectile(new Vector2(_position.X + 60, _position.Y + 10), this);
+                _projList.Add(proj);
+            }
+           else
+            {
+                var proj = new PunchProjectile(new Vector2(_position.X - 60, _position.Y + 10), this);
+                _projList.Add(proj);
+            }
         }
 
         public void CollisionHandling(BoundingRectangle rect)
