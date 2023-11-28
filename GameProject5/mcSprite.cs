@@ -283,16 +283,16 @@ namespace GameProject5
             {
                 if (_bounds.Top == rect.Bottom)
                 {
-                    Position.Y = rect.Bottom + 1f;
+                    Position.Y -= 20;
                 }
                 else if (_bounds.Left == rect.Right)
                 {
-                    Position.X = rect.Right + 1f;
+                    Position.X += 20;
 
                 }
                 else if (_bounds.Right == rect.Left)
                 {
-                    Position.X = rect.Left - 1f;
+                    Position.X -= 20;
                 }
             }
             else
