@@ -281,6 +281,7 @@ namespace GameProject5
             }
             else if (_bounds.CollidesWith(rect))
             {
+                //rectangle initHead = new rectangle(new Vector2(_bounds.Left, _bounds.Top), _bounds.width, 1); 
                 if (_bounds.Top <= rect.Bottom && (_bounds.Left < rect.Right || _bounds.Right > rect.Left))
                 {
                     Position.Y += 20;
