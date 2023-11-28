@@ -156,6 +156,14 @@ namespace GameProject5.Screens
                 new Platform(new Vector2(670, 870), new BoundingRectangle(new Vector2(670, 870), 280f, 48)),
 
                 new Platform(new Vector2(0, 850), new BoundingRectangle(new Vector2(0, 850), 380f, 48)),
+
+                new Platform(new Vector2(0, 680), new BoundingRectangle(new Vector2(0, 680), 200f, 48)),
+
+                new Platform(new Vector2(30, 610), new BoundingRectangle(new Vector2(30, 610), 72f, 56)),
+
+                new Platform(new Vector2(260, 440), new BoundingRectangle(new Vector2(260, 440), 78f, 56)),
+
+                new Platform(new Vector2(360, 400), new BoundingRectangle(new Vector2(360, 400), 78f, 56)),
                 //new Platform(new Vector2(400, 423+ 744), new BoundingRectangle(new Vector2(400, 423+ 744), 60f, 300)),
                 //new Platform(new Vector2(460, 400+ 744), new BoundingRectangle(new Vector2(460, 400+ 744), 60f, 300)),
                 //new Platform(new Vector2(520, 377+ 744), new BoundingRectangle(new Vector2(520, 377+ 744), 60f, 300)),
@@ -346,7 +354,12 @@ namespace GameProject5.Screens
                 {
                     if (proj.Bounds.CollidesWith(_doorOne.Bounds))
                     {
+                        proj.projState = state.connected;
                         _doorOne.Opened = true;
+                    }
+                    if (proj.Bounds.X >= _mc.Wall || proj.Bounds.X <= 0)
+                    {
+                        proj.projState = state.connected;
                     }
                 }
             }
@@ -356,7 +369,7 @@ namespace GameProject5.Screens
         {
             float playerX = MathHelper.Clamp(_mc.Position.X, 300, 600);
             float offset = 300 - playerX;
-            float playerY = MathHelper.Clamp(_mc.Position.Y, 500, 736);
+            float playerY = MathHelper.Clamp(_mc.Position.Y, 300, 736);
             float offsetY = 0 - playerY;
 
 

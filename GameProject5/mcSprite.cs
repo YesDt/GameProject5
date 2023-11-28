@@ -281,9 +281,9 @@ namespace GameProject5
             }
             else if (_bounds.CollidesWith(rect))
             {
-                if (_bounds.Top == rect.Bottom)
+                if (_bounds.Top <= rect.Bottom && (_bounds.Left < rect.Right || _bounds.Right > rect.Left))
                 {
-                    Position.Y -= 20;
+                    Position.Y += 20;
                 }
                 else if (_bounds.Left == rect.Right)
                 {

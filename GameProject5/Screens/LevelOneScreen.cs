@@ -249,6 +249,13 @@ namespace GameProject5.Screens
                 MediaPlayer.Resume();
 
                 _mc.Update(gameTime);
+                foreach (var proj in _mc.ProjList)
+                {
+                    if (proj.Bounds.X >= _mc.Wall || proj.Bounds.X <= 0)
+                    {
+                        proj.projState = state.connected;
+                    }
+                }
                 //foreach (var proj in _p)
                 //{
                 //    proj.update(gameTime);

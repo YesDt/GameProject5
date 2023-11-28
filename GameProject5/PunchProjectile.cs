@@ -63,11 +63,23 @@ namespace GameProject5
             if (Flipped)
             {
                 _position -= new Vector2(Speed * (float)gameTime.ElapsedGameTime.TotalSeconds, 0);
+                if (projState == state.connected)
+                {
+                    Speed = 0;
+                    _position -= Vector2.Zero;
+                }
             }
             else
             {
                 _position += new Vector2(Speed * (float)gameTime.ElapsedGameTime.TotalSeconds, 0);
+                if (projState == state.connected)
+                {
+                    Speed = 0;
+                    _position += Vector2.Zero;
+                }
             }
+
+            
 
             _bounds = new BoundingRectangle(new Vector2(_position.X, _position.Y), 48, 56);
             ProjTimer += gameTime.ElapsedGameTime.TotalSeconds;
@@ -112,6 +124,16 @@ namespace GameProject5
                     }
                 }
 
+            }
+            if(projState == state.connected)
+            {
+                _animationTimer += gameTime.ElapsedGameTime.TotalSeconds;
+                if (_animationTimer > 0.1)
+                {
+                    _animationFrame++;
+                   
+                    _animationTimer -= 0.1;
+                }
             }
             var source = new Rectangle(_animationFrame * 250, (int)projState * 512, 268, 400);
             spriteBatch.Draw(_texture, _position, source, Color.White, 0f, new Vector2(80, 120), 0.5f, spriteEffects, 0);
