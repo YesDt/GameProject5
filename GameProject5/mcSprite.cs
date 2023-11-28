@@ -53,13 +53,13 @@ namespace GameProject5
 
         private Vector2 _direction;
 
-        private List<PunchProjectile> _projList = new List<PunchProjectile>();
+        public List<PunchProjectile> ProjList = new List<PunchProjectile>();
 
         private bool _hasShot = false;
         #endregion
 
         #region publicFields
-        public Vector2 _position = new Vector2();
+        public Vector2 Position = new Vector2();
 
         public double Attackingtimer = 0;
 
@@ -78,7 +78,7 @@ namespace GameProject5
         public short AnimationFrame => _animationFrame;
 
 
-        public Vector2 Position => _position;
+        //public Vector2 Position => Position;
 
         public BoundingRectangle Bounds => _bounds;
 
@@ -100,8 +100,8 @@ namespace GameProject5
 
         public mcSprite(Vector2 pos)
         {
-            _position = pos;
-            _bounds = new BoundingRectangle(new Vector2(_position.X - 32, _position.Y - 16), 48, 120);
+            Position = pos;
+            _bounds = new BoundingRectangle(new Vector2(Position.X - 32, Position.Y - 16), 48, 120);
             _feet = new BoundingRectangle(new(_bounds.X, _bounds.Y + 32), 32, 32);
         }
 
@@ -142,23 +142,23 @@ namespace GameProject5
             {
                 _direction += new Vector2(0.75f, 0);
                 if (_direction.X > 300) _direction.X = 300;
-                foreach (var proj in _projList.ToList())
+                foreach (var proj in ProjList.ToList())
                 {
-                    proj.Speed += 2;
-                    if (proj.Speed > 350) proj.Speed = 350;
+                    proj.Speed += 20;
+                    if (proj.Speed > 450) proj.Speed = 450;
                 }
             }
             if (_currentKeyboardState.IsKeyDown(Keys.A) ||
                 _currentKeyboardState.IsKeyDown(Keys.Left))
             {
-                _position += -_direction;
+                Position += -_direction;
                 action = Action.Running;
                 Flipped = true;
             }
             if (_currentKeyboardState.IsKeyDown(Keys.D) ||
                 _currentKeyboardState.IsKeyDown(Keys.Right))
             {
-                _position += _direction;
+                Position += _direction;
                 action = Action.Running;
                 Flipped = false;
             }
@@ -177,7 +177,7 @@ namespace GameProject5
             {
                 action = Action.Jumping;
                 _velocityY += _gravity * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                _position.Y += _velocityY;
+                Position.Y += _velocityY;
 
 
             }
@@ -192,7 +192,7 @@ namespace GameProject5
 
 
             }
-            _position.Y += _velocityY;
+            Position.Y += _velocityY;
 
             if (!OffGround)
             {
@@ -231,20 +231,20 @@ namespace GameProject5
             }
 
 
-            if (_position.X < 0) _position.X = 0;
-            if (_position.X > Wall) _position.X = Wall;
+            if (Position.X < 0) Position.X = 0;
+            if (Position.X > Wall) Position.X = Wall;
 
-            _bounds.X = _position.X;
-            _bounds.Y = _position.Y;
-            _feet.X = _position.X;
+            _bounds.X = Position.X;
+            _bounds.Y = Position.Y;
+            _feet.X = Position.X;
             _feet.Y = _bounds.Bottom;
 
-            foreach(var proj in _projList.ToList())
+            foreach(var proj in ProjList.ToList())
             {
                 
                 if (proj.Expired)
                 {
-                    _projList.Remove(proj);
+                    ProjList.Remove(proj);
                 }
                 else
                 {
@@ -260,13 +260,13 @@ namespace GameProject5
         {
             if (!Flipped)
             {
-                var proj = new PunchProjectile(new Vector2(_position.X + 60, _position.Y + 10), this);
-                _projList.Add(proj);
+                var proj = new PunchProjectile(new Vector2(Position.X + 60, Position.Y + 10), this);
+                ProjList.Add(proj);
             }
            else
             {
-                var proj = new PunchProjectile(new Vector2(_position.X - 60, _position.Y + 10), this);
-                _projList.Add(proj);
+                var proj = new PunchProjectile(new Vector2(Position.X - 60, Position.Y + 10), this);
+                ProjList.Add(proj);
             }
         }
 
@@ -277,22 +277,22 @@ namespace GameProject5
             if (_feet.CollidesWith(rect))
             {
                 OffGround = false;
-                _position.Y = rect.Y - (_bounds.Height + _feet.Height);
+                Position.Y = rect.Y - (_bounds.Height + _feet.Height);
             }
             else if (_bounds.CollidesWith(rect))
             {
                 if (_bounds.Top == rect.Bottom)
                 {
-                    _position.Y = rect.Bottom + 1f;
+                    Position.Y = rect.Bottom + 1f;
                 }
                 else if (_bounds.Left == rect.Right)
                 {
-                    _position.X = rect.Right + 1f;
+                    Position.X = rect.Right + 1f;
 
                 }
                 else if (_bounds.Right == rect.Left)
                 {
-                    _position.X = rect.Left - 1f;
+                    Position.X = rect.Left - 1f;
                 }
             }
             else
@@ -357,8 +357,8 @@ namespace GameProject5
 
             var source = new Rectangle(_animationFrame * 250, (int)action * 512, 268, 512);
             
-            spriteBatch.Draw(_texture, _position, source, Color.White, 0f, new Vector2(80, 120), 0.5f, spriteEffects, 0);
-            foreach (var proj in _projList)
+            spriteBatch.Draw(_texture, Position, source, Color.White, 0f, new Vector2(80, 120), 0.5f, spriteEffects, 0);
+            foreach (var proj in ProjList)
             {
                 proj.Draw(gameTime, spriteBatch);
                

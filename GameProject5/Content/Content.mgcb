@@ -211,7 +211,7 @@
 #begin Level3.tmap
 /importer:TileMapImporter
 /processor:TileMapProcessor
-/processorParam:Scale=0.70
+/processorParam:Scale=0.745
 /build:Level3.tmap;TheThirdLevel.tmap
 
 #begin level4.png

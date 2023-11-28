@@ -69,7 +69,7 @@ namespace GameProject5
                 _position += new Vector2(Speed * (float)gameTime.ElapsedGameTime.TotalSeconds, 0);
             }
 
-            _bounds = new BoundingRectangle(new Vector2(_position.X - 32, _position.Y + 32), 32, 40);
+            _bounds = new BoundingRectangle(new Vector2(_position.X, _position.Y), 48, 56);
             ProjTimer += gameTime.ElapsedGameTime.TotalSeconds;
             if (ProjTimer >= 1)
             {

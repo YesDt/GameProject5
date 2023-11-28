@@ -28,12 +28,12 @@ namespace GameProject5.Screens
 
         private SpriteFont _gameFont;
 
-        private mcSprite _mc = new mcSprite(new Vector2(200, (330 + 900)));
+        private mcSprite _mc = new mcSprite(new Vector2(200, (330 + 744)));
         private CoinSprite[] _coins;
-        private Collectible _coinstack = new Collectible(new Vector2(20, 150 + 900), new BoundingRectangle(0, 110 + 900, 32, 32));
-        private Collectible _specialCollectable = new Collectible(new Vector2(180, 150 + 900), new BoundingRectangle(180, 110 + 900, 48, 32));
+        private Collectible _coinstack = new Collectible(new Vector2(20, 150 + 736), new BoundingRectangle(0, 110 + 736, 32, 32));
+        private Collectible _specialCollectable = new Collectible(new Vector2(180, 150 + 736), new BoundingRectangle(180, 110 + 736, 48, 32));
         private Platform[] _platforms;
-        private Goal _goal = new Goal(new Vector2(1150, 210 - 900), new BoundingRectangle(new Vector2(1150, 210 + 900), 30f, 260), 640, 280);
+        private Goal _goal = new Goal(new Vector2(20, 50), new BoundingRectangle(new Vector2(20, 50), 30f, 260), 640, 2);
 
 
         //private Texture2D _level2;
@@ -65,12 +65,16 @@ namespace GameProject5.Screens
 
         private Cube cube;
 
+        private door _doorOne;
+
         #endregion
 
         #region PublicFields
 
 
         public Texture2D Circle;
+
+        public Texture2D DoorOne;
 
         public Vector2 Position { get; set; }
         public Vector2 Velocity { get; set; }
@@ -126,37 +130,55 @@ namespace GameProject5.Screens
 
             cube = ScreenManager.cube;
 
-            System.Threading.Thread.Sleep(900);
+            System.Threading.Thread.Sleep(700);
 
             ScreenManager.Game.ResetElapsedTime();
             _mc.LoadContent(_content);
-            _mc.Wall = 1150;
+            _mc.Wall = 1070;
+
+            DoorOne = _content.Load<Texture2D>("Sprite_door");
 
             _platforms = new Platform[]
 
             {
-                new Platform(new Vector2(200, 453+ 900), new BoundingRectangle(new Vector2(0, 453+ 900), 380f, 3000)),
+                new Platform(new Vector2(0, 453+ 744), new BoundingRectangle(new Vector2(0, 453+ 744), 380f, 1000)),
 
-                new Platform(new Vector2(400, 423+ 900), new BoundingRectangle(new Vector2(400, 423+ 900), 60f, 300)),
-                new Platform(new Vector2(460, 400+ 900), new BoundingRectangle(new Vector2(460, 400+ 900), 60f, 300)),
-                new Platform(new Vector2(520, 377+ 900), new BoundingRectangle(new Vector2(520, 377+ 900), 60f, 300)),
-                new Platform(new Vector2(580, 334+ 900), new BoundingRectangle(new Vector2(580, 334+ 900), 60f, 300)),
-                new Platform(new Vector2(200, 100+ 900), new BoundingRectangle(new Vector2(0, 165+ 900), 500f, 30)),
-                new Platform(new Vector2(1020, 100+ 900), new BoundingRectangle(new Vector2(1020, 453+ 900), 300f, 300))
+                new Platform(new Vector2(480, 1197), new BoundingRectangle(new Vector2(480, 1197), 100f, 1000)),
+
+                new Platform(new Vector2(680, 1197), new BoundingRectangle(new Vector2(680, 1197), 400f, 1000)),
+
+                new Platform(new Vector2(970, 1140), new BoundingRectangle(new Vector2(970, 1140), 120f, 90)),
+
+                new Platform(new Vector2(1050, 1060), new BoundingRectangle(new Vector2(1050, 1060), 50f, 90)),
+
+                new Platform(new Vector2(970, 920), new BoundingRectangle(new Vector2(970, 920), 32f, 32)),
+
+                new Platform(new Vector2(670, 870), new BoundingRectangle(new Vector2(670, 870), 280f, 48)),
+
+                new Platform(new Vector2(0, 850), new BoundingRectangle(new Vector2(0, 850), 380f, 48)),
+                //new Platform(new Vector2(400, 423+ 744), new BoundingRectangle(new Vector2(400, 423+ 744), 60f, 300)),
+                //new Platform(new Vector2(460, 400+ 744), new BoundingRectangle(new Vector2(460, 400+ 744), 60f, 300)),
+                //new Platform(new Vector2(520, 377+ 744), new BoundingRectangle(new Vector2(520, 377+ 744), 60f, 300)),
+                //new Platform(new Vector2(580, 334+ 744), new BoundingRectangle(new Vector2(580, 334+ 744), 60f, 300)),
+                //new Platform(new Vector2(200, 100+ 744), new BoundingRectangle(new Vector2(0, 165+ 744), 500f, 30)),
+                //new Platform(new Vector2(1020, 100+ 744), new BoundingRectangle(new Vector2(1020, 453+ 744), 300f, 300))
 
             };
 
 
             _goal.LoadContent(_content);
-
+            _doorOne = new door(new Vector2(333, 1042), new BoundingRectangle(331, 1040, 32f, 180), DoorOne);
             _coinCounter = _content.Load<SpriteFont>("CoinsLeft");
             _scoreDisplay = _content.Load<SpriteFont>("scoreFont");
             _coins = new CoinSprite[]
             {
-                new CoinSprite(new Vector2(300, 300)),
+                new CoinSprite(new Vector2(500, 1147)),
 
-                new CoinSprite(new Vector2(5, 300)),
-                new CoinSprite(new Vector2(10, 350)),
+                new CoinSprite(new Vector2(700, 1147)),
+                new CoinSprite(new Vector2(720, 1147)),
+                new CoinSprite(new Vector2(970, 1107)),
+                new CoinSprite(new Vector2(1050, 1087)),
+                new CoinSprite(new Vector2(930, 1057)),
 
             };
             _coinsLeft = _coins.Length;
@@ -251,7 +273,7 @@ namespace GameProject5.Screens
 
                 }
 
-
+                _doorOne.Update(gameTime);
 
                 cube.update(gameTime);
 
@@ -305,18 +327,36 @@ namespace GameProject5.Screens
                 MediaPlayer.Resume();
 
                 _mc.Update(gameTime);
-                if (_mc.Position.Y >= 600 + 900)
+                if (_mc.Position.Y >= 600 + 736)
                 {
                     LoadingScreen.Load(ScreenManager, false, player, new LevelThreeScreen());
+                }
+                if (_mc.Bounds.CollidesWith(_doorOne.Bounds))
+                {
+                    if(_mc.Position.X < _doorOne.Bounds.X)
+                    {
+                        _mc.Position.X -= 20;
+                    }
+                    else
+                    {
+                        _mc.Position.X += 20;
+                    }
+                }
+                foreach (var proj in _mc.ProjList)
+                {
+                    if (proj.Bounds.CollidesWith(_doorOne.Bounds))
+                    {
+                        _doorOne.Opened = true;
+                    }
                 }
             }
         }
 
         public override void Draw(GameTime gameTime)
         {
-            float playerX = MathHelper.Clamp(_mc.Position.X, 300, 700);
+            float playerX = MathHelper.Clamp(_mc.Position.X, 300, 600);
             float offset = 300 - playerX;
-            float playerY = MathHelper.Clamp(_mc.Position.Y, 0, 900);
+            float playerY = MathHelper.Clamp(_mc.Position.Y, 500, 736);
             float offsetY = 0 - playerY;
 
 
@@ -344,6 +384,8 @@ namespace GameProject5.Screens
                 }
             }
 
+            _doorOne.Draw(gameTime, _spriteBatch);
+
             spriteBatch.Draw(_coinstack.cTexture, new Vector2(20, 150), new Rectangle(0, 64, 32, 32), Color.White, 0f, new Vector2(16, 16), 2.0f, SpriteEffects.None, 0);
             if (_coinstack.RecBounds.CollidesWith(_mc.Bounds) || _coinstack.RecBounds.CollidesWith(_mc.FeetBounds))
             {
@@ -363,14 +405,31 @@ namespace GameProject5.Screens
 
             //Debugging purposes
             #region Debugging
-            //foreach (Platform plat in _platforms)
-            //{
-            //    spriteBatch.Draw(Circle, new Vector2(plat.Bounds.Left, plat.Bounds.Top), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
-            //    spriteBatch.Draw(Circle, new Vector2(plat.Bounds.Right, plat.Bounds.Top), null, Color.Red, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
-            //    spriteBatch.Draw(Circle, new Vector2(plat.Bounds.Left, plat.Bounds.Bottom), null, Color.Blue, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
-            //    spriteBatch.Draw(Circle, new Vector2(plat.Bounds.Right, plat.Bounds.Bottom), null, Color.Green, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
 
+            //foreach (var proj in _mc.ProjList)
+            //{
+            //    spriteBatch.Draw(Circle, new Vector2(proj.Bounds.Left, proj.Bounds.Top), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //    spriteBatch.Draw(Circle, new Vector2(proj.Bounds.Right, proj.Bounds.Top), null, Color.Red, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //    spriteBatch.Draw(Circle, new Vector2(proj.Bounds.Left, proj.Bounds.Bottom), null, Color.Blue, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //    spriteBatch.Draw(Circle, new Vector2(proj.Bounds.Right, proj.Bounds.Bottom), null, Color.Green, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
             //}
+
+
+            foreach (Platform plat in _platforms)
+            {
+                spriteBatch.Draw(Circle, new Vector2(plat.Bounds.Left, plat.Bounds.Top), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(Circle, new Vector2(plat.Bounds.Right, plat.Bounds.Top), null, Color.Red, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(Circle, new Vector2(plat.Bounds.Left, plat.Bounds.Bottom), null, Color.Blue, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(Circle, new Vector2(plat.Bounds.Right, plat.Bounds.Bottom), null, Color.Green, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+
+            }
+
+            spriteBatch.Draw(Circle, new Vector2(_doorOne.Bounds.Left, _doorOne.Bounds.Top), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(Circle, new Vector2(_doorOne.Bounds.Right, _doorOne.Bounds.Top), null, Color.Red, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(Circle, new Vector2(_doorOne.Bounds.Left, _doorOne.Bounds.Bottom), null, Color.Blue, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(Circle, new Vector2(_doorOne.Bounds.Right, _doorOne.Bounds.Bottom), null, Color.Green, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+
+
             //spriteBatch.Draw(Circle, new Vector2(_mc.Bounds.Left, _mc.Bounds.Top), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
             //spriteBatch.Draw(Circle, new Vector2(_mc.Bounds.Right, _mc.Bounds.Top), null, Color.Red, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
             //spriteBatch.Draw(Circle, new Vector2(_mc.Bounds.Left, _mc.Bounds.Bottom), null, Color.Blue, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
