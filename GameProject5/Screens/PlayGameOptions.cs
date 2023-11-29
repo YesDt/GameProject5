@@ -47,6 +47,8 @@ namespace GameProject5.Screens
 
             string text = File.ReadAllText("progress.txt");
             if (text.Contains("Level: Level 2")) LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new LevelTwoScreen());
+            else if (text.Contains("Level: Level 3")) LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new LevelThreeScreen());
+            else if (text.Contains("Level: Level 4")) LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new LevelFourScreen());
             else
             {
                 LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new LevelOneScreen());

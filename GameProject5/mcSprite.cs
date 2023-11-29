@@ -283,7 +283,7 @@ namespace GameProject5
             {
 
 
-                if (Position.Y < rect.Bottom && !_feet.CollidesWith(rect))
+                if (Position.Y < rect.Bottom && !_feet.CollidesWith(rect) && (_bounds.Bottom > rect.Bottom + _bounds.Height))
                 {
                     Position.Y += 20;
                 }

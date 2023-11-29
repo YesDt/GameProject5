@@ -30,11 +30,11 @@ namespace GameProject5.Screens
 
         private mcSprite _mc = new mcSprite(new Vector2(200, (330 + 744)));
         private CoinSprite[] _coins;
-        private Collectible _coinstack = new Collectible(new Vector2(20, 150 + 720), new BoundingRectangle(20, 110 + 720, 32, 32));
+        private Collectible _coinstack = new Collectible(new Vector2(28, 830), new BoundingRectangle(28, 830, 32, 32));
         private Collectible _specialCollectable = new Collectible(new Vector2(180, 150 + 736), new BoundingRectangle(180, 110 + 736, 48, 32));
         private Platform[] _platforms;
         private Goal _goal = new Goal(new Vector2(20, 50), new BoundingRectangle(new Vector2(20, 50), 30f, 24), 20, 2);
-
+        private enemy[] _enemies;
 
         //private Texture2D _level2;
         private TileMap _tilemap;
@@ -183,7 +183,11 @@ namespace GameProject5.Screens
 
             };
 
-
+            _enemies = new enemy[]
+            {
+                new enemy(new Vector2(740, 1074), 680, 780),
+            };
+            foreach (var e in _enemies) e.LoadContent(_content);
             _goal.LoadContent(_content);
             _doorOne = new door(new Vector2(333, 1042), new BoundingRectangle(331, 1040, 32f, 180), DoorOne);
             _coinCounter = _content.Load<SpriteFont>("CoinsLeft");
@@ -195,6 +199,7 @@ namespace GameProject5.Screens
                 new CoinSprite(new Vector2(700, 1147)),
                 new CoinSprite(new Vector2(720, 1147)),
                 new CoinSprite(new Vector2(970, 1107)),
+                new CoinSprite(new Vector2(760, 780)),
                 new CoinSprite(new Vector2(1050, 1087)),
                 new CoinSprite(new Vector2(930, 1057)),
 
@@ -371,6 +376,15 @@ namespace GameProject5.Screens
                     {
                         proj.projState = state.connected;
                     }
+                    foreach (var e in _enemies)
+                    {
+                        if (proj.Bounds.CollidesWith(e.Bounds))
+                        {
+                            proj.projState = state.connected;
+                            e.Health = 0;
+                            
+                        }
+                    }
                 }
                 if (_mc.Bounds.CollidesWith(_goal.Bounds) || _mc.FeetBounds.CollidesWith(_goal.Bounds))
                 {
@@ -380,6 +394,16 @@ namespace GameProject5.Screens
 
                     LoadingScreen.Load(ScreenManager, false, player, new LevelFourScreen());
                 }
+
+                foreach(var e in _enemies)
+                {
+                    e.Update(gameTime);
+                    if (_mc.Bounds.CollidesWith(e.Searching))
+                    {
+                        e.Attacking = true;
+                    }
+                    
+                }
             }
         }
 
@@ -387,8 +411,8 @@ namespace GameProject5.Screens
         {
             float playerX = MathHelper.Clamp(_mc.Position.X, 300, 600);
             float offset = 300 - playerX;
-            float playerY = MathHelper.Clamp(_mc.Position.Y, 0, 736);
-            float offsetY = 0 - playerY;
+            float playerY = MathHelper.Clamp(_mc.Position.Y, 8, 736);
+            float offsetY = 8- playerY;
 
 
             Matrix transform;
@@ -415,9 +439,14 @@ namespace GameProject5.Screens
                 }
             }
 
+            foreach(var e in _enemies)
+            {
+                e.Draw(gameTime, spriteBatch);
+            }
+
             _doorOne.Draw(gameTime, _spriteBatch);
 
-            spriteBatch.Draw(_coinstack.cTexture, new Vector2(20, 150), new Rectangle(0, 64, 32, 32), Color.White, 0f, new Vector2(16, 16), 2.0f, SpriteEffects.None, 0);
+            spriteBatch.Draw(_coinstack.cTexture, _coinstack.Position, new Rectangle(0, 64, 32, 32), Color.White, 0f, new Vector2(16, 16), 2.0f, SpriteEffects.None, 0);
             if (_coinstack.RecBounds.CollidesWith(_mc.Bounds) || _coinstack.RecBounds.CollidesWith(_mc.FeetBounds))
             {
                 _fireworks.placeFirework(_coinstack.Position);
@@ -485,6 +514,14 @@ namespace GameProject5.Screens
             //spriteBatch.Draw(Circle, new Vector2(_goal.Bounds.Right, _goal.Bounds.Top), null, Color.Red, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
             //spriteBatch.Draw(Circle, new Vector2(_goal.Bounds.Left, _goal.Bounds.Bottom), null, Color.Blue, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
             //spriteBatch.Draw(Circle, new Vector2(_goal.Bounds.Right, _goal.Bounds.Bottom), null, Color.Green, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+
+            foreach (var e in _enemies)
+            {
+                spriteBatch.Draw(Circle, new Vector2(e.Bounds.Left, e.Bounds.Top), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(Circle, new Vector2(e.Bounds.Right, e.Bounds.Top), null, Color.Red, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(Circle, new Vector2(e.Bounds.Left, e.Bounds.Bottom), null, Color.Blue, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(Circle, new Vector2(e.Bounds.Right, e.Bounds.Bottom), null, Color.Green, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            }
             #endregion
 
             spriteBatch.End();

@@ -229,7 +229,7 @@
 #begin Level4.tmap
 /importer:TileMapImporter
 /processor:TileMapProcessor
-/processorParam:Scale=0.84
+/processorParam:Scale=0.865
 /build:Level4.tmap;TheFourthLevel.tmap
 
 #begin liftoff_of_smap.mp4

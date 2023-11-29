@@ -28,7 +28,7 @@ namespace GameProject5.Screens
 
         private SpriteFont _gameFont;
 
-        private mcSprite _mc = new mcSprite(new Vector2(604, 480));
+        private mcSprite _mc = new mcSprite(new Vector2(604, 520));
         private CoinSprite[] _coins;
         private Collectible _coinstack = new Collectible(new Vector2(20, 150), new BoundingRectangle(0, 110 + 736, 32, 32));
         private Collectible _specialCollectable = new Collectible(new Vector2(180, 150 + 736), new BoundingRectangle(180, 110 + 736, 48, 32));
@@ -134,15 +134,17 @@ namespace GameProject5.Screens
 
             ScreenManager.Game.ResetElapsedTime();
             _mc.LoadContent(_content);
-            _mc.Wall = 1070;
+            _mc.Wall = 1300;
 
             DoorOne = _content.Load<Texture2D>("Sprite_door");
 
             _platforms = new Platform[]
 
             {
-                new Platform(new Vector2(0, 720), new BoundingRectangle(new Vector2(0, 720), 1200f, 1000)),
-
+                new Platform(new Vector2(0, 810), new BoundingRectangle(new Vector2(0, 810), 1800f, 1000)),
+                new Platform(new Vector2(1223, 680), new BoundingRectangle(new Vector2(1223, 680), 72f, 100)),
+                new Platform(new Vector2(1064, 555), new BoundingRectangle(new Vector2(1064, 555), 72f, 58)),
+                new Platform(new Vector2(1237, 470), new BoundingRectangle(new Vector2(1237, 470), 48f, 48)),
                 
                 //new Platform(new Vector2(400, 423+ 744), new BoundingRectangle(new Vector2(400, 423+ 744), 60f, 300)),
                 //new Platform(new Vector2(460, 400+ 744), new BoundingRectangle(new Vector2(460, 400+ 744), 60f, 300)),
@@ -162,11 +164,6 @@ namespace GameProject5.Screens
             {
                 new CoinSprite(new Vector2(500, 1147)),
 
-                new CoinSprite(new Vector2(700, 1147)),
-                new CoinSprite(new Vector2(720, 1147)),
-                new CoinSprite(new Vector2(970, 1107)),
-                new CoinSprite(new Vector2(1050, 1087)),
-                new CoinSprite(new Vector2(930, 1057)),
 
             };
             _coinsLeft = _coins.Length;
@@ -347,9 +344,9 @@ namespace GameProject5.Screens
 
         public override void Draw(GameTime gameTime)
         {
-            float playerX = MathHelper.Clamp(_mc.Position.X, 300, 700);
+            float playerX = MathHelper.Clamp(_mc.Position.X, 300, 840);
             float offset = 300 - playerX;
-            float playerY = MathHelper.Clamp(_mc.Position.Y, 0, 260);
+            float playerY = MathHelper.Clamp(_mc.Position.Y, 0, 320);
             float offsetY = 0 - playerY;
 
 

@@ -32,6 +32,8 @@ namespace GameProject5
 
         private short _animationFrame;
 
+        private double _passiveTimer = 0;
+
         private Vector2 _direction;
 
         private bool _hasShot = false;
@@ -51,7 +53,7 @@ namespace GameProject5
 
         public bool Flipped;
 
-        public EnemyAction Action;
+        public EnemyAction Action = EnemyAction.Idle;
 
         public float BoundaryOne;
 
@@ -60,6 +62,7 @@ namespace GameProject5
         public float Health = 100;
 
         public bool Attacking = false;
+
 
         public short AnimationFrame => _animationFrame;
 
@@ -75,10 +78,13 @@ namespace GameProject5
 
         #region publicMethods
 
-        public enemy(Vector2 pos)
+        public enemy(Vector2 pos, float bOne, float bTwo)
         {
             _position = pos;
-            _bounds = new BoundingRectangle(new Vector2(_position.X - 32, _position.Y - 16), 48, 100);
+            _bounds = new BoundingRectangle(new Vector2(_position.X - 32, _position.Y - 16), 48, 130);
+            _searching = new BoundingCircle(new Vector2(_position.X, _position.Y), 64);
+            BoundaryOne = bOne;
+            BoundaryTwo = bTwo;
         }
 
         public void LoadContent(ContentManager content)
@@ -89,14 +95,19 @@ namespace GameProject5
         public void Update(GameTime gameTime)
         {
             _direction = new Vector2(200 * (float)gameTime.ElapsedGameTime.TotalSeconds, 0);
-            int randNum = random.Next(1, 3);
-            if (randNum == 1 && Action != EnemyAction.Attacking && Action != EnemyAction.Dying)
+            //int randNum = random.Next(1, 3);
+            if (Action == EnemyAction.Idle)
             {
-                Action = EnemyAction.Idle;
+                _passiveTimer += gameTime.ElapsedGameTime.TotalSeconds;
+                if (_passiveTimer >= 3 && Action != EnemyAction.Attacking && Action != EnemyAction.Dying)
+                {
+                    Action = EnemyAction.Running;
+                    _passiveTimer = 0;
+                }
             }
-            else if (randNum == 2 && Action != EnemyAction.Attacking && Action != EnemyAction.Dying)
+            if (Action == EnemyAction.Running)
             {
-                Action = EnemyAction.Running;
+                _passiveTimer += gameTime.ElapsedGameTime.TotalSeconds;
                 if (!_flipped)
                 {
                     _position += _direction;
@@ -108,15 +119,48 @@ namespace GameProject5
 
                 if (_position.X <= BoundaryOne)
                 {
-                    _position.X = BoundaryOne + 2;
+                    _position.X = BoundaryOne + 20;
                     _flipped = false;
                 }
                 if (_position.X >= BoundaryTwo)
                 {
-                    _position.X = BoundaryTwo - 2;
+                    _position.X = BoundaryTwo - 20;
                     _flipped = true;
                 }
+                if (_passiveTimer >= 3 && Action != EnemyAction.Attacking && Action != EnemyAction.Dying)
+                {
+                    Action = EnemyAction.Idle;
+                    _passiveTimer = 0;
+                }
             }
+
+            //if (randNum == 1 && Action != EnemyAction.Attacking && Action != EnemyAction.Dying && _animationTimer == 0)
+            //{
+            //    Action = EnemyAction.Idle;
+            //}
+            //else if (randNum == 2 && Action != EnemyAction.Attacking && Action != EnemyAction.Dying && _animationTimer == 0)
+            //{
+            //    Action = EnemyAction.Running;
+            //    if (!_flipped)
+            //    {
+            //        _position += _direction;
+            //    }
+            //    else
+            //    {
+            //        _position -= _direction;
+            //    }
+
+            //    if (_position.X <= BoundaryOne)
+            //    {
+            //        _position.X = BoundaryOne + 20;
+            //        _flipped = false;
+            //    }
+            //    if (_position.X >= BoundaryTwo)
+            //    {
+            //        _position.X = BoundaryTwo - 20;
+            //        _flipped = true;
+            //    }
+            //}
             if (Attacking) Action = EnemyAction.Attacking;
             if (Action == EnemyAction.Attacking)
             {
@@ -136,6 +180,8 @@ namespace GameProject5
                 _bounds = new BoundingRectangle(Vector2.Zero, 0, 0);
                 _searching = new BoundingCircle(Vector2.Zero, 0);
             }
+            _bounds.X = _position.X;
+            _bounds.Y = _position.Y;
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -182,6 +228,9 @@ namespace GameProject5
 
             if (Action == EnemyAction.Dying)
             {
+                _animationFrame = 0;
+                _animationTimer = 0;
+                _animationTimer += gameTime.ElapsedGameTime.TotalSeconds;
                 if (_animationTimer > 0.1)
                 {
                     _animationFrame++;
@@ -190,9 +239,9 @@ namespace GameProject5
                 }
             }
 
-            var source = new Rectangle(_animationFrame * 250, (int)Action * 512, 400, 500);
-            if(_attackingTimer >= 3 && _attackingTimer <= 4) spriteBatch.Draw(_texture, _position, source, Color.Red, 0f, new Vector2(80, 120), 0.5f, spriteEffects, 0);
-            spriteBatch.Draw(_texture, _position, source, Color.White, 0f, new Vector2(80, 120), 0.5f, spriteEffects, 0);
+            var source = new Rectangle(_animationFrame * 250, (int)Action * 512, 360, 440);
+            if(_attackingTimer >= 3 && _attackingTimer <= 4) spriteBatch.Draw(_texture, _position, source, Color.Red, 0f, new Vector2(80, 140), 0.5f, spriteEffects, 0);
+            spriteBatch.Draw(_texture, _position, source, Color.White, 0f, new Vector2(80, 140), 0.5f, spriteEffects, 0);
             #endregion
         }
     }
