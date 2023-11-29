@@ -239,9 +239,9 @@ namespace GameProject5
                 }
             }
 
-            var source = new Rectangle(_animationFrame * 250, (int)Action * 512, 360, 440);
-            if(_attackingTimer >= 3 && _attackingTimer <= 4) spriteBatch.Draw(_texture, _position, source, Color.Red, 0f, new Vector2(80, 140), 0.5f, spriteEffects, 0);
-            spriteBatch.Draw(_texture, _position, source, Color.White, 0f, new Vector2(80, 140), 0.5f, spriteEffects, 0);
+            var source = new Rectangle(_animationFrame * 250, (int)Action * 512, 360, 500);
+            if(_attackingTimer >= 3 && _attackingTimer <= 4) spriteBatch.Draw(_texture, _position, source, Color.Red, 0f, new Vector2(80, 90), 0.5f, spriteEffects, 0);
+            spriteBatch.Draw(_texture, _position, source, Color.White, 0f, new Vector2(80, 90), 0.5f, spriteEffects, 0);
             #endregion
         }
     }

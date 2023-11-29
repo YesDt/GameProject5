@@ -32,6 +32,7 @@ namespace GameProject5.Screens
         private CoinSprite[] _coins;
         private Collectible _coinstack = new Collectible(new Vector2(28, 830), new BoundingRectangle(28, 830, 32, 32));
         private Collectible _specialCollectable = new Collectible(new Vector2(180, 150 + 736), new BoundingRectangle(180, 110 + 736, 48, 32));
+        private Collectible _key = new Collectible(new Vector2(1044, 50), new BoundingRectangle(1044, 50, 32, 32));
         private Platform[] _platforms;
         private Goal _goal = new Goal(new Vector2(20, 50), new BoundingRectangle(new Vector2(20, 50), 30f, 24), 20, 2);
         private enemy[] _enemies;
@@ -62,10 +63,13 @@ namespace GameProject5.Screens
         private readonly InputAction _pauseAction;
 
         private bool _secretObtained = false;
+        private bool _keyObtained = false;
 
         private Cube cube;
 
         private door _doorOne;
+        private door _doorTwo;
+        
 
         #endregion
 
@@ -75,6 +79,8 @@ namespace GameProject5.Screens
         public Texture2D Circle;
 
         public Texture2D DoorOne;
+        public Texture2D DoorTwo;
+        public Texture2D Key;
 
         public Vector2 Position { get; set; }
         public Vector2 Velocity { get; set; }
@@ -137,6 +143,8 @@ namespace GameProject5.Screens
             _mc.Wall = 1070;
 
             DoorOne = _content.Load<Texture2D>("Sprite_door");
+            DoorTwo = _content.Load<Texture2D>("Sprite_door2");
+            Key = _content.Load<Texture2D>("Sprite_key");
 
             _platforms = new Platform[]
 
@@ -190,6 +198,7 @@ namespace GameProject5.Screens
             foreach (var e in _enemies) e.LoadContent(_content);
             _goal.LoadContent(_content);
             _doorOne = new door(new Vector2(333, 1042), new BoundingRectangle(331, 1040, 32f, 180), DoorOne);
+            _doorTwo = new door(new Vector2(188, 688), new BoundingRectangle(186, 684, 32f, 80), DoorTwo);
             _coinCounter = _content.Load<SpriteFont>("CoinsLeft");
             _scoreDisplay = _content.Load<SpriteFont>("scoreFont");
             _coins = new CoinSprite[]
@@ -318,6 +327,14 @@ namespace GameProject5.Screens
                     _tempScore += 500;
 
                 }
+                if (_key.RecBounds.CollidesWith(_mc.Bounds) || _key.RecBounds.CollidesWith(_mc.FeetBounds))
+                {
+                    _keyObtained = true;
+                    _specialPickup.Play();
+                    _key.destroy();
+                    
+
+                }
             }
         }
 
@@ -363,6 +380,25 @@ namespace GameProject5.Screens
                     else
                     {
                         _mc.Position.X += 20;
+                    }
+                }
+                if (_mc.Bounds.CollidesWith(_doorTwo.Bounds))
+                {
+                    if(_keyObtained)
+                    {
+                        _doorTwo.Opened = true;
+                        _keyObtained = false;
+                    }
+                    else
+                    {
+                        if (_mc.Position.X < _doorTwo.Bounds.X)
+                        {
+                            _mc.Position.X -= 20;
+                        }
+                        else
+                        {
+                            _mc.Position.X += 20;
+                        }
                     }
                 }
                 foreach (var proj in _mc.ProjList)
@@ -439,12 +475,15 @@ namespace GameProject5.Screens
                 }
             }
 
-            foreach(var e in _enemies)
+            spriteBatch.Draw(Key, _key.Position, new Rectangle(0, 128, 64, 64), Color.White, 0f, new Vector2(128, 128), 1.0f, SpriteEffects.None, 0);
+
+            foreach (var e in _enemies)
             {
                 e.Draw(gameTime, spriteBatch);
             }
 
             _doorOne.Draw(gameTime, _spriteBatch);
+            _doorTwo.Draw(gameTime, _spriteBatch);
 
             spriteBatch.Draw(_coinstack.cTexture, _coinstack.Position, new Rectangle(0, 64, 32, 32), Color.White, 0f, new Vector2(16, 16), 2.0f, SpriteEffects.None, 0);
             if (_coinstack.RecBounds.CollidesWith(_mc.Bounds) || _coinstack.RecBounds.CollidesWith(_mc.FeetBounds))
@@ -509,6 +548,10 @@ namespace GameProject5.Screens
             //spriteBatch.Draw(Circle, new Vector2(_specialCollectable.RecBounds.Right, _specialCollectable.RecBounds.Top), null, Color.Red, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
             //spriteBatch.Draw(Circle, new Vector2(_specialCollectable.RecBounds.Left, _specialCollectable.RecBounds.Bottom), null, Color.Blue, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
             //spriteBatch.Draw(Circle, new Vector2(_specialCollectable.RecBounds.Right, _specialCollectable.RecBounds.Bottom), null, Color.Green, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(Circle, new Vector2(_key.RecBounds.Left, _key.RecBounds.Top), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(Circle, new Vector2(_key.RecBounds.Right, _key.RecBounds.Top), null, Color.Red, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(Circle, new Vector2(_key.RecBounds.Left, _key.RecBounds.Bottom), null, Color.Blue, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(Circle, new Vector2(_key.RecBounds.Right, _key.RecBounds.Bottom), null, Color.Green, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
 
             //spriteBatch.Draw(Circle, new Vector2(_goal.Bounds.Left, _goal.Bounds.Top), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
             //spriteBatch.Draw(Circle, new Vector2(_goal.Bounds.Right, _goal.Bounds.Top), null, Color.Red, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
@@ -534,7 +577,8 @@ namespace GameProject5.Screens
             spriteBatch.Draw(_mc.HealthTexture, _mc.HealthBar, Color.White);
             spriteBatch.Draw(_mc.HealthBarTexture, _mc.HealthBar, Color.White);
 
-            if (_secretObtained) spriteBatch.DrawString(_specialGet, "Special item obtained: \n gambling debt papers", new Vector2(2, 420), Color.Green);
+            if (_secretObtained) spriteBatch.DrawString(_specialGet, "Special item obtained: \n Photo of Jackson's house", new Vector2(600, 420), Color.Green);
+            if (_keyObtained) spriteBatch.DrawString(_specialGet, "Key Obtained!", new Vector2(2, 100), Color.Blue);
 
             spriteBatch.End();
 
