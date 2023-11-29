@@ -281,17 +281,18 @@ namespace GameProject5
             }
             else if (_bounds.CollidesWith(rect))
             {
-                //rectangle initHead = new rectangle(new Vector2(_bounds.Left, _bounds.Top), _bounds.width, 1); 
-                if (_bounds.Top <= rect.Bottom && (_bounds.Left < rect.Right || _bounds.Right > rect.Left))
+
+
+                if (Position.Y < rect.Bottom && !_feet.CollidesWith(rect))
                 {
                     Position.Y += 20;
                 }
-                else if (_bounds.Left == rect.Right)
+                else if (Position.X == rect.Right && !_feet.CollidesWith(rect))
                 {
                     Position.X += 20;
 
                 }
-                else if (_bounds.Right == rect.Left)
+                else if (Position.X == rect.Left && !_feet.CollidesWith(rect))
                 {
                     Position.X -= 20;
                 }

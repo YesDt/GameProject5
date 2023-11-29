@@ -145,9 +145,9 @@ namespace GameProject5.Screens
                 new Platform(new Vector2(200, 453), new BoundingRectangle(new Vector2(0, 453), 380f, 300)),
 
                 new Platform(new Vector2(400, 423), new BoundingRectangle(new Vector2(400, 423), 60f, 300)),
-                new Platform(new Vector2(460, 400), new BoundingRectangle(new Vector2(460, 400), 60f, 300)),
-                new Platform(new Vector2(520, 377), new BoundingRectangle(new Vector2(520, 377), 60f, 300)),
-                new Platform(new Vector2(580, 334), new BoundingRectangle(new Vector2(580, 334), 60f, 300)),
+                new Platform(new Vector2(450, 400), new BoundingRectangle(new Vector2(450, 400), 64f, 300)),
+                new Platform(new Vector2(510, 377), new BoundingRectangle(new Vector2(510, 377), 64f, 300)),
+                new Platform(new Vector2(570, 334), new BoundingRectangle(new Vector2(570, 334), 64f, 300)),
                 new Platform(new Vector2(200, 100), new BoundingRectangle(new Vector2(0, 165), 500f, 30)),
                 new Platform(new Vector2(1020, 100), new BoundingRectangle(new Vector2(1020, 453), 300f, 300))
 
@@ -211,7 +211,7 @@ namespace GameProject5.Screens
             {
                 foreach (Platform plat in _platforms)
                 {
-                    if (plat.Bounds.CollidesWith(_mc.FeetBounds))
+                    if (plat.Bounds.CollidesWith(_mc.FeetBounds) || plat.Bounds.CollidesWith(_mc.Bounds))
                     {
                         _mc.CollisionHandling(plat.Bounds);
 

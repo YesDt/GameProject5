@@ -18,7 +18,7 @@ using System.Reflection.Metadata;
 
 namespace GameProject5.Screens
 {
-    public class LevelThreeScreen : GameScreen, IParticleEmitter
+    public class LevelFourScreen : GameScreen, IParticleEmitter
     {
         #region PrivateFields
         private GraphicsDevice _graphics;
@@ -28,9 +28,9 @@ namespace GameProject5.Screens
 
         private SpriteFont _gameFont;
 
-        private mcSprite _mc = new mcSprite(new Vector2(200, (330 + 744)));
+        private mcSprite _mc = new mcSprite(new Vector2(604, 480));
         private CoinSprite[] _coins;
-        private Collectible _coinstack = new Collectible(new Vector2(20, 150 + 720), new BoundingRectangle(20, 110 + 720, 32, 32));
+        private Collectible _coinstack = new Collectible(new Vector2(20, 150), new BoundingRectangle(0, 110 + 736, 32, 32));
         private Collectible _specialCollectable = new Collectible(new Vector2(180, 150 + 736), new BoundingRectangle(180, 110 + 736, 48, 32));
         private Platform[] _platforms;
         private Goal _goal = new Goal(new Vector2(20, 50), new BoundingRectangle(new Vector2(20, 50), 30f, 24), 20, 2);
@@ -84,12 +84,12 @@ namespace GameProject5.Screens
 
         #endregion
 
-        public LevelThreeScreen()
+        public LevelFourScreen()
         {
             string text = File.ReadAllText("progress.txt");
-            if (text.Contains("Level: Level 2\n Score: " + ScreenManager.score))
+            if (text.Contains("Level: Level 3\n Score: " + ScreenManager.score))
             {
-                text = text.Replace("Level: Level 2\n Score: " + ScreenManager.score, "Level: Level 3\n Score: " + ScreenManager.score);
+                text = text.Replace("Level: Level 3\n Score: " + ScreenManager.score, "Level: Level 4\n Score: " + ScreenManager.score);
                 File.WriteAllText("progress.txt", text);
 
 
@@ -99,7 +99,7 @@ namespace GameProject5.Screens
                 using (StreamWriter sw = new StreamWriter("progress.txt"))
                 {
 
-                    sw.WriteLine("Level: Level 3\n Score: " + ScreenManager.score);
+                    sw.WriteLine("Level: Level 4\n Score: " + ScreenManager.score);
                 }
             }
 
@@ -124,7 +124,7 @@ namespace GameProject5.Screens
 
             _gameFont = _content.Load<SpriteFont>("gamefont");
 
-            _tilemap = _content.Load<TileMap>("TheThirdLevel");
+            _tilemap = _content.Load<TileMap>("TheFourthLevel");
 
             Circle = _content.Load<Texture2D>("circle");
 
@@ -141,39 +141,9 @@ namespace GameProject5.Screens
             _platforms = new Platform[]
 
             {
-                new Platform(new Vector2(0, 453+ 744), new BoundingRectangle(new Vector2(0, 453+ 744), 380f, 1000)),
+                new Platform(new Vector2(0, 720), new BoundingRectangle(new Vector2(0, 720), 1200f, 1000)),
 
-                new Platform(new Vector2(480, 1197), new BoundingRectangle(new Vector2(480, 1197), 100f, 1000)),
-
-                new Platform(new Vector2(680, 1197), new BoundingRectangle(new Vector2(680, 1197), 400f, 1000)),
-
-                new Platform(new Vector2(970, 1140), new BoundingRectangle(new Vector2(970, 1140), 124f, 90)),
-
-                new Platform(new Vector2(1044, 1060), new BoundingRectangle(new Vector2(1044, 1060), 54f, 90)),
-
-                new Platform(new Vector2(970, 920), new BoundingRectangle(new Vector2(970, 920), 32f, 32)),
-
-                new Platform(new Vector2(670, 870), new BoundingRectangle(new Vector2(670, 870), 280f, 48)),
-
-                new Platform(new Vector2(0, 840), new BoundingRectangle(new Vector2(0, 840), 380f, 48)),
-
-                new Platform(new Vector2(0, 660), new BoundingRectangle(new Vector2(0, 660), 200f, 24)),
-
-                new Platform(new Vector2(30, 610), new BoundingRectangle(new Vector2(30, 610), 72f, 56)),
-
-                new Platform(new Vector2(260, 440), new BoundingRectangle(new Vector2(260, 440), 78f, 56)),
-
-                new Platform(new Vector2(360, 380), new BoundingRectangle(new Vector2(360, 380), 78f, 56)),
-
-                new Platform(new Vector2(460, 320), new BoundingRectangle(new Vector2(460, 320), 100f, 56)),
-
-                new Platform(new Vector2(580, 270), new BoundingRectangle(new Vector2(580, 270), 32f, 32)),
-
-                new Platform(new Vector2(600, 210), new BoundingRectangle(new Vector2(600, 210), 32f, 48)),
-
-                new Platform(new Vector2(640, 170), new BoundingRectangle(new Vector2(640, 170), 480f, 48)),
-
-                new Platform(new Vector2(0, 170), new BoundingRectangle(new Vector2(0, 170), 360f, 48)),
+                
                 //new Platform(new Vector2(400, 423+ 744), new BoundingRectangle(new Vector2(400, 423+ 744), 60f, 300)),
                 //new Platform(new Vector2(460, 400+ 744), new BoundingRectangle(new Vector2(460, 400+ 744), 60f, 300)),
                 //new Platform(new Vector2(520, 377+ 744), new BoundingRectangle(new Vector2(520, 377+ 744), 60f, 300)),
@@ -296,14 +266,14 @@ namespace GameProject5.Screens
                 cube.update(gameTime);
 
 
-                //if (_mc.Bounds.CollidesWith(_goal.Bounds) || _mc.FeetBounds.CollidesWith(_goal.Bounds))
-                //{
-                //    MediaPlayer.Stop();
-                //    File.WriteAllText("progress.txt", "");
-                //    ScreenManager.score += _tempScore;
+                if (_mc.Bounds.CollidesWith(_goal.Bounds) || _mc.FeetBounds.CollidesWith(_goal.Bounds))
+                {
+                    MediaPlayer.Stop();
+                    File.WriteAllText("progress.txt", "");
+                    ScreenManager.score += _tempScore;
 
-                //    LoadingScreen.Load(ScreenManager, false, null, new LevelFourScreen());
-                //}
+                    LoadingScreen.Load(ScreenManager, false, null, new MaintainenceScreen());
+                }
 
                 if (_specialCollectable.RecBounds.CollidesWith(_mc.Bounds) || _specialCollectable.RecBounds.CollidesWith(_mc.FeetBounds))
                 {
@@ -345,13 +315,13 @@ namespace GameProject5.Screens
                 MediaPlayer.Resume();
 
                 _mc.Update(gameTime);
-                if (_mc.Position.Y >= 600 + 736 || _mc.Health <= 0)
+                if (_mc.Health <= 0)
                 {
-                    LoadingScreen.Load(ScreenManager, false, player, new LevelThreeScreen());
+                    LoadingScreen.Load(ScreenManager, false, player, new LevelFourScreen());
                 }
                 if (_mc.Bounds.CollidesWith(_doorOne.Bounds))
                 {
-                    if(_mc.Position.X < _doorOne.Bounds.X)
+                    if (_mc.Position.X < _doorOne.Bounds.X)
                     {
                         _mc.Position.X -= 20;
                     }
@@ -372,22 +342,14 @@ namespace GameProject5.Screens
                         proj.projState = state.connected;
                     }
                 }
-                if (_mc.Bounds.CollidesWith(_goal.Bounds) || _mc.FeetBounds.CollidesWith(_goal.Bounds))
-                {
-                    MediaPlayer.Stop();
-                    //File.WriteAllText("progress.txt", "");
-                    ScreenManager.score += _tempScore;
-
-                    LoadingScreen.Load(ScreenManager, false, player, new LevelFourScreen());
-                }
             }
         }
 
         public override void Draw(GameTime gameTime)
         {
-            float playerX = MathHelper.Clamp(_mc.Position.X, 300, 600);
+            float playerX = MathHelper.Clamp(_mc.Position.X, 300, 700);
             float offset = 300 - playerX;
-            float playerY = MathHelper.Clamp(_mc.Position.Y, 0, 736);
+            float playerY = MathHelper.Clamp(_mc.Position.Y, 0, 260);
             float offsetY = 0 - playerY;
 
 

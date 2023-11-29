@@ -226,6 +226,12 @@
 /processorParam:TextureFormat=Color
 /build:level4.png
 
+#begin Level4.tmap
+/importer:TileMapImporter
+/processor:TileMapProcessor
+/processorParam:Scale=0.84
+/build:Level4.tmap;TheFourthLevel.tmap
+
 #begin liftoff_of_smap.mp4
 /importer:H264Importer
 /processor:VideoProcessor
@@ -376,6 +382,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Sprite_Finish.png
+
+#begin Sprite_key.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprite_key.png
 
 #begin Sprite_MC1.png
 /importer:TextureImporter
