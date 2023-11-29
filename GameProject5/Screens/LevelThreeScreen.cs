@@ -387,6 +387,7 @@ namespace GameProject5.Screens
                     if(_keyObtained)
                     {
                         _doorTwo.Opened = true;
+                        _doorTwo.open();
                         _keyObtained = false;
                     }
                     else
@@ -475,7 +476,7 @@ namespace GameProject5.Screens
                 }
             }
 
-            spriteBatch.Draw(Key, _key.Position, new Rectangle(0, 128, 64, 64), Color.White, 0f, new Vector2(128, 128), 1.0f, SpriteEffects.None, 0);
+            spriteBatch.Draw(Key, _key.Position, new Rectangle(32, 32, 64, 64), Color.White, 0f, new Vector2(0, 0), 1.0f, SpriteEffects.None, 0);
 
             foreach (var e in _enemies)
             {
