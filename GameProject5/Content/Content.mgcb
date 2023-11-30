@@ -26,6 +26,30 @@
 /processorParam:TextureFormat=Color
 /build:blank.png
 
+#begin BossHealth.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:BossHealth.png
+
+#begin BossHealthbar.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:BossHealthbar.png
+
 #begin circle.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -68,6 +92,24 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:escToSkip.png
+
+#begin FinalLevel.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:FinalLevel.png
+
+#begin FinalLevel.tmap
+/importer:TileMapImporter
+/processor:TileMapProcessor
+/processorParam:Scale=1
+/build:FinalLevel.tmap;theFinalLevel.tmap
 
 #begin gamefont.spritefont
 /importer:FontDescriptionImporter
@@ -418,4 +460,16 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Sprite_PunchProjectile .png
+
+#begin Sprite_secret.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprite_secret.png
 

@@ -147,8 +147,8 @@ namespace GameProject5.Screens
                 new Platform(new Vector2(400, 423), new BoundingRectangle(new Vector2(400, 423), 60f, 300)),
                 new Platform(new Vector2(450, 400), new BoundingRectangle(new Vector2(450, 400), 64f, 300)),
                 new Platform(new Vector2(510, 377), new BoundingRectangle(new Vector2(510, 377), 69f, 300)),
-                new Platform(new Vector2(570, 334), new BoundingRectangle(new Vector2(570, 334), 64f, 300)),
-                new Platform(new Vector2(200, 100), new BoundingRectangle(new Vector2(0, 165), 500f, 30)),
+                new Platform(new Vector2(570, 354), new BoundingRectangle(new Vector2(570, 354), 64f, 300)),
+                new Platform(new Vector2(0, 165), new BoundingRectangle(new Vector2(0, 165), 500f, 30)),
                 new Platform(new Vector2(1020, 100), new BoundingRectangle(new Vector2(1020, 453), 300f, 300))
 
             };

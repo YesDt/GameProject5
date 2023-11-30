@@ -159,23 +159,23 @@ namespace GameProject5.Screens
 
                 new Platform(new Vector2(1044, 1060), new BoundingRectangle(new Vector2(1044, 1060), 54f, 90)),
 
-                new Platform(new Vector2(970, 920), new BoundingRectangle(new Vector2(970, 920), 32f, 32)),
+                new Platform(new Vector2(912, 920), new BoundingRectangle(new Vector2(912, 920), 32f, 32)),
 
-                new Platform(new Vector2(670, 870), new BoundingRectangle(new Vector2(670, 870), 280f, 48)),
+                new Platform(new Vector2(632, 870), new BoundingRectangle(new Vector2(632, 870), 280f, 48)),
 
                 new Platform(new Vector2(0, 840), new BoundingRectangle(new Vector2(0, 840), 380f, 48)),
 
                 new Platform(new Vector2(0, 660), new BoundingRectangle(new Vector2(0, 660), 200f, 24)),
 
-                new Platform(new Vector2(30, 610), new BoundingRectangle(new Vector2(30, 610), 72f, 56)),
+                new Platform(new Vector2(30, 570), new BoundingRectangle(new Vector2(30, 570), 72f, 56)),
 
                 new Platform(new Vector2(260, 440), new BoundingRectangle(new Vector2(260, 440), 78f, 56)),
 
                 new Platform(new Vector2(360, 380), new BoundingRectangle(new Vector2(360, 380), 78f, 56)),
 
-                new Platform(new Vector2(460, 320), new BoundingRectangle(new Vector2(460, 320), 100f, 56)),
+                new Platform(new Vector2(430, 320), new BoundingRectangle(new Vector2(430, 320), 130f, 56)),
 
-                new Platform(new Vector2(580, 270), new BoundingRectangle(new Vector2(580, 270), 32f, 32)),
+                new Platform(new Vector2(560, 270), new BoundingRectangle(new Vector2(560, 270), 52f, 32)),
 
                 new Platform(new Vector2(600, 210), new BoundingRectangle(new Vector2(600, 210), 32f, 48)),
 
@@ -437,7 +437,13 @@ namespace GameProject5.Screens
                     e.Update(gameTime);
                     if (_mc.Bounds.CollidesWith(e.Searching))
                     {
+                        if (_mc.Position.X < e.Position.X) e.Flipped = true;
+                        else e.Flipped = false;
                         e.Attacking = true;
+                    }
+                    else
+                    {
+                        e.Attacking = false;
                     }
                     
                 }

@@ -102,7 +102,7 @@ namespace GameProject5
         {
             Position = pos;
             _bounds = new BoundingRectangle(new Vector2(Position.X - 32, Position.Y - 16), 48, 120);
-            _feet = new BoundingRectangle(new(_bounds.X, _bounds.Y + 32), 32, 32);
+            _feet = new BoundingRectangle(new(_bounds.X -32, _bounds.Y + 32), 48, 32);
         }
 
         /// <summary>
@@ -144,8 +144,8 @@ namespace GameProject5
                 if (_direction.X > 300) _direction.X = 300;
                 foreach (var proj in ProjList.ToList())
                 {
-                    proj.Speed += 20;
-                    if (proj.Speed > 450) proj.Speed = 450;
+                    proj.Speed += 10;
+                    
                 }
             }
             if (_currentKeyboardState.IsKeyDown(Keys.A) ||
@@ -283,16 +283,16 @@ namespace GameProject5
             {
 
 
-                if (Position.Y < rect.Bottom && !_feet.CollidesWith(rect) && (_bounds.Bottom > rect.Bottom + _bounds.Height))
+                if (Position.Y < rect.Bottom && !_feet.CollidesWith(rect) && _bounds.Left > rect.Left && _bounds.Right < rect.Right)
                 {
                     Position.Y += 20;
                 }
-                else if (Position.X == rect.Right && !_feet.CollidesWith(rect))
+                else if (Position.X < rect.Right && !_feet.CollidesWith(rect) && _bounds.Right > rect.Right && _bounds.Bottom > rect.Top && _bounds.Top < rect.Bottom)
                 {
                     Position.X += 20;
 
                 }
-                else if (Position.X == rect.Left && !_feet.CollidesWith(rect))
+                else if (_bounds.Right > rect.Left && !_feet.CollidesWith(rect) && _bounds.Left < rect.Left && _bounds.Bottom > rect.Top && _bounds.Top < rect.Bottom)
                 {
                     Position.X -= 20;
                 }
