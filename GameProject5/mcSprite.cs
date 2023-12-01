@@ -75,8 +75,11 @@ namespace GameProject5
 
         public bool Attacking = false;
 
+        public bool Hurt = false;
+
         public short AnimationFrame => _animationFrame;
 
+        public double RecoveryTime = 2;
 
         //public Vector2 Position => Position;
 
@@ -253,6 +256,11 @@ namespace GameProject5
 
             }
 
+            if (Hurt) Recover(gameTime);
+            if (RecoveryTime >= 2)
+            {
+                RecoveryTime = 0;
+            }
         }
 
 
@@ -274,7 +282,7 @@ namespace GameProject5
         {
             rectangle = rect;
 
-            if (_feet.CollidesWith(rect))
+            if (_feet.CollidesWith(rect) && _bounds.Top < rect.Top)
             {
                 OffGround = false;
                 Position.Y = rect.Y - (_bounds.Height + _feet.Height);
@@ -283,16 +291,16 @@ namespace GameProject5
             {
 
 
-                if (Position.Y < rect.Bottom && !_feet.CollidesWith(rect) && _bounds.Left > rect.Left && _bounds.Right < rect.Right)
+                if (Position.Y < rect.Bottom  && _bounds.Left > rect.Left && _bounds.Right < rect.Right)
                 {
                     Position.Y += 20;
                 }
-                else if (Position.X < rect.Right && !_feet.CollidesWith(rect) && _bounds.Right > rect.Right && _bounds.Bottom > rect.Top && _bounds.Top < rect.Bottom)
+                else if (Position.X < rect.Right  && _bounds.Right > rect.Right && _bounds.Bottom > rect.Top && _bounds.Top < rect.Bottom)
                 {
                     Position.X += 20;
 
                 }
-                else if (_bounds.Right > rect.Left && !_feet.CollidesWith(rect) && _bounds.Left < rect.Left && _bounds.Bottom > rect.Top && _bounds.Top < rect.Bottom)
+                else if (_bounds.Right > rect.Left  && _bounds.Left < rect.Left && _bounds.Bottom > rect.Top && _bounds.Top < rect.Bottom)
                 {
                     Position.X -= 20;
                 }
@@ -304,6 +312,12 @@ namespace GameProject5
 
         }
 
+        public void Recover(GameTime gameTime)
+        {
+            Hurt = false;
+            RecoveryTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+           
+        }
 
         /// <summary>
         /// Draws the main character
@@ -358,7 +372,7 @@ namespace GameProject5
             }
 
             var source = new Rectangle(_animationFrame * 250, (int)action * 512, 268, 512);
-            
+            if (RecoveryTime > 0) spriteBatch.Draw(_texture, Position, source, Color.Blue, 0f, new Vector2(80, 120), 0.5f, spriteEffects, 0);
             spriteBatch.Draw(_texture, Position, source, Color.White, 0f, new Vector2(80, 120), 0.5f, spriteEffects, 0);
             foreach (var proj in ProjList)
             {

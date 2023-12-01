@@ -67,7 +67,7 @@ namespace GameProject5.Screens
 
         private bool _secretObtained = false;
 
-        private Cube cube;
+
 
         #endregion
 
@@ -83,6 +83,7 @@ namespace GameProject5.Screens
 
         FireworkParticleSystem _fireworks;
 
+        public Texture2D Secret;
 
         #endregion
 
@@ -131,7 +132,7 @@ namespace GameProject5.Screens
 
             Circle = _content.Load<Texture2D>("circle");
 
-            cube = ScreenManager.cube;
+            Secret = _content.Load<Texture2D>("Sprite_secret");
 
             Thread.Sleep(1000);
 
@@ -264,7 +265,7 @@ namespace GameProject5.Screens
 
 
 
-                cube.update(gameTime);
+               
 
 
                
@@ -347,7 +348,7 @@ namespace GameProject5.Screens
             _fireworks.Transform = transform;
             spriteBatch.Begin(transformMatrix: transform);
 
-            cube.Offset = offset * 0.0211f;
+          
 
             _tilemap.Draw(gameTime, _spriteBatch);
             foreach (var coin in _coins)
@@ -375,7 +376,7 @@ namespace GameProject5.Screens
                 _fireworks.placeFirework(_specialCollectable.Position);
                 _fireworks.placeFirework(_specialCollectable.Position);
             }
-
+            if (!_secretObtained) spriteBatch.Draw(Secret, _specialCollectable.Position, null, Color.White, 0f, new Vector2(16, 32), 1f, SpriteEffects.None, 0);
             _mc.Draw(gameTime, spriteBatch);
 
 
@@ -424,13 +425,13 @@ namespace GameProject5.Screens
             spriteBatch.DrawString(_scoreDisplay, $"Score: {_tempScore + ScreenManager.score}", new Vector2(2, 50), Color.Orange);
             spriteBatch.Draw(_mc.HealthTexture, _mc.HealthBar, Color.White);
             spriteBatch.Draw(_mc.HealthBarTexture, new Rectangle(47, 420, 103, 50), Color.White);
-
+           
             if (_secretObtained) spriteBatch.DrawString(_specialGet, "Special item obtained: \n gambling debt papers" , new Vector2(600, 420), Color.Green);
 
             spriteBatch.End();
 
 
-            if(!_secretObtained) cube.Draw();
+            
 
             if (TransitionPosition > 0 || _pauseAlpha > 0)
             {

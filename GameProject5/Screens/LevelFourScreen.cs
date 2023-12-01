@@ -33,7 +33,7 @@ namespace GameProject5.Screens
         private Collectible[] _coinstacks;
         private Collectible _specialCollectable = new Collectible(new Vector2(180, 150 + 736), new BoundingRectangle(180, 110 + 736, 48, 32));
         private Platform[] _platforms;
-        private Goal _goal = new Goal(new Vector2(1298, 146), new BoundingRectangle(new Vector2(1298, 146), 30f, 24), 20, 2);
+        private Goal _goal = new Goal(new Vector2(1298, 140), new BoundingRectangle(new Vector2(1298, 140), 30f, 24), 20, 2);
 
 
         //private Texture2D _level2;
@@ -63,7 +63,7 @@ namespace GameProject5.Screens
 
         private bool _secretObtained = false;
 
-        private Cube cube;
+
 
         private door _doorOne;
 
@@ -128,7 +128,6 @@ namespace GameProject5.Screens
 
             Circle = _content.Load<Texture2D>("circle");
 
-            cube = ScreenManager.cube;
 
             System.Threading.Thread.Sleep(700);
 
@@ -143,9 +142,9 @@ namespace GameProject5.Screens
             {
                 new Platform(new Vector2(0, 810), new BoundingRectangle(new Vector2(0, 810), 1800f, 1000)),
                 new Platform(new Vector2(1223, 700), new BoundingRectangle(new Vector2(1223, 700), 72f, 100)),
-                new Platform(new Vector2(1064, 555), new BoundingRectangle(new Vector2(1064, 555), 72f, 58)),
+                new Platform(new Vector2(1044, 575), new BoundingRectangle(new Vector2(1044, 575), 96f, 32)),
                 new Platform(new Vector2(1244, 430), new BoundingRectangle(new Vector2(1244, 430), 72f, 48)),
-                new Platform(new Vector2(990, 360), new BoundingRectangle(new Vector2(1000, 360), 64f, 24)),
+                new Platform(new Vector2(1000, 260), new BoundingRectangle(new Vector2(1000, 260), 64f, 280)),
 
                 new Platform(new Vector2(203, 750), new BoundingRectangle(new Vector2(203, 750), 48f, 32)),
                 new Platform(new Vector2(143, 700), new BoundingRectangle(new Vector2(143, 700), 38f, 32)),
@@ -156,7 +155,7 @@ namespace GameProject5.Screens
                 new Platform(new Vector2(254, 390), new BoundingRectangle(new Vector2(254, 390), 56f, 56)),
                 new Platform(new Vector2(310, 300), new BoundingRectangle(new Vector2(310, 300), 72f, 72)),
                 new Platform(new Vector2(382, 200), new BoundingRectangle(new Vector2(382, 200), 80f, 90)),
-                new Platform(new Vector2(916, 150), new BoundingRectangle(new Vector2(916, 150), 464f, 32)),
+                new Platform(new Vector2(916, 150), new BoundingRectangle(new Vector2(916, 150), 464f, 36)),
 
                 //new Platform(new Vector2())
                 
@@ -292,7 +291,7 @@ namespace GameProject5.Screens
 
                 _doorOne.Update(gameTime);
 
-                cube.update(gameTime);
+
 
 
                
@@ -392,7 +391,6 @@ namespace GameProject5.Screens
             _fireworks.Transform = transform;
             spriteBatch.Begin(transformMatrix: transform);
 
-            cube.Offset = offset * 0.0211f;
 
             _tilemap.Draw(gameTime, _spriteBatch);
             foreach (var coin in _coins)
@@ -498,7 +496,6 @@ namespace GameProject5.Screens
             spriteBatch.End();
 
 
-            if (!_secretObtained) cube.Draw();
 
             if (TransitionPosition > 0 || _pauseAlpha > 0)
             {

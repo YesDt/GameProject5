@@ -58,9 +58,13 @@ namespace GameProject5
 
         public float BoundaryTwo;
 
+        public float Radius;
+
         public float Health = 100;
 
         public bool Attacking = false;
+
+        public bool Dead = false;
 
         public List<bullet> BulletList = new List<bullet>();
 
@@ -78,11 +82,12 @@ namespace GameProject5
 
         #region publicMethods
 
-        public enemy(Vector2 pos, float bOne, float bTwo)
+        public enemy(Vector2 pos, float bOne, float bTwo, float radius)
         {
             _position = pos;
+            Radius = radius;
             _bounds = new BoundingRectangle(new Vector2(_position.X - 32, _position.Y - 16), 48, 130);
-            _searching = new BoundingCircle(new Vector2(_position.X, _position.Y), 64);
+            _searching = new BoundingCircle(new Vector2(_position.X, _position.Y), Radius);
             BoundaryOne = bOne;
             BoundaryTwo = bTwo;
         }
@@ -138,6 +143,7 @@ namespace GameProject5
             if (Attacking)
             {
                 _passiveTimer = 0;
+                _searching = new BoundingCircle(Vector2.Zero, 0);
                 Action = EnemyAction.Attacking;
             }
             if (Action == EnemyAction.Attacking)
@@ -156,7 +162,8 @@ namespace GameProject5
                     _attackingTimer = 0;
                     if(!Attacking) Action = EnemyAction.Idle;
                     _hasShot = false;
-                    Attacking = false; 
+                    Attacking = false;
+                    _searching = new BoundingCircle(new Vector2(_position.X, _position.Y), Radius);
                 }
                 
             }
@@ -167,8 +174,11 @@ namespace GameProject5
             }
             if (Action == EnemyAction.Dying)
             {
+                if (Flipped) Flipped = true;
+                else Flipped = false;
                 _bounds = new BoundingRectangle(Vector2.Zero, 0, 0);
                 _searching = new BoundingCircle(Vector2.Zero, 0);
+                Dead = true;
             }
             _bounds.X = _position.X;
             _bounds.Y = _position.Y;
@@ -185,6 +195,12 @@ namespace GameProject5
                 }
 
             }
+            _searching = new BoundingCircle(new Vector2(_position.X, _position.Y), Radius);
+        }
+
+        public void AboutToAttack()
+        {
+            Attacking = true;
         }
 
         public void addBullet()
@@ -245,7 +261,7 @@ namespace GameProject5
 
             if (Action == EnemyAction.Dying)
             {
-
+                _attackingTimer = 0;
                 _animationTimer += gameTime.ElapsedGameTime.TotalSeconds;
                 if (_animationTimer > 0.1)
                 {

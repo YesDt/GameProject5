@@ -35,9 +35,9 @@ namespace GameProject5
 
         private double _passiveTimer = 0;
 
-        private Vector2 _direction;
-
         private bool _hasShot = false;
+
+        private Vector2 _direction;
 
         private Random random = new Random();
 
@@ -48,29 +48,31 @@ namespace GameProject5
         #region publicFields
         public Vector2 Position = new Vector2();
 
-        public double Attackingtimer = 0;
+        public double AttackingTimer = 0;
+
+        public double RecoveryTimer = 0;
 
         public bool Flipped = false;
 
         public BossAction Action = BossAction.Idle;
 
-        public float BoundaryOne;
+        public float Boundary;
 
-        public float BoundaryTwo;
-
-        public float Health = 2000;
+        public int Health = 2000;
 
         public bool Attacking = false;
 
-        public List<bullet> BulletList = new List<bullet>();
+        public List<BossFingerFlick> ProjList = new List<BossFingerFlick>();
 
         public short AnimationFrame => _animationFrame;
 
 
         public BoundingRectangle Bounds => _bounds;
 
-   
 
+        public Texture2D HealthTexture;
+        public Texture2D HealthBarTexture;
+        public Rectangle HealthBar;
 
         #endregion
 
@@ -86,13 +88,19 @@ namespace GameProject5
         public void LoadContent(ContentManager content)
         {
             _texture = content.Load<Texture2D>("Sprite_boss");
-            bullet.LoadContent(content);
+            BossFingerFlick.LoadContent(content);
+            HealthTexture = content.Load<Texture2D>("BossHealth");
+            HealthBarTexture = content.Load<Texture2D>("BossHealthBar");
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, mcSprite mc)
         {
+            _direction = Vector2.Zero;
+            HealthBar = new Rectangle(600, 420, Health, 50);
             if (Action == BossAction.Idle)
             {
+                if (mc.Position.X < Position.X) Flipped = true;
+                else Flipped = false;
                 _passiveTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
                 if (_passiveTimer > 2)
                 {
@@ -112,36 +120,163 @@ namespace GameProject5
             }
             if (Action == BossAction.ShoulderCharge)
             {
+               
+                Attacking = true;
                 _attackingTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (mc.Position.X < Position.X && _attackingTimer <= 3) Flipped = true;
+
                 if (_attackingTimer > 3)
                 {
-                    if (Flipped) Position -= new Vector2(300 * (float)gameTime.ElapsedGameTime.TotalSeconds, 0);
-                    
+                    _direction = new Vector2(300 * (float)gameTime.ElapsedGameTime.TotalSeconds, 0);
+                    if (Flipped) Position -= _direction;
+                    else Position += _direction;
+
+                }
+
+                if (Position.X <= 0)
+                {
+                    Position.X += 20;
+                    _direction = Vector2.Zero;
+                    _attackingTimer = 0;
+                    RecoveryTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                    Action = BossAction.Idle;
+                }
+                if (Position.X >= Boundary)
+                {
+                    Position.X -= 20;
+                    _direction = Vector2.Zero;
+                    _attackingTimer = 0;
+                  
+                    Action = BossAction.Idle;
+                }
+                //if (RecoveryTimer > 2.5)
+                //{
+                //    Action = BossAction.Idle;
+                //    RecoveryTimer = 0;
+                //    Attacking = false;
+                //}
+            }
+            if (Action == BossAction.FingerFlick)
+            {
+                Attacking = true;
+                _attackingTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (_attackingTimer > 2 && !_hasShot)
+                { 
+                    addFF();
+                    _hasShot = true; 
+
+                }
+                if (_attackingTimer >= 4)
+                {
+                    _attackingTimer = 0;
+                    Action = BossAction.Idle;
+                    _hasShot = false;
+                    Attacking = false;
+
+                }
+            }
+
+            _bounds.X = Position.X;
+            _bounds.Y = Position.Y;
+            foreach (var proj in ProjList.ToList())
+            {
+
+                if (proj.Expired)
+                {
+                    ProjList.Remove(proj);
                 }
                 else
                 {
-                    Position += new Vector2(300 * (float)gameTime.ElapsedGameTime.TotalSeconds, 0);
+                    proj.update(gameTime);
                 }
+
             }
         }
 
+        
+
         public void addFF()
         {
-            
+            if (!Flipped)
+            {
+                var proj = new BossFingerFlick(new Vector2(Position.X , Position.Y + 5), this);
+                ProjList.Add(proj);
+            }
+            else
+            {
+                var proj = new BossFingerFlick(new Vector2(Position.X , Position.Y + 5), this);
+                ProjList.Add(proj);
+            }
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             SpriteEffects spriteEffects = (Flipped) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            
-            
+
+            if (Action == BossAction.ShoulderCharge)
+            {
+                if (AttackingTimer <= 3)
+                {
+                    _animationTimer += gameTime.ElapsedGameTime.TotalSeconds;
+                    if (_animationTimer > 0.2)
+                    {
+                        _animationFrame++;
+                        if (_animationFrame > 1) _animationFrame = 1;
+                        _animationTimer -= 0.2;
+                    }
+                }
+
+                else
+                {
+                    _animationFrame = 2;
+                }
+            }
+            if (Action == BossAction.FingerFlick)
+            {
+                if (AttackingTimer <= 2)
+                {
+                    _animationTimer += gameTime.ElapsedGameTime.TotalSeconds;
+                    if (_animationTimer > 0.2)
+                    {
+                        _animationFrame++;
+                        if (_animationFrame > 1) _animationFrame = 1;
+                        _animationTimer -= 0.2;
+                    }
+                }
+                else
+                {
+                    _animationTimer += gameTime.ElapsedGameTime.TotalSeconds;
+                    if (_animationTimer > 0.2)
+                    {
+                        _animationFrame++;
+                        if (_animationFrame > 3) _animationFrame = 3;
+                        _animationTimer -= 0.2;
+                    }
+                }
+            }
+            else
+            {
+                _animationTimer += gameTime.ElapsedGameTime.TotalSeconds;
+
+                if (_animationTimer > 0.2)
+                {
+                    _animationFrame++;
+                    if (_animationFrame > 3)
+                    {
+                        _animationFrame = 0;
+
+                    }
+                    _animationTimer -= 0.2;
+                }
+            }
 
             var source = new Rectangle(_animationFrame * 250, (int)Action * 512, 268, 512);
-            //if (Attacking && _attackingTimer >= 2.5 && _attackingTimer <= 3) spriteBatch.Draw(_texture, _position, source, Color.Red, 0f, new Vector2(80, 120), 0.5f, spriteEffects, 0);
-            //else 
-            spriteBatch.Draw(_texture, Position, source, Color.White, 0f, new Vector2(80, 120), 0.5f, spriteEffects, 0);
+            if (Action == BossAction.ShoulderCharge && _attackingTimer >= 2.5 && _attackingTimer <= 3) spriteBatch.Draw(_texture, Position, source, Color.Red, 0f, new Vector2(80, 120), 0.5f, spriteEffects, 0);
+            else if (Action == BossAction.FingerFlick && _attackingTimer >= 1.5 && _attackingTimer <= 2) spriteBatch.Draw(_texture, Position, source, Color.Red, 0f, new Vector2(80, 120), 0.5f, spriteEffects, 0);
+            else spriteBatch.Draw(_texture, Position, source, Color.White, 0f, new Vector2(80, 120), 0.5f, spriteEffects, 0);
 
-            foreach (var proj in BulletList)
+            foreach (var proj in ProjList)
             {
                 proj.Draw(gameTime, spriteBatch);
 

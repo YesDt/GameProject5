@@ -34,7 +34,6 @@ namespace GameProject5.Screens
         private Collectible _specialCollectable = new Collectible(new Vector2(120, 810), new BoundingRectangle(120, 810, 48, 32));
         private Collectible _key = new Collectible(new Vector2(1032, 50), new BoundingRectangle(1032, 50, 64, 32));
         private Platform[] _platforms;
-        private Unpassable[] _barriers;
         private Goal _goal = new Goal(new Vector2(20, 50), new BoundingRectangle(new Vector2(20, 50), 30f, 24), 20, 2);
         private enemy[] _enemies;
 
@@ -161,15 +160,17 @@ namespace GameProject5.Screens
 
                 new Platform(new Vector2(1044, 1060), new BoundingRectangle(new Vector2(1044, 1060), 54f, 90)),
 
-                new Platform(new Vector2(912, 920), new BoundingRectangle(new Vector2(912, 920), 32f, 32)),
+                new Platform(new Vector2(912, 920), new BoundingRectangle(new Vector2(912, 920), 38f, 32)),
 
                 new Platform(new Vector2(632, 870), new BoundingRectangle(new Vector2(632, 870), 280f, 48)),
 
                 new Platform(new Vector2(0, 840), new BoundingRectangle(new Vector2(0, 840), 380f, 48)),
 
-                new Platform(new Vector2(0, 660), new BoundingRectangle(new Vector2(0, 660), 200f, 24)),
+                new Platform(new Vector2(0, 680), new BoundingRectangle(new Vector2(0, 680), 200f, 4)),
 
-                new Platform(new Vector2(30, 570), new BoundingRectangle(new Vector2(30, 570), 72f, 56)),
+                new Platform(new Vector2(300, 840), new BoundingRectangle(new Vector2(300, 840), 80f, 148)),
+
+                new Platform(new Vector2(30, 570), new BoundingRectangle(new Vector2(30, 570), 80f, 72)),
 
                 new Platform(new Vector2(260, 440), new BoundingRectangle(new Vector2(260, 440), 78f, 56)),
 
@@ -195,7 +196,8 @@ namespace GameProject5.Screens
 
             _enemies = new enemy[]
             {
-                new enemy(new Vector2(740, 1074), 680, 780),
+                new enemy(new Vector2(740, 1074), 680, 780, 128),
+                new enemy(new Vector2(700, 760), 632, 952, 128),
             };
             foreach (var e in _enemies) e.LoadContent(_content);
             _goal.LoadContent(_content);
@@ -444,15 +446,16 @@ namespace GameProject5.Screens
                     e.Update(gameTime);
                     if (_mc.Bounds.CollidesWith(e.Searching))
                     {
-                        if (_mc.Position.X < e.Position.X) e.Flipped = true;
+                        if (_mc.Position.X < e.Position.X && !e.Dead) e.Flipped = true;
                         else e.Flipped = false;
-                        e.Attacking = true;
+                        e.AboutToAttack();
                     }
                     foreach (var b in e.BulletList)
                     {
                         if (_mc.Bounds.CollidesWith(b.Bounds))
                         {
                             _mc.Health -= 10;
+                            _mc.Hurt = true;
                             b.Destroy(b);
                         }
                     }
@@ -546,6 +549,7 @@ namespace GameProject5.Screens
             spriteBatch.Draw(Circle, new Vector2(_doorOne.Bounds.Left, _doorOne.Bounds.Bottom), null, Color.Blue, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
             spriteBatch.Draw(Circle, new Vector2(_doorOne.Bounds.Right, _doorOne.Bounds.Bottom), null, Color.Green, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
 
+          
 
             //spriteBatch.Draw(Circle, new Vector2(_mc.Bounds.Left, _mc.Bounds.Top), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
             //spriteBatch.Draw(Circle, new Vector2(_mc.Bounds.Right, _mc.Bounds.Top), null, Color.Red, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);

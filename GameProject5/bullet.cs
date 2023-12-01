@@ -31,7 +31,7 @@ namespace GameProject5
         private float _gravity = 10;
         public double ProjTimer;
 
-        public float Speed = 300;
+        public float Speed = 350;
 
         public bulletState projState = bulletState.traveling;
 

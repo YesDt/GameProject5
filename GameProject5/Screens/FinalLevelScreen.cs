@@ -30,6 +30,7 @@ namespace GameProject5.Screens
         private SpriteFont _gameFont;
 
         private mcSprite _mc = new mcSprite(new Vector2(200, 200));
+        private Boss _boss = new Boss(new Vector2(700, 291));
         private CoinSprite[] _coins;
 
         private Platform[] _platforms;
@@ -99,7 +100,7 @@ namespace GameProject5.Screens
 
 
 
-            //ScreenManager.gameState = GameState.LevelOne;
+
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
 
@@ -110,7 +111,7 @@ namespace GameProject5.Screens
 
 
         #region PublicOverrides
-        // Load graphics content for the game
+
         public override void Activate()
         {
             _graphics = ScreenManager.Game.GraphicsDevice;
@@ -126,38 +127,31 @@ namespace GameProject5.Screens
 
             Circle = _content.Load<Texture2D>("circle");
 
-            // A real game would probably have more content than this sample, so
-            // it would take longer to load. We simulate that by delaying for a
-            // while, giving you a chance to admire the beautiful loading screen.
+
             Thread.Sleep(700);
 
-            // once the load has finished, we use ResetElapsedTime to tell the game's
-            // timing mechanism that we have just finished a very long frame, and that
-            // it should not try to catch up.
             ScreenManager.Game.ResetElapsedTime();
             _mc.LoadContent(_content);
-            _mc.Wall = 1150;
+            _mc.Wall = 750;
+            _boss.LoadContent(_content);
+            _boss.Boundary = 750;
             _platforms = new Platform[]
                 {
         new Platform(new Vector2(0, 443), new BoundingRectangle(new Vector2(0, 443), 1200f, 2)),
                 };
-            // _p = new List<PunchProjectile>();
+          ;
 
             _coinCounter = _content.Load<SpriteFont>("CoinsLeft");
             _scoreDisplay = _content.Load<SpriteFont>("scoreFont");
             _coins = new CoinSprite[]
             {
-        new CoinSprite(new Vector2(300, 300)),
-        new CoinSprite(new Vector2(700, 300)),
-        new CoinSprite(new Vector2(5, 300)),
-        new CoinSprite(new Vector2(80, 250)),
-        new CoinSprite(new Vector2(543, 300)),
-        new CoinSprite(new Vector2(723, 300)),
-        new CoinSprite(new Vector2(400, 300)),
-        new CoinSprite(new Vector2(1000, 300)),
-        new CoinSprite(new Vector2(1100, 300)),
-        new CoinSprite(new Vector2(900, 250)),
-        new CoinSprite(new Vector2(392, 300))
+                new CoinSprite(new Vector2(300, 300)),
+                new CoinSprite(new Vector2(700, 300)),
+                new CoinSprite(new Vector2(5, 300)),
+                new CoinSprite(new Vector2(80, 250)),
+                new CoinSprite(new Vector2(543, 300)),
+                new CoinSprite(new Vector2(723, 300)),
+
             };
             _coinsLeft = _coins.Length;
             foreach (var coin in _coins) coin.LoadContent(_content);
@@ -165,9 +159,9 @@ namespace GameProject5.Screens
 
 
             _coinPickup = _content.Load<SoundEffect>("Pickup_Coin15");
-            //_backgroundMusic = _content.Load<Song>("Project2music");
-            //MediaPlayer.IsRepeating = true;
-            //MediaPlayer.Play(_backgroundMusic);
+            _backgroundMusic = _content.Load<Song>("Boss GP");
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Play(_backgroundMusic);
 
             _fireworks = new FireworkParticleSystem(ScreenManager.Game, 5);
             _fireworks.Initialize();
@@ -187,8 +181,7 @@ namespace GameProject5.Screens
             _content.Unload();
         }
 
-        // This method checks the GameScreen.IsActive property, so the game will
-        // stop updating when the pause menu is active, or if you tab away to a different application.
+
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
             base.Update(gameTime, otherScreenHasFocus, false);
@@ -255,13 +248,17 @@ namespace GameProject5.Screens
             {
                 MediaPlayer.Resume();
 
-                _mc.Update(gameTime);
+                
                 foreach (var proj in _mc.ProjList)
                 {
                     if (proj.Bounds.X >= _mc.Wall || proj.Bounds.X <= 0)
                     {
                         proj.projState = state.connected;
 
+                    }
+                    if (proj.Bounds.CollidesWith(_boss.Bounds) && !_boss.Attacking)
+                    {
+                        _boss.Health -= 20;
                     }
                 }
                 foreach (var plat in _platforms)
@@ -270,6 +267,31 @@ namespace GameProject5.Screens
                     {
                         _mc.CollisionHandling(plat.Bounds);
                     }
+                }
+                _boss.Update(gameTime, _mc);
+                if (_mc.Bounds.CollidesWith(_boss.Bounds) && _boss.Action == BossAction.ShoulderCharge && _mc.RecoveryTime == 0)
+                {
+                    _mc.Position.Y -= 50;
+                    _mc.Health -= 40;
+                    _mc.Hurt = true;
+                }
+                _mc.Update(gameTime);
+                foreach (var proj in _boss.ProjList)
+                {
+                    if (proj.Bounds.X >= _boss.Boundary || proj.Bounds.X <= 0)
+                    {
+                        proj.Connected = true;
+
+                    }
+                    if (proj.Bounds.CollidesWith(_mc.Bounds))
+                    {
+                        proj.Connected = true;
+                        _mc.Health -= 20;
+                    }
+                }
+                if (_boss.Health <= 0)
+                {
+                    LoadingScreen.Load(ScreenManager, false, null, new MaintainenceScreen());
                 }
 
 
@@ -280,19 +302,13 @@ namespace GameProject5.Screens
 
         public override void Draw(GameTime gameTime)
         {
-            float playerX = MathHelper.Clamp(_mc.Position.X, 300, 700);
-            float offset = 300 - playerX;
-
-
-            Matrix transform;
-
+            
             ScreenManager.GraphicsDevice.Clear(ClearOptions.Target, Color.CornflowerBlue, 0, 0);
 
             var spriteBatch = ScreenManager.SpriteBatch;
 
-            transform = Matrix.CreateTranslation(offset, 0, 0);
-            _fireworks.Transform = transform;
-            spriteBatch.Begin(transformMatrix: transform);
+  
+            spriteBatch.Begin();
 
 
             _tilemap.Draw(gameTime, _spriteBatch);
@@ -310,17 +326,15 @@ namespace GameProject5.Screens
 
 
             _mc.Draw(gameTime, spriteBatch);
+            _boss.Draw(gameTime, spriteBatch);
 
-
-            spriteBatch.End();
-
-
-            spriteBatch.Begin();
 
             spriteBatch.DrawString(_coinCounter, $"Coins Collected: {_mc.coinsCollected}", new Vector2(2, 2), Color.Gold);
             spriteBatch.DrawString(_scoreDisplay, $"Score: {_tempScore + ScreenManager.score}", new Vector2(2, 50), Color.Orange);
             spriteBatch.Draw(_mc.HealthTexture, _mc.HealthBar, Color.White);
             spriteBatch.Draw(_mc.HealthBarTexture, new Rectangle(47, 420, 103, 50), Color.White);
+            spriteBatch.Draw(_boss.HealthTexture, _boss.HealthBar, Color.White);
+            spriteBatch.Draw(_boss.HealthBarTexture, new Rectangle(47, 600, 2003, 50), Color.White);
 
 
 

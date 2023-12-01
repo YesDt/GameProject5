@@ -17,6 +17,7 @@ namespace GameProject5.Screens
 
         private readonly MenuEntry _controlsEntry;
         private readonly MenuEntry _jumpEntry;
+        private readonly MenuEntry _punchEntry;
 
         public Controls() : base("Controls")
         {
@@ -25,6 +26,7 @@ namespace GameProject5.Screens
 
             _controlsEntry = new MenuEntry(string.Empty);
             _jumpEntry = new MenuEntry(string.Empty);
+            _punchEntry = new MenuEntry(string.Empty);
 
             setControlsEntryText();
             var back = new MenuEntry("Back");
@@ -33,6 +35,7 @@ namespace GameProject5.Screens
 
             MenuEntries.Add(_controlsEntry);
             MenuEntries.Add(_jumpEntry);
+            MenuEntries.Add(_punchEntry);
             MenuEntries.Add(back);
 
         }
@@ -42,6 +45,8 @@ namespace GameProject5.Screens
         {
             _controlsEntry.Text = "A & D or the left & right arrow keys to move.";
             _jumpEntry.Text = "Press space to jump.";
+            _punchEntry.Text = "Press enter to punch.";
+
         }
 
     }
