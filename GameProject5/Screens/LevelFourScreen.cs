@@ -197,7 +197,7 @@ namespace GameProject5.Screens
             foreach(var cs in _coinstacks) cs.cTexture = _content.Load<Texture2D>("gold");
 
             _coinPickup = _content.Load<SoundEffect>("Pickup_Coin15");
-            _backgroundMusic = _content.Load<Song>("GP4Level2");
+            _backgroundMusic = _content.Load<Song>("Level4 music GP6");
             _stackPickup = _content.Load<SoundEffect>("Pickup_Coin5");
             _specialPickup = _content.Load<SoundEffect>("Pickup_Special");
             MediaPlayer.IsRepeating = true;
@@ -260,6 +260,8 @@ namespace GameProject5.Screens
                         _coinPickup.Play();
                         _coinsLeft--;
                         _mc.coinsCollected++;
+                        _mc.Health += 10;
+                        if (_mc.Health >= 100) _mc.Health = 100;
                         _tempScore += 10;
 
 
@@ -280,6 +282,8 @@ namespace GameProject5.Screens
                        
                         _stackPickup.Play();
                         _mc.coinsCollected += 5;
+                        _mc.Health += 50;
+                        if (_mc.Health >= 100) _mc.Health = 100;
                         _tempScore += 50;
 
                     }
@@ -487,7 +491,7 @@ namespace GameProject5.Screens
             spriteBatch.DrawString(_coinCounter, $"Coins Collected: {_mc.coinsCollected}", new Vector2(2, 2), Color.Gold);
             spriteBatch.DrawString(_scoreDisplay, $"Score: {_tempScore + ScreenManager.score}", new Vector2(2, 50), Color.Orange);
             spriteBatch.Draw(_mc.HealthTexture, _mc.HealthBar, Color.White);
-            spriteBatch.Draw(_mc.HealthBarTexture, _mc.HealthBar, Color.White);
+            spriteBatch.Draw(_mc.HealthBarTexture, new Rectangle(47, 420, 103, 50), Color.White);
 
             if (_secretObtained) spriteBatch.DrawString(_specialGet, "Special item obtained: \n gambling debt papers", new Vector2(2, 420), Color.Green);
 

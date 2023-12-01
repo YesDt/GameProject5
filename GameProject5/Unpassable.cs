@@ -8,16 +8,14 @@ using System.Threading.Tasks;
 
 namespace GameProject5
 {
-    public class Unpassable : Platform
+    public class Unpassable
     {
-        public float OriginX;
+        public BoundingRectangle Bounds;
 
-        public float OriginY;
 
-        public Unpassable(Vector2 Position, BoundingRectangle bounds, float oX, float oY) : base(Position, bounds)
+        public Unpassable(BoundingRectangle bounds)
         {
-            OriginX = oX;
-            OriginY = oY;
+            Bounds = bounds;
         }
         public void Update(GameTime gameTime)
         {

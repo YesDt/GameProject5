@@ -31,9 +31,10 @@ namespace GameProject5.Screens
         private mcSprite _mc = new mcSprite(new Vector2(200, (330 + 744)));
         private CoinSprite[] _coins;
         private Collectible _coinstack = new Collectible(new Vector2(28, 830), new BoundingRectangle(28, 830, 32, 32));
-        private Collectible _specialCollectable = new Collectible(new Vector2(180, 150 + 736), new BoundingRectangle(180, 110 + 736, 48, 32));
-        private Collectible _key = new Collectible(new Vector2(1044, 50), new BoundingRectangle(1044, 50, 32, 32));
+        private Collectible _specialCollectable = new Collectible(new Vector2(120, 810), new BoundingRectangle(120, 810, 48, 32));
+        private Collectible _key = new Collectible(new Vector2(1032, 50), new BoundingRectangle(1032, 50, 64, 32));
         private Platform[] _platforms;
+        private Unpassable[] _barriers;
         private Goal _goal = new Goal(new Vector2(20, 50), new BoundingRectangle(new Vector2(20, 50), 30f, 24), 20, 2);
         private enemy[] _enemies;
 
@@ -65,7 +66,7 @@ namespace GameProject5.Screens
         private bool _secretObtained = false;
         private bool _keyObtained = false;
 
-        private Cube cube;
+
 
         private door _doorOne;
         private door _doorTwo;
@@ -80,6 +81,7 @@ namespace GameProject5.Screens
 
         public Texture2D DoorOne;
         public Texture2D DoorTwo;
+        public Texture2D Secret;
         public Texture2D Key;
 
         public Vector2 Position { get; set; }
@@ -134,7 +136,6 @@ namespace GameProject5.Screens
 
             Circle = _content.Load<Texture2D>("circle");
 
-            cube = ScreenManager.cube;
 
             System.Threading.Thread.Sleep(700);
 
@@ -144,6 +145,7 @@ namespace GameProject5.Screens
 
             DoorOne = _content.Load<Texture2D>("Sprite_door");
             DoorTwo = _content.Load<Texture2D>("Sprite_door2");
+            Secret = _content.Load<Texture2D>("Sprite_secret");
             Key = _content.Load<Texture2D>("Sprite_key");
 
             _platforms = new Platform[]
@@ -207,9 +209,9 @@ namespace GameProject5.Screens
 
                 new CoinSprite(new Vector2(700, 1147)),
                 new CoinSprite(new Vector2(720, 1147)),
-                new CoinSprite(new Vector2(970, 1107)),
+                new CoinSprite(new Vector2(940, 1107)),
                 new CoinSprite(new Vector2(760, 780)),
-                new CoinSprite(new Vector2(1050, 1087)),
+                new CoinSprite(new Vector2(1030, 1087)),
                 new CoinSprite(new Vector2(930, 1057)),
 
             };
@@ -221,7 +223,7 @@ namespace GameProject5.Screens
             _coinstack.cTexture = _content.Load<Texture2D>("gold");
 
             _coinPickup = _content.Load<SoundEffect>("Pickup_Coin15");
-            _backgroundMusic = _content.Load<Song>("GP4Level2");
+            _backgroundMusic = _content.Load<Song>("Level3 music GP6");
             _stackPickup = _content.Load<SoundEffect>("Pickup_Coin5");
             _specialPickup = _content.Load<SoundEffect>("Pickup_Special");
             MediaPlayer.IsRepeating = true;
@@ -284,6 +286,8 @@ namespace GameProject5.Screens
                         _coinPickup.Play();
                         _coinsLeft--;
                         _mc.coinsCollected++;
+                        _mc.Health += 10;
+                        if (_mc.Health >= 100) _mc.Health = 100;
                         _tempScore += 10;
 
 
@@ -301,13 +305,15 @@ namespace GameProject5.Screens
                     _coinstack.destroy();
                     _stackPickup.Play();
                     _mc.coinsCollected += 5;
+                    _mc.Health += 50;
+                    if (_mc.Health >= 100) _mc.Health = 100;
                     _tempScore += 50;
 
                 }
 
                 _doorOne.Update(gameTime);
 
-                cube.update(gameTime);
+                _doorTwo.Update(gameTime);
 
 
                 //if (_mc.Bounds.CollidesWith(_goal.Bounds) || _mc.FeetBounds.CollidesWith(_goal.Bounds))
@@ -332,6 +338,7 @@ namespace GameProject5.Screens
                     _keyObtained = true;
                     _specialPickup.Play();
                     _key.destroy();
+                    Key.Dispose();
                     
 
                 }
@@ -441,12 +448,17 @@ namespace GameProject5.Screens
                         else e.Flipped = false;
                         e.Attacking = true;
                     }
-                    else
+                    foreach (var b in e.BulletList)
                     {
-                        e.Attacking = false;
+                        if (_mc.Bounds.CollidesWith(b.Bounds))
+                        {
+                            _mc.Health -= 10;
+                            b.Destroy(b);
+                        }
                     }
-                    
+
                 }
+                
             }
         }
 
@@ -467,8 +479,6 @@ namespace GameProject5.Screens
             _fireworks.Transform = transform;
             spriteBatch.Begin(transformMatrix: transform);
 
-            cube.Offset = offset * 0.0211f;
-
             _tilemap.Draw(gameTime, _spriteBatch);
             foreach (var coin in _coins)
             {
@@ -482,7 +492,8 @@ namespace GameProject5.Screens
                 }
             }
 
-            spriteBatch.Draw(Key, _key.Position, new Rectangle(32, 32, 64, 64), Color.White, 0f, new Vector2(0, 0), 1.0f, SpriteEffects.None, 0);
+            if (!_secretObtained) spriteBatch.Draw(Secret, _specialCollectable.Position, Color.White);
+            if (!_keyObtained) spriteBatch.Draw(Key, _key.Position, new Rectangle(32, 32, 128, 64), Color.White, 0f, new Vector2(0, 0), 0.5f, SpriteEffects.None, 0);
 
             foreach (var e in _enemies)
             {
@@ -582,15 +593,13 @@ namespace GameProject5.Screens
             spriteBatch.DrawString(_coinCounter, $"Coins Collected: {_mc.coinsCollected}", new Vector2(2, 2), Color.Gold);
             spriteBatch.DrawString(_scoreDisplay, $"Score: {_tempScore + ScreenManager.score}", new Vector2(2, 50), Color.Orange);
             spriteBatch.Draw(_mc.HealthTexture, _mc.HealthBar, Color.White);
-            spriteBatch.Draw(_mc.HealthBarTexture, _mc.HealthBar, Color.White);
+            spriteBatch.Draw(_mc.HealthBarTexture, new Rectangle(47, 420, 103, 50), Color.White);
 
             if (_secretObtained) spriteBatch.DrawString(_specialGet, "Special item obtained: \n Photo of Jackson's house", new Vector2(600, 420), Color.Green);
             if (_keyObtained) spriteBatch.DrawString(_specialGet, "Key Obtained!", new Vector2(2, 100), Color.Blue);
 
             spriteBatch.End();
 
-
-            if (!_secretObtained) cube.Draw();
 
             if (TransitionPosition > 0 || _pauseAlpha > 0)
             {

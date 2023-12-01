@@ -215,6 +215,8 @@ namespace GameProject5.Screens
                         _coinPickup.Play();
                         _coinsLeft--;
                         _mc.coinsCollected++;
+                        _mc.Health += 10;
+                        if (_mc.Health >= 100) _mc.Health = 100;
                         _tempScore += 10;
 
 
@@ -318,7 +320,7 @@ namespace GameProject5.Screens
             spriteBatch.DrawString(_coinCounter, $"Coins Collected: {_mc.coinsCollected}", new Vector2(2, 2), Color.Gold);
             spriteBatch.DrawString(_scoreDisplay, $"Score: {_tempScore + ScreenManager.score}", new Vector2(2, 50), Color.Orange);
             spriteBatch.Draw(_mc.HealthTexture, _mc.HealthBar, Color.White);
-            spriteBatch.Draw(_mc.HealthBarTexture, _mc.HealthBar, Color.White);
+            spriteBatch.Draw(_mc.HealthBarTexture, new Rectangle(47, 420, 103, 50), Color.White);
 
 
 

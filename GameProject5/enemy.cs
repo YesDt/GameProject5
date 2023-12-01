@@ -143,7 +143,7 @@ namespace GameProject5
             if (Action == EnemyAction.Attacking)
             {
                 _attackingTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-                if (_attackingTimer >= 4 && !_hasShot)
+                if (_attackingTimer >= 3 && !_hasShot)
                 {
                     addBullet();
                     _hasShot = true;
@@ -151,11 +151,12 @@ namespace GameProject5
 
 
                 }
-                if (_attackingTimer >= 5)
+                if (_attackingTimer >= 4)
                 {
                     _attackingTimer = 0;
                     if(!Attacking) Action = EnemyAction.Idle;
                     _hasShot = false;
+                    Attacking = false; 
                 }
                 
             }
@@ -255,7 +256,7 @@ namespace GameProject5
             }
 
             var source = new Rectangle(_animationFrame * 250, (int)Action * 512, 268, 512);
-            if(Attacking && _attackingTimer >= 3 && _attackingTimer <= 4) spriteBatch.Draw(_texture, _position, source, Color.Red, 0f, new Vector2(80, 120), 0.5f, spriteEffects, 0);
+            if(Attacking && _attackingTimer >= 2.5 && _attackingTimer <= 3) spriteBatch.Draw(_texture, _position, source, Color.Red, 0f, new Vector2(80, 120), 0.5f, spriteEffects, 0);
             else spriteBatch.Draw(_texture, _position, source, Color.White, 0f, new Vector2(80, 120), 0.5f, spriteEffects, 0);
 
             foreach (var proj in BulletList)

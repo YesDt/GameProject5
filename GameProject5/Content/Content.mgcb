@@ -26,6 +26,12 @@
 /processorParam:TextureFormat=Color
 /build:blank.png
 
+#begin Boss GP.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Boss GP.mp3
+
 #begin BossHealth.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -238,6 +244,12 @@
 /processorParam:Scale=1
 /build:Level2.tmap;TheSecondLevel.tmap
 
+#begin Level3 music GP6.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Level3 music GP6.mp3
+
 #begin level3.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -255,6 +267,12 @@
 /processor:TileMapProcessor
 /processorParam:Scale=0.745
 /build:Level3.tmap;TheThirdLevel.tmap
+
+#begin Level4 music GP6.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Level4 music GP6.mp3
 
 #begin level4.png
 /importer:TextureImporter

@@ -147,8 +147,8 @@ namespace GameProject5.Screens
                 new Platform(new Vector2(400, 423), new BoundingRectangle(new Vector2(400, 423), 60f, 300)),
                 new Platform(new Vector2(450, 400), new BoundingRectangle(new Vector2(450, 400), 64f, 300)),
                 new Platform(new Vector2(510, 377), new BoundingRectangle(new Vector2(510, 377), 69f, 300)),
-                new Platform(new Vector2(570, 354), new BoundingRectangle(new Vector2(570, 354), 64f, 300)),
-                new Platform(new Vector2(0, 165), new BoundingRectangle(new Vector2(0, 165), 500f, 30)),
+                new Platform(new Vector2(570, 354), new BoundingRectangle(new Vector2(570, 354), 72f, 300)),
+                new Platform(new Vector2(0, 178), new BoundingRectangle(new Vector2(0, 178), 500f, 30)),
                 new Platform(new Vector2(1020, 100), new BoundingRectangle(new Vector2(1020, 453), 300f, 300))
 
             };
@@ -237,6 +237,8 @@ namespace GameProject5.Screens
                         _coinPickup.Play();
                         _coinsLeft--;
                         _mc.coinsCollected++;
+                        _mc.Health += 10;
+                        if (_mc.Health >= 100) _mc.Health = 100;
                         _tempScore += 10;
                       
 
@@ -254,6 +256,8 @@ namespace GameProject5.Screens
                     _coinstack.destroy();
                     _stackPickup.Play();
                     _mc.coinsCollected += 5;
+                    _mc.Health += 50;
+                    if (_mc.Health >= 100) _mc.Health = 100;
                     _tempScore += 50;
                  
                 }
@@ -419,9 +423,9 @@ namespace GameProject5.Screens
             spriteBatch.DrawString(_coinCounter, $"Coins Collected: {_mc.coinsCollected}", new Vector2(2, 2), Color.Gold);
             spriteBatch.DrawString(_scoreDisplay, $"Score: {_tempScore + ScreenManager.score}", new Vector2(2, 50), Color.Orange);
             spriteBatch.Draw(_mc.HealthTexture, _mc.HealthBar, Color.White);
-            spriteBatch.Draw(_mc.HealthBarTexture, _mc.HealthBar, Color.White);
+            spriteBatch.Draw(_mc.HealthBarTexture, new Rectangle(47, 420, 103, 50), Color.White);
 
-            if (_secretObtained) spriteBatch.DrawString(_specialGet, "Special item obtained: \n gambling debt papers" , new Vector2(2, 420), Color.Green);
+            if (_secretObtained) spriteBatch.DrawString(_specialGet, "Special item obtained: \n gambling debt papers" , new Vector2(600, 420), Color.Green);
 
             spriteBatch.End();
 
