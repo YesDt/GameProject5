@@ -452,7 +452,7 @@ namespace GameProject5.Screens
                     }
                     foreach (var b in e.BulletList)
                     {
-                        if (_mc.Bounds.CollidesWith(b.Bounds))
+                        if (_mc.Bounds.CollidesWith(b.Bounds) && !_mc.Recovering)
                         {
                             _mc.Health -= 10;
                             _mc.Hurt = true;
@@ -469,8 +469,8 @@ namespace GameProject5.Screens
         {
             float playerX = MathHelper.Clamp(_mc.Position.X, 300, 600);
             float offset = 300 - playerX;
-            float playerY = MathHelper.Clamp(_mc.Position.Y, 8, 736);
-            float offsetY = 8- playerY;
+            float playerY = MathHelper.Clamp(_mc.Position.Y, 100, 838);
+            float offsetY = 100 - playerY;
 
 
             Matrix transform;

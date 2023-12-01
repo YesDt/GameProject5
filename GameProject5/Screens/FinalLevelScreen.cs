@@ -269,7 +269,7 @@ namespace GameProject5.Screens
                     }
                 }
                 _boss.Update(gameTime, _mc);
-                if (_mc.Bounds.CollidesWith(_boss.Bounds) && _boss.Action == BossAction.ShoulderCharge && _mc.RecoveryTime == 0)
+                if (_mc.Bounds.CollidesWith(_boss.Bounds) && _boss.Action == BossAction.ShoulderCharge && !_mc.Recovering)
                 {
                     _mc.Position.Y -= 50;
                     _mc.Health -= 40;

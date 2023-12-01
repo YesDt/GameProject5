@@ -49,6 +49,8 @@ namespace GameProject5
 
         private double _animationTimer;
 
+        private double _flickerTimer;
+
         private short _animationFrame;
 
         private Vector2 _direction;
@@ -76,6 +78,8 @@ namespace GameProject5
         public bool Attacking = false;
 
         public bool Hurt = false;
+
+        public bool Recovering = false;
 
         public short AnimationFrame => _animationFrame;
 
@@ -222,8 +226,6 @@ namespace GameProject5
             {
                 addProjectile();
                 _hasShot = true;
-                //Attacking = false;
-                //Attackingtimer = 0;
             }
 
             if (Attackingtimer > 0.4)
@@ -256,11 +258,8 @@ namespace GameProject5
 
             }
 
-            if (Hurt) Recover(gameTime);
-            if (RecoveryTime >= 2)
-            {
-                RecoveryTime = 0;
-            }
+            Recover(gameTime);
+            
         }
 
 
@@ -314,8 +313,21 @@ namespace GameProject5
 
         public void Recover(GameTime gameTime)
         {
-            Hurt = false;
-            RecoveryTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (Hurt)
+            {
+                Hurt = false;
+                Recovering = true;
+
+            }
+            else
+            {
+                RecoveryTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (RecoveryTime >= 2)
+                {
+                    Recovering = false;
+                    RecoveryTime = 0;
+                }
+            }
            
         }
 
@@ -372,8 +384,24 @@ namespace GameProject5
             }
 
             var source = new Rectangle(_animationFrame * 250, (int)action * 512, 268, 512);
-            if (RecoveryTime > 0) spriteBatch.Draw(_texture, Position, source, Color.Blue, 0f, new Vector2(80, 120), 0.5f, spriteEffects, 0);
-            spriteBatch.Draw(_texture, Position, source, Color.White, 0f, new Vector2(80, 120), 0.5f, spriteEffects, 0);
+            if (Recovering && (RecoveryTime > 0 && RecoveryTime < 2))
+            {
+                _flickerTimer += gameTime.ElapsedGameTime.TotalSeconds;
+                {
+                    if (_flickerTimer > 0.2)
+                    {
+                        spriteBatch.Draw(_texture, Position, source, new Color(Color.White, 0f), 0f, new Vector2(80, 120), 0.5f, spriteEffects, 0);
+                        _flickerTimer = 0;
+
+                    }
+                    else
+                    {
+                        spriteBatch.Draw(_texture, Position, source, Color.Blue, 0f, new Vector2(80, 120), 0.5f, spriteEffects, 0);
+                    }
+                }
+              
+            }
+            else spriteBatch.Draw(_texture, Position, source, Color.White, 0f, new Vector2(80, 120), 0.5f, spriteEffects, 0);
             foreach (var proj in ProjList)
             {
                 proj.Draw(gameTime, spriteBatch);
