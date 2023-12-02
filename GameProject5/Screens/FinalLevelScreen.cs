@@ -247,7 +247,10 @@ namespace GameProject5.Screens
             else
             {
                 MediaPlayer.Resume();
-
+                if (_mc.Health <= 0)
+                {
+                    LoadingScreen.Load(ScreenManager, false, player, new FinalLevelScreen());
+                }
                 
                 foreach (var proj in _mc.ProjList)
                 {
@@ -258,7 +261,9 @@ namespace GameProject5.Screens
                     }
                     if (proj.Bounds.CollidesWith(_boss.Bounds) && !_boss.Attacking)
                     {
-                        _boss.Health -= 20;
+                        proj.projState = state.connected;
+                        proj.Destroy(proj);
+                        _boss.Health -= 5;
                     }
                 }
                 foreach (var plat in _platforms)
@@ -275,6 +280,7 @@ namespace GameProject5.Screens
                     _mc.Health -= 40;
                     _mc.Hurt = true;
                 }
+                
                 _mc.Update(gameTime);
                 foreach (var proj in _boss.ProjList)
                 {
@@ -291,7 +297,10 @@ namespace GameProject5.Screens
                 }
                 if (_boss.Health <= 0)
                 {
-                    LoadingScreen.Load(ScreenManager, false, null, new MaintainenceScreen());
+                    _tempScore += 5000;
+                    ScreenManager.score += _tempScore;
+                    MediaPlayer.Stop();
+                    LoadingScreen.Load(ScreenManager, false, null, new WinScreen());
                 }
 
 
@@ -334,12 +343,22 @@ namespace GameProject5.Screens
             spriteBatch.Draw(_mc.HealthTexture, _mc.HealthBar, Color.White);
             spriteBatch.Draw(_mc.HealthBarTexture, new Rectangle(47, 420, 103, 50), Color.White);
             spriteBatch.Draw(_boss.HealthTexture, _boss.HealthBar, Color.White);
-            spriteBatch.Draw(_boss.HealthBarTexture, new Rectangle(47, 600, 2003, 50), Color.White);
+            spriteBatch.Draw(_boss.HealthBarTexture, new Rectangle(594, 420, 106, 50), Color.White);
 
-
+            //foreach(var f in _boss.ProjList)
+            //{
+            //    spriteBatch.Draw(Circle, new Vector2(f.Bounds.Left, f.Bounds.Top), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //    spriteBatch.Draw(Circle, new Vector2(f.Bounds.Right, f.Bounds.Top), null, Color.Red, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //    spriteBatch.Draw(Circle, new Vector2(f.Bounds.Left, f.Bounds.Bottom), null, Color.Blue, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //    spriteBatch.Draw(Circle, new Vector2(f.Bounds.Right, f.Bounds.Bottom), null, Color.Green, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //}
+          
 
             //spriteBatch.Draw(circle, new Vector2(_mc.Bounds.Left, _mc.Bounds.Bottom), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
-
+            //spriteBatch.Draw(Circle, new Vector2(_boss.Bounds.Left, _boss.Bounds.Top), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //spriteBatch.Draw(Circle, new Vector2(_boss.Bounds.Right, _boss.Bounds.Top), null, Color.Red, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //spriteBatch.Draw(Circle, new Vector2(_boss.Bounds.Left, _boss.Bounds.Bottom), null, Color.Blue, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //spriteBatch.Draw(Circle, new Vector2(_boss.Bounds.Right, _boss.Bounds.Bottom), null, Color.Green, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
             //spriteBatch.Draw(circle, _platforms.Position, null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
 
             spriteBatch.End();

@@ -102,9 +102,12 @@ namespace GameProject5
                     _animationTimer -= 0.1;
                 }
             }
-
+            else
+            {
+                _animationFrame = 0;
+            }
             var source = new Rectangle(_animationFrame * 250, 0, 268, 440);
-            if (Connected) spriteBatch.Draw(_texture, Position, source, Color.White, 0f, new Vector2(80, 80), 0.5f, spriteEffects, 0);
+            if (Connected) spriteBatch.Draw(_texture, Position, source, Color.White, 0f, new Vector2(80, 120), 0.5f, spriteEffects, 0);
             else spriteBatch.Draw(_texture, Position, source, Color.White, 0f, new Vector2(80, 120), 0.5f, spriteEffects, 0);
         }
     }

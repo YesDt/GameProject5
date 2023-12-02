@@ -98,12 +98,14 @@ namespace GameProject5
             bullet.LoadContent(content);
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, mcSprite mc)
         {
             _direction = new Vector2(200 * (float)gameTime.ElapsedGameTime.TotalSeconds, 0);
             //int randNum = random.Next(1, 3);
             if (Action == EnemyAction.Idle)
             {
+                if (mc.Position.X < Position.X && !Dead) Flipped = true;
+                else Flipped = false;
                 _passiveTimer += gameTime.ElapsedGameTime.TotalSeconds;
                 if (_passiveTimer >= 2.5 && Action != EnemyAction.Attacking && Action != EnemyAction.Dying)
                 {
@@ -148,6 +150,8 @@ namespace GameProject5
             }
             if (Action == EnemyAction.Attacking)
             {
+                if (mc.Position.X < Position.X && !Dead) Flipped = true;
+                else Flipped = false;
                 _attackingTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
                 if (_attackingTimer >= 3 && !_hasShot)
                 {
@@ -174,10 +178,8 @@ namespace GameProject5
             }
             if (Action == EnemyAction.Dying)
             {
-                if (Flipped) Flipped = true;
-                else Flipped = false;
                 _bounds = new BoundingRectangle(Vector2.Zero, 0, 0);
-                _searching = new BoundingCircle(Vector2.Zero, 0);
+                _searching = new BoundingCircle(new Vector2(1000, 1000), 0);
                 Dead = true;
             }
             _bounds.X = _position.X;
@@ -207,12 +209,12 @@ namespace GameProject5
         { 
             if (!Flipped)
             {
-                var proj = new bullet(new Vector2(Position.X + 60, Position.Y + 5), this);
+                var proj = new bullet(new Vector2(Position.X + 60, Position.Y + 3), this);
                 BulletList.Add(proj);
             }
             else
             {
-                var proj = new bullet(new Vector2(Position.X - 60, Position.Y + 5), this);
+                var proj = new bullet(new Vector2(Position.X - 60, Position.Y + 3), this);
                 BulletList.Add(proj);
             }
         }
@@ -261,6 +263,8 @@ namespace GameProject5
 
             if (Action == EnemyAction.Dying)
             {
+                if (Flipped) Flipped = true;
+                else Flipped = false;
                 _attackingTimer = 0;
                 _animationTimer += gameTime.ElapsedGameTime.TotalSeconds;
                 if (_animationTimer > 0.1)

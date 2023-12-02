@@ -196,13 +196,14 @@ namespace GameProject5.Screens
 
             _enemies = new enemy[]
             {
-                new enemy(new Vector2(740, 1074), 680, 780, 128),
-                new enemy(new Vector2(700, 760), 632, 952, 128),
+                new enemy(new Vector2(740, 1064), 680, 740, 128),
+                new enemy(new Vector2(700, 748), 632, 900, 128),
+                new enemy(new Vector2(680, 30), 660, 852, 128),
             };
             foreach (var e in _enemies) e.LoadContent(_content);
             _goal.LoadContent(_content);
-            _doorOne = new door(new Vector2(333, 1042), new BoundingRectangle(331, 1040, 32f, 180), DoorOne);
-            _doorTwo = new door(new Vector2(188, 688), new BoundingRectangle(186, 684, 32f, 80), DoorTwo);
+            _doorOne = new door(new Vector2(333, 1042), new BoundingRectangle(331, 1040, 32f, 180), DoorOne, 0.75f);
+            _doorTwo = new door(new Vector2(188, 688), new BoundingRectangle(186, 684, 32f, 80), DoorTwo, 0.75f);
             _coinCounter = _content.Load<SpriteFont>("CoinsLeft");
             _scoreDisplay = _content.Load<SpriteFont>("scoreFont");
             _coins = new CoinSprite[]
@@ -272,7 +273,13 @@ namespace GameProject5.Screens
                     {
                         _mc.OffGround = true;
                     }
-
+                    foreach (var proj in _mc.ProjList)
+                    {
+                        if (proj.Bounds.CollidesWith(plat.Bounds))
+                        {
+                            proj.projState = state.connected;
+                        }
+                    }
 
                 }
 
@@ -418,6 +425,11 @@ namespace GameProject5.Screens
                         proj.projState = state.connected;
                         _doorOne.Opened = true;
                     }
+                    if (proj.Bounds.CollidesWith(_doorTwo.Bounds))
+                    {
+                        proj.projState = state.connected;
+                    
+                    }
                     if (proj.Bounds.X >= _mc.Wall || proj.Bounds.X <= 0)
                     {
                         proj.projState = state.connected;
@@ -427,8 +439,9 @@ namespace GameProject5.Screens
                         if (proj.Bounds.CollidesWith(e.Bounds))
                         {
                             proj.projState = state.connected;
+                            proj.Destroy(proj);
                             e.Health = 0;
-                            
+                            _tempScore += 50;
                         }
                     }
                 }
@@ -443,11 +456,10 @@ namespace GameProject5.Screens
 
                 foreach(var e in _enemies)
                 {
-                    e.Update(gameTime);
+                    e.Update(gameTime, _mc);
                     if (_mc.Bounds.CollidesWith(e.Searching))
                     {
-                        if (_mc.Position.X < e.Position.X && !e.Dead) e.Flipped = true;
-                        else e.Flipped = false;
+
                         e.AboutToAttack();
                     }
                     foreach (var b in e.BulletList)
@@ -535,19 +547,19 @@ namespace GameProject5.Screens
             //}
 
 
-            foreach (Platform plat in _platforms)
-            {
-                spriteBatch.Draw(Circle, new Vector2(plat.Bounds.Left, plat.Bounds.Top), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
-                spriteBatch.Draw(Circle, new Vector2(plat.Bounds.Right, plat.Bounds.Top), null, Color.Red, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
-                spriteBatch.Draw(Circle, new Vector2(plat.Bounds.Left, plat.Bounds.Bottom), null, Color.Blue, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
-                spriteBatch.Draw(Circle, new Vector2(plat.Bounds.Right, plat.Bounds.Bottom), null, Color.Green, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //foreach (Platform plat in _platforms)
+            //{
+            //    spriteBatch.Draw(Circle, new Vector2(plat.Bounds.Left, plat.Bounds.Top), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //    spriteBatch.Draw(Circle, new Vector2(plat.Bounds.Right, plat.Bounds.Top), null, Color.Red, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //    spriteBatch.Draw(Circle, new Vector2(plat.Bounds.Left, plat.Bounds.Bottom), null, Color.Blue, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //    spriteBatch.Draw(Circle, new Vector2(plat.Bounds.Right, plat.Bounds.Bottom), null, Color.Green, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
 
-            }
+            //}
 
-            spriteBatch.Draw(Circle, new Vector2(_doorOne.Bounds.Left, _doorOne.Bounds.Top), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Circle, new Vector2(_doorOne.Bounds.Right, _doorOne.Bounds.Top), null, Color.Red, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Circle, new Vector2(_doorOne.Bounds.Left, _doorOne.Bounds.Bottom), null, Color.Blue, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Circle, new Vector2(_doorOne.Bounds.Right, _doorOne.Bounds.Bottom), null, Color.Green, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //spriteBatch.Draw(Circle, new Vector2(_doorOne.Bounds.Left, _doorOne.Bounds.Top), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //spriteBatch.Draw(Circle, new Vector2(_doorOne.Bounds.Right, _doorOne.Bounds.Top), null, Color.Red, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //spriteBatch.Draw(Circle, new Vector2(_doorOne.Bounds.Left, _doorOne.Bounds.Bottom), null, Color.Blue, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //spriteBatch.Draw(Circle, new Vector2(_doorOne.Bounds.Right, _doorOne.Bounds.Bottom), null, Color.Green, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
 
           
 
@@ -569,24 +581,24 @@ namespace GameProject5.Screens
             //spriteBatch.Draw(Circle, new Vector2(_specialCollectable.RecBounds.Left, _specialCollectable.RecBounds.Top), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
             //spriteBatch.Draw(Circle, new Vector2(_specialCollectable.RecBounds.Right, _specialCollectable.RecBounds.Top), null, Color.Red, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
             //spriteBatch.Draw(Circle, new Vector2(_specialCollectable.RecBounds.Left, _specialCollectable.RecBounds.Bottom), null, Color.Blue, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
-            //spriteBatch.Draw(Circle, new Vector2(_specialCollectable.RecBounds.Right, _specialCollectable.RecBounds.Bottom), null, Color.Green, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Circle, new Vector2(_key.RecBounds.Left, _key.RecBounds.Top), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Circle, new Vector2(_key.RecBounds.Right, _key.RecBounds.Top), null, Color.Red, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Circle, new Vector2(_key.RecBounds.Left, _key.RecBounds.Bottom), null, Color.Blue, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Circle, new Vector2(_key.RecBounds.Right, _key.RecBounds.Bottom), null, Color.Green, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            ////spriteBatch.Draw(Circle, new Vector2(_specialCollectable.RecBounds.Right, _specialCollectable.RecBounds.Bottom), null, Color.Green, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //spriteBatch.Draw(Circle, new Vector2(_key.RecBounds.Left, _key.RecBounds.Top), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //spriteBatch.Draw(Circle, new Vector2(_key.RecBounds.Right, _key.RecBounds.Top), null, Color.Red, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //spriteBatch.Draw(Circle, new Vector2(_key.RecBounds.Left, _key.RecBounds.Bottom), null, Color.Blue, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //spriteBatch.Draw(Circle, new Vector2(_key.RecBounds.Right, _key.RecBounds.Bottom), null, Color.Green, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
 
-            //spriteBatch.Draw(Circle, new Vector2(_goal.Bounds.Left, _goal.Bounds.Top), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
-            //spriteBatch.Draw(Circle, new Vector2(_goal.Bounds.Right, _goal.Bounds.Top), null, Color.Red, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
-            //spriteBatch.Draw(Circle, new Vector2(_goal.Bounds.Left, _goal.Bounds.Bottom), null, Color.Blue, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
-            //spriteBatch.Draw(Circle, new Vector2(_goal.Bounds.Right, _goal.Bounds.Bottom), null, Color.Green, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            ////spriteBatch.Draw(Circle, new Vector2(_goal.Bounds.Left, _goal.Bounds.Top), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            ////spriteBatch.Draw(Circle, new Vector2(_goal.Bounds.Right, _goal.Bounds.Top), null, Color.Red, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            ////spriteBatch.Draw(Circle, new Vector2(_goal.Bounds.Left, _goal.Bounds.Bottom), null, Color.Blue, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            ////spriteBatch.Draw(Circle, new Vector2(_goal.Bounds.Right, _goal.Bounds.Bottom), null, Color.Green, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
 
-            foreach (var e in _enemies)
-            {
-                spriteBatch.Draw(Circle, new Vector2(e.Bounds.Left, e.Bounds.Top), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
-                spriteBatch.Draw(Circle, new Vector2(e.Bounds.Right, e.Bounds.Top), null, Color.Red, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
-                spriteBatch.Draw(Circle, new Vector2(e.Bounds.Left, e.Bounds.Bottom), null, Color.Blue, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
-                spriteBatch.Draw(Circle, new Vector2(e.Bounds.Right, e.Bounds.Bottom), null, Color.Green, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
-            }
+            //foreach (var e in _enemies)
+            //{
+            //    spriteBatch.Draw(Circle, new Vector2(e.Bounds.Left, e.Bounds.Top), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //    spriteBatch.Draw(Circle, new Vector2(e.Bounds.Right, e.Bounds.Top), null, Color.Red, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //    spriteBatch.Draw(Circle, new Vector2(e.Bounds.Left, e.Bounds.Bottom), null, Color.Blue, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //    spriteBatch.Draw(Circle, new Vector2(e.Bounds.Right, e.Bounds.Bottom), null, Color.Green, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //}
             #endregion
 
             spriteBatch.End();

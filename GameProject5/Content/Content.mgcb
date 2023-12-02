@@ -117,6 +117,13 @@
 /processorParam:Scale=1
 /build:FinalLevel.tmap;theFinalLevel.tmap
 
+#begin FinalScoreBoard.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:FinalScoreBoard.spritefont
+
 #begin gamefont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -171,6 +178,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:gameproject5mscreen2.png
+
+#begin gameproject6winscreen.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:gameproject6winscreen.png
 
 #begin gold.png
 /importer:TextureImporter
@@ -291,11 +310,6 @@
 /processor:TileMapProcessor
 /processorParam:Scale=0.865
 /build:Level4.tmap;TheFourthLevel.tmap
-
-#begin liftoff_of_smap.mp4
-/importer:H264Importer
-/processor:VideoProcessor
-/build:liftoff_of_smap.mp4
 
 #begin menufont.spritefont
 /importer:FontDescriptionImporter

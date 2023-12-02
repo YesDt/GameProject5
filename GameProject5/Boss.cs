@@ -58,7 +58,7 @@ namespace GameProject5
 
         public float Boundary;
 
-        public int Health = 2000;
+        public int Health = 100;
 
         public bool Attacking = false;
 
@@ -95,6 +95,7 @@ namespace GameProject5
 
         public void Update(GameTime gameTime, mcSprite mc)
         {
+            _bounds = new BoundingRectangle(new Vector2(Position.X, Position.Y), 48, 56);
             _direction = Vector2.Zero;
             HealthBar = new Rectangle(600, 420, Health, 50);
             if (Action == BossAction.Idle)
@@ -120,10 +121,11 @@ namespace GameProject5
             }
             if (Action == BossAction.ShoulderCharge)
             {
-               
+                _bounds = new BoundingRectangle(new Vector2(Position.X, Position.Y + 64), 48, 56);
+
                 Attacking = true;
                 _attackingTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-                if (mc.Position.X < Position.X && _attackingTimer <= 3) Flipped = true;
+                if (mc.Position.X < Position.X && _attackingTimer <= 2) Flipped = true;
 
                 if (_attackingTimer > 3)
                 {
@@ -139,7 +141,7 @@ namespace GameProject5
                     _direction = Vector2.Zero;
                     _attackingTimer = 0;
                     RecoveryTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-
+                    Attacking = false;
                     Action = BossAction.Idle;
                 }
                 if (Position.X >= Boundary)
@@ -147,7 +149,7 @@ namespace GameProject5
                     Position.X -= 20;
                     _direction = Vector2.Zero;
                     _attackingTimer = 0;
-                  
+                    Attacking = false;
                     Action = BossAction.Idle;
                 }
                 //if (RecoveryTimer > 2.5)
@@ -200,12 +202,12 @@ namespace GameProject5
         {
             if (!Flipped)
             {
-                var proj = new BossFingerFlick(new Vector2(Position.X , Position.Y + 5), this);
+                var proj = new BossFingerFlick(new Vector2(Position.X , Position.Y), this);
                 ProjList.Add(proj);
             }
             else
             {
-                var proj = new BossFingerFlick(new Vector2(Position.X , Position.Y + 5), this);
+                var proj = new BossFingerFlick(new Vector2(Position.X , Position.Y), this);
                 ProjList.Add(proj);
             }
         }
@@ -216,7 +218,7 @@ namespace GameProject5
 
             if (Action == BossAction.ShoulderCharge)
             {
-                if (AttackingTimer <= 3)
+                if (AttackingTimer <= 2)
                 {
                     _animationTimer += gameTime.ElapsedGameTime.TotalSeconds;
                     if (_animationTimer > 0.2)
@@ -234,24 +236,24 @@ namespace GameProject5
             }
             if (Action == BossAction.FingerFlick)
             {
-                if (AttackingTimer <= 2)
+                if (!_hasShot)
                 {
                     _animationTimer += gameTime.ElapsedGameTime.TotalSeconds;
-                    if (_animationTimer > 0.2)
+                    if (_animationTimer > 0.1)
                     {
                         _animationFrame++;
                         if (_animationFrame > 1) _animationFrame = 1;
-                        _animationTimer -= 0.2;
+                        _animationTimer -= 0.1;
                     }
                 }
                 else
                 {
                     _animationTimer += gameTime.ElapsedGameTime.TotalSeconds;
-                    if (_animationTimer > 0.2)
+                    if (_animationTimer > 0.1)
                     {
                         _animationFrame++;
                         if (_animationFrame > 3) _animationFrame = 3;
-                        _animationTimer -= 0.2;
+                        _animationTimer -= 0.1;
                     }
                 }
             }
@@ -272,7 +274,7 @@ namespace GameProject5
             }
 
             var source = new Rectangle(_animationFrame * 250, (int)Action * 512, 268, 512);
-            if (Action == BossAction.ShoulderCharge && _attackingTimer >= 2.5 && _attackingTimer <= 3) spriteBatch.Draw(_texture, Position, source, Color.Red, 0f, new Vector2(80, 120), 0.5f, spriteEffects, 0);
+            if (Action == BossAction.ShoulderCharge && _attackingTimer >= 2 && _attackingTimer <= 2.5) spriteBatch.Draw(_texture, Position, source, Color.Red, 0f, new Vector2(80, 120), 0.5f, spriteEffects, 0);
             else if (Action == BossAction.FingerFlick && _attackingTimer >= 1.5 && _attackingTimer <= 2) spriteBatch.Draw(_texture, Position, source, Color.Red, 0f, new Vector2(80, 120), 0.5f, spriteEffects, 0);
             else spriteBatch.Draw(_texture, Position, source, Color.White, 0f, new Vector2(80, 120), 0.5f, spriteEffects, 0);
 

@@ -50,11 +50,55 @@ escToSkip.png - created by Darius Tyson with fire Alpaca, released under public 
 gameproject5mscreen.png - created by Darius Tyson with fire Alpaca, released under public domain
 
 
+FinalLevel.png - created by Darius Tyson with fire Alpaca, released under public domain
+
+
+gameproject6winscreen.png - created by Darius Tyson with fire Alpaca, released under public domain
+
+
+healthBar.png - created by Darius Tyson with fire Alpaca, released under public domain
+
+
+PlayerHealth.png - created by Darius Tyson with fire Alpaca, released under public domain
+
+
+BossHealth.png - created by Darius Tyson with fire Alpaca, released under public domain
+
+
+BossHealthBar.png - created by Darius Tyson with fire Alpaca, released under public domain
+
+
+Sprite_enemy.png - created by Darius Tyson with fire Alpaca, released under public domain
+
+
+Sprite_boss.png - created by Darius Tyson with fire Alpaca, released under public domain
+
+
+Sprite_bossMiddleFinger.png - created by Darius Tyson with fire Alpaca, released under public domain
+
+
+Sprite_door.png - created by Darius Tyson with fire Alpaca, released under public domain
+
+
+Sprite_door2.png - created by Darius Tyson with fire Alpaca, released under public domain
+
+
+Sprite_bullet.png - created by Darius Tyson with fire Alpaca, released under public domain
+
+
 PickupCoin5.wav - ceated by Darius Tyson using BFXR, released under public domain
 
 
 Pickup_Special.wav - created by Darius Tyson using BFXR, released under public domain
 
+
+Level3 music GP6.mp3 - created by Darius Tyson with fire Alpaca, released under public domain
+
+
+Level4 music GP6.pm3 - created by Darius Tyson with fire Alpaca, released under public domain
+
+
+Boss GP.mp3 - created by Darius Tyson with fire Alpaca, released under public domain
 
 
 Project2music.mp3 - created by Darius Tyson with LMMS, released under public domain
@@ -70,4 +114,17 @@ Level2.tmap - created by Darius Tyson, released under public domain
 
 
 Level2.txt - created by Darius Tyson, released under public domain
+
+
+
+Level3.tmap - created by Darius Tyson, released under public domain
+
+
+
+Level4.tmap - created by Darius Tyson, released under public domain
+
+
+
+
+
 

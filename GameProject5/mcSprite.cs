@@ -366,7 +366,7 @@ namespace GameProject5
 
 
             }
-            //Update animationFrame
+            
             else
             {
                 _animationTimer += gameTime.ElapsedGameTime.TotalSeconds;

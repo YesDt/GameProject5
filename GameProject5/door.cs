@@ -28,16 +28,18 @@ namespace GameProject5
 
         public bool Opened = false;
         public Texture2D Texture;
-
+        public float Scale;
         public doorState state;
+        
         public BoundingRectangle Bounds => _bounds;
 
 
-        public door(Vector2 position, BoundingRectangle bounds, Texture2D texture)
+        public door(Vector2 position, BoundingRectangle bounds, Texture2D texture, float scale)
         {
             _position = position;
             _bounds = bounds;
             Texture = texture;
+            Scale = scale;
         }
 
         public void Update(GameTime gameTime)
@@ -68,7 +70,7 @@ namespace GameProject5
 
             }
             var source = new Rectangle(_animationFrame * 250, 0 * 512, 160, 420);
-            spriteBatch.Draw(Texture, _position, source, Color.White, 0f, new Vector2(80, 80), 0.75f, SpriteEffects.None, 0);
+            spriteBatch.Draw(Texture, _position, source, Color.White, 0f, new Vector2(80, 80), Scale, SpriteEffects.None, 0);
         }
     }
 }

@@ -15,6 +15,8 @@ using GameProject5.Particles;
 using System.IO;
 using static System.TimeZoneInfo;
 using System.Reflection.Metadata;
+using System.Net.Sockets;
+
 
 namespace GameProject5.Screens
 {
@@ -31,9 +33,10 @@ namespace GameProject5.Screens
         private mcSprite _mc = new mcSprite(new Vector2(604, 520));
         private CoinSprite[] _coins;
         private Collectible[] _coinstacks;
-        private Collectible _specialCollectable = new Collectible(new Vector2(180, 150 + 736), new BoundingRectangle(180, 110 + 736, 48, 32));
+        private Collectible _specialCollectable = new Collectible(new Vector2(1250, 200), new BoundingRectangle(1250, 200, 48, 32));
+        private Collectible[] _key;
         private Platform[] _platforms;
-        private Goal _goal = new Goal(new Vector2(1298, 140), new BoundingRectangle(new Vector2(1298, 140), 30f, 24), 20, 2);
+        private Goal _goal = new Goal(new Vector2(1298, 80), new BoundingRectangle(new Vector2(1298, 80), 30f, 24), 20, 20);
 
 
         //private Texture2D _level2;
@@ -63,6 +66,8 @@ namespace GameProject5.Screens
 
         private bool _secretObtained = false;
 
+        private bool _keyObtained = false;
+
 
 
         private door _doorOne;
@@ -74,7 +79,11 @@ namespace GameProject5.Screens
 
         public Texture2D Circle;
 
+        public Texture2D Secret;
+
         public Texture2D DoorOne;
+
+        public Texture2D Key;
 
         public Vector2 Position { get; set; }
         public Vector2 Velocity { get; set; }
@@ -128,6 +137,8 @@ namespace GameProject5.Screens
 
             Circle = _content.Load<Texture2D>("circle");
 
+            Secret = _content.Load<Texture2D>("Sprite_secret");
+
 
             System.Threading.Thread.Sleep(700);
 
@@ -135,27 +146,30 @@ namespace GameProject5.Screens
             _mc.LoadContent(_content);
             _mc.Wall = 1300;
 
-            DoorOne = _content.Load<Texture2D>("Sprite_door");
+            DoorOne = _content.Load<Texture2D>("Sprite_door2");
 
+            Key = _content.Load<Texture2D>("Sprite_key");
             _platforms = new Platform[]
 
             {
                 new Platform(new Vector2(0, 810), new BoundingRectangle(new Vector2(0, 810), 1800f, 1000)),
                 new Platform(new Vector2(1223, 700), new BoundingRectangle(new Vector2(1223, 700), 72f, 100)),
-                new Platform(new Vector2(1044, 575), new BoundingRectangle(new Vector2(1044, 575), 96f, 32)),
-                new Platform(new Vector2(1244, 430), new BoundingRectangle(new Vector2(1244, 430), 72f, 48)),
-                new Platform(new Vector2(1000, 260), new BoundingRectangle(new Vector2(1000, 260), 64f, 280)),
+                new Platform(new Vector2(1044, 575), new BoundingRectangle(new Vector2(1044, 575), 82f, 32)),
+                new Platform(new Vector2(1250, 430), new BoundingRectangle(new Vector2(1250, 430), 72f, 48)),
+                
 
                 new Platform(new Vector2(203, 750), new BoundingRectangle(new Vector2(203, 750), 48f, 32)),
                 new Platform(new Vector2(143, 700), new BoundingRectangle(new Vector2(143, 700), 38f, 32)),
                 new Platform(new Vector2(90, 665), new BoundingRectangle(new Vector2(90, 665), 38f, 32)),
                 new Platform(new Vector2(10, 630), new BoundingRectangle(new Vector2(10, 630), 64f, 32)),
 
-                new Platform(new Vector2(198, 456), new BoundingRectangle(new Vector2(198, 456), 56f, 56)),
+                new Platform(new Vector2(198, 456), new BoundingRectangle(new Vector2(198, 456), 200f, 56)),
                 new Platform(new Vector2(254, 390), new BoundingRectangle(new Vector2(254, 390), 56f, 56)),
                 new Platform(new Vector2(310, 300), new BoundingRectangle(new Vector2(310, 300), 72f, 72)),
-                new Platform(new Vector2(382, 200), new BoundingRectangle(new Vector2(382, 200), 80f, 90)),
-                new Platform(new Vector2(916, 150), new BoundingRectangle(new Vector2(916, 150), 464f, 36)),
+                new Platform(new Vector2(382, 200), new BoundingRectangle(new Vector2(382, 200), 80f, 300)),
+                new Platform(new Vector2(916, 150), new BoundingRectangle(new Vector2(916, 150), 464f, 64)),
+                new Platform(new Vector2(916, 150), new BoundingRectangle(new Vector2(916, 150), 64f, 256)),
+                new Platform(new Vector2(981, 264), new BoundingRectangle(new Vector2(916, 150), 64f, 192)),
 
                 //new Platform(new Vector2())
                 
@@ -170,7 +184,7 @@ namespace GameProject5.Screens
 
 
             _goal.LoadContent(_content);
-            _doorOne = new door(new Vector2(333, 1042), new BoundingRectangle(331, 1040, 32f, 180), DoorOne);
+            _doorOne = new door(new Vector2(420, 570), new BoundingRectangle(420, 570, 42f, 400), DoorOne, 1.1f);
             _coinCounter = _content.Load<SpriteFont>("CoinsLeft");
             _scoreDisplay = _content.Load<SpriteFont>("scoreFont");
             _coins = new CoinSprite[]
@@ -179,7 +193,7 @@ namespace GameProject5.Screens
                 new CoinSprite(new Vector2(1064, 520)),
                 new CoinSprite(new Vector2(1064, 520)),
                 new CoinSprite(new Vector2(900, 480)),
-                new CoinSprite(new Vector2(400, 480)),
+                new CoinSprite(new Vector2(400, 520)),
 
 
             };
@@ -191,6 +205,11 @@ namespace GameProject5.Screens
             _coinsLeft = _coins.Length;
             foreach (var coin in _coins) coin.LoadContent(_content);
 
+            _key = new Collectible[]
+            {
+                new Collectible(new Vector2(1228, 570), new BoundingRectangle(new Vector2(1228, 570), 32, 220)),
+            };
+            foreach (var k in _key) k.cTexture = Key;
             _specialGet = _content.Load<SpriteFont>("SpecialGet");
 
             foreach(var cs in _coinstacks) cs.cTexture = _content.Load<Texture2D>("gold");
@@ -244,7 +263,13 @@ namespace GameProject5.Screens
                         _mc.OffGround = true;
                     }
 
-
+                    foreach (var proj in _mc.ProjList)
+                    {
+                        if (proj.Bounds.CollidesWith(plat.Bounds))
+                        {
+                            proj.projState = state.connected;
+                        }
+                    }
                 }
 
                 foreach (var coin in _coins)
@@ -291,10 +316,22 @@ namespace GameProject5.Screens
 
                 _doorOne.Update(gameTime);
 
+                foreach (var k in _key.ToList())
+                {
+                   
+                    if (k.RecBounds.CollidesWith(_mc.Bounds) || k.RecBounds.CollidesWith(_mc.FeetBounds))
+                    {
+                        _keyObtained = true;
+                        _specialPickup.Play();
+                        k.destroy();
+                        k.cTexture.Dispose();
+
+
+                    }
+                }
 
 
 
-               
 
                 if (_specialCollectable.RecBounds.CollidesWith(_mc.Bounds) || _specialCollectable.RecBounds.CollidesWith(_mc.FeetBounds))
                 {
@@ -340,6 +377,10 @@ namespace GameProject5.Screens
                 {
                     LoadingScreen.Load(ScreenManager, false, player, new LevelFourScreen());
                 }
+                if (_mc.Bounds.CollidesWith(_doorOne.Bounds) && (_keyObtained))
+                {
+                    _doorOne.Opened = true;
+                }
                 if (_mc.Bounds.CollidesWith(_doorOne.Bounds))
                 {
                     if (_mc.Position.X < _doorOne.Bounds.X)
@@ -356,7 +397,7 @@ namespace GameProject5.Screens
                     if (proj.Bounds.CollidesWith(_doorOne.Bounds))
                     {
                         proj.projState = state.connected;
-                        _doorOne.Opened = true;
+
                     }
                     if (proj.Bounds.X >= _mc.Wall || proj.Bounds.X <= 0)
                     {
@@ -378,8 +419,8 @@ namespace GameProject5.Screens
         {
             float playerX = MathHelper.Clamp(_mc.Position.X, 300, 840);
             float offset = 300 - playerX;
-            float playerY = MathHelper.Clamp(_mc.Position.Y, 0, 320);
-            float offsetY = 0 - playerY;
+            float playerY = MathHelper.Clamp(_mc.Position.Y, 50, 380);
+            float offsetY = 50 - playerY;
 
 
             Matrix transform;
@@ -407,9 +448,9 @@ namespace GameProject5.Screens
 
             _doorOne.Draw(gameTime, _spriteBatch);
 
-            foreach (var cs in _coinstacks) spriteBatch.Draw(cs.cTexture, cs.Position, new Rectangle(0, 64, 32, 32), Color.White, 0f, new Vector2(16, 16), 2.0f, SpriteEffects.None, 0);
-            foreach (var cs in _coinstacks)
+            foreach (var cs in _coinstacks) 
             {
+                spriteBatch.Draw(cs.cTexture, cs.Position, new Rectangle(0, 64, 32, 32), Color.White, 0f, new Vector2(16, 16), 2.0f, SpriteEffects.None, 0);
                 if (cs.RecBounds.CollidesWith(_mc.Bounds) || cs.RecBounds.CollidesWith(_mc.FeetBounds))
                 {
                     _fireworks.placeFirework(cs.Position);
@@ -423,6 +464,13 @@ namespace GameProject5.Screens
                 _fireworks.placeFirework(_specialCollectable.Position);
                 _fireworks.placeFirework(_specialCollectable.Position);
                 _fireworks.placeFirework(_specialCollectable.Position);
+            }
+
+            if (!_secretObtained) spriteBatch.Draw(Secret, _specialCollectable.Position, Color.White);
+            foreach (var k in _key.ToList())
+            {
+                spriteBatch.Draw(Key, k.Position, new Rectangle(32, 32, 128, 64), Color.White, 0f, new Vector2(0, 0), 0.5f, SpriteEffects.None, 0);
+               
             }
 
             _mc.Draw(gameTime, spriteBatch);
@@ -440,19 +488,19 @@ namespace GameProject5.Screens
             //}
 
 
-            foreach (Platform plat in _platforms)
-            {
-                spriteBatch.Draw(Circle, new Vector2(plat.Bounds.Left, plat.Bounds.Top), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
-                spriteBatch.Draw(Circle, new Vector2(plat.Bounds.Right, plat.Bounds.Top), null, Color.Red, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
-                spriteBatch.Draw(Circle, new Vector2(plat.Bounds.Left, plat.Bounds.Bottom), null, Color.Blue, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
-                spriteBatch.Draw(Circle, new Vector2(plat.Bounds.Right, plat.Bounds.Bottom), null, Color.Green, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //foreach (Platform plat in _platforms)
+            //{
+            //    spriteBatch.Draw(Circle, new Vector2(plat.Bounds.Left, plat.Bounds.Top), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //    spriteBatch.Draw(Circle, new Vector2(plat.Bounds.Right, plat.Bounds.Top), null, Color.Red, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //    spriteBatch.Draw(Circle, new Vector2(plat.Bounds.Left, plat.Bounds.Bottom), null, Color.Blue, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //    spriteBatch.Draw(Circle, new Vector2(plat.Bounds.Right, plat.Bounds.Bottom), null, Color.Green, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
 
-            }
+            //}
 
-            spriteBatch.Draw(Circle, new Vector2(_doorOne.Bounds.Left, _doorOne.Bounds.Top), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Circle, new Vector2(_doorOne.Bounds.Right, _doorOne.Bounds.Top), null, Color.Red, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Circle, new Vector2(_doorOne.Bounds.Left, _doorOne.Bounds.Bottom), null, Color.Blue, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Circle, new Vector2(_doorOne.Bounds.Right, _doorOne.Bounds.Bottom), null, Color.Green, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //spriteBatch.Draw(Circle, new Vector2(_goal.Bounds.Left, _goal.Bounds.Top), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //spriteBatch.Draw(Circle, new Vector2(_goal.Bounds.Right, _goal.Bounds.Top), null, Color.Red, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //spriteBatch.Draw(Circle, new Vector2(_goal.Bounds.Left, _goal.Bounds.Bottom), null, Color.Blue, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //spriteBatch.Draw(Circle, new Vector2(_goal.Bounds.Right, _goal.Bounds.Bottom), null, Color.Green, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
 
 
             //spriteBatch.Draw(Circle, new Vector2(_mc.Bounds.Left, _mc.Bounds.Top), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
@@ -491,7 +539,8 @@ namespace GameProject5.Screens
             spriteBatch.Draw(_mc.HealthTexture, _mc.HealthBar, Color.White);
             spriteBatch.Draw(_mc.HealthBarTexture, new Rectangle(47, 420, 103, 50), Color.White);
 
-            if (_secretObtained) spriteBatch.DrawString(_specialGet, "Special item obtained: \n gambling debt papers", new Vector2(2, 420), Color.Green);
+            if (_secretObtained) spriteBatch.DrawString(_specialGet, "Special item obtained: \n Photo of Jackson's family", new Vector2(600, 420), Color.Green);
+            if (_keyObtained) spriteBatch.DrawString(_specialGet, "Key Obtained!", new Vector2(2, 100), Color.Blue);
 
             spriteBatch.End();
 
