@@ -22,7 +22,7 @@ namespace GameProject5
 
         private short _animationFrame;
 
-        private float _gravity = 10;
+        private float _gravity = 1;
 
         public float Speed = 300;
 
@@ -46,14 +46,14 @@ namespace GameProject5
 
         public static void LoadContent(ContentManager content)
         {
-            _texture = content.Load<Texture2D>("Sprite_PunchProjectile ");
+            _texture = content.Load<Texture2D>("Sprite_bossMiddleFinger");
 
 
         }
 
         public void update(GameTime gameTime)
         {
-            Position += new Vector2(0, 200);
+        
             if (Flipped)
             {
                 

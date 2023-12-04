@@ -48,7 +48,7 @@ namespace GameProject5
         #region publicFields
         public Vector2 Position = new Vector2();
 
-        public double AttackingTimer = 0;
+        //public double AttackingTimer = 0;
 
         public double RecoveryTimer = 0;
 
@@ -95,11 +95,12 @@ namespace GameProject5
 
         public void Update(GameTime gameTime, mcSprite mc)
         {
-            _bounds = new BoundingRectangle(new Vector2(Position.X, Position.Y), 48, 56);
+            
             _direction = Vector2.Zero;
             HealthBar = new Rectangle(600, 420, Health, 50);
             if (Action == BossAction.Idle)
             {
+                _bounds = new BoundingRectangle(new Vector2(Position.X, Position.Y), 48, 128);
                 if (mc.Position.X < Position.X) Flipped = true;
                 else Flipped = false;
                 _passiveTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -109,11 +110,13 @@ namespace GameProject5
                     if (randomNum == 1)
                     {
                         Action = BossAction.ShoulderCharge;
+                        _animationFrame = 0;
                         randomNum = 0;
                     }
                     else
                     {
                         Action = BossAction.FingerFlick;
+                        _animationFrame = 0;
                         randomNum = 0;
                     }
                     _passiveTimer = 0;
@@ -122,7 +125,7 @@ namespace GameProject5
             if (Action == BossAction.ShoulderCharge)
             {
                 _bounds = new BoundingRectangle(new Vector2(Position.X, Position.Y + 64), 48, 56);
-
+                
                 Attacking = true;
                 _attackingTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
                 if (mc.Position.X < Position.X && _attackingTimer <= 2) Flipped = true;
@@ -135,7 +138,7 @@ namespace GameProject5
 
                 }
 
-                if (Position.X <= 0)
+                if (Flipped && Position.X < 0)
                 {
                     Position.X += 20;
                     _direction = Vector2.Zero;
@@ -144,7 +147,7 @@ namespace GameProject5
                     Attacking = false;
                     Action = BossAction.Idle;
                 }
-                if (Position.X >= Boundary)
+                if (!Flipped && Position.X > Boundary)
                 {
                     Position.X -= 20;
                     _direction = Vector2.Zero;
@@ -152,12 +155,7 @@ namespace GameProject5
                     Attacking = false;
                     Action = BossAction.Idle;
                 }
-                //if (RecoveryTimer > 2.5)
-                //{
-                //    Action = BossAction.Idle;
-                //    RecoveryTimer = 0;
-                //    Attacking = false;
-                //}
+          
             }
             if (Action == BossAction.FingerFlick)
             {
@@ -202,12 +200,12 @@ namespace GameProject5
         {
             if (!Flipped)
             {
-                var proj = new BossFingerFlick(new Vector2(Position.X , Position.Y), this);
+                var proj = new BossFingerFlick(new Vector2(Position.X , Position.Y - 100), this);
                 ProjList.Add(proj);
             }
             else
             {
-                var proj = new BossFingerFlick(new Vector2(Position.X , Position.Y), this);
+                var proj = new BossFingerFlick(new Vector2(Position.X, Position.Y - 100), this);
                 ProjList.Add(proj);
             }
         }
@@ -218,13 +216,13 @@ namespace GameProject5
 
             if (Action == BossAction.ShoulderCharge)
             {
-                if (AttackingTimer <= 2)
+                if (_attackingTimer <= 2)
                 {
                     _animationTimer += gameTime.ElapsedGameTime.TotalSeconds;
                     if (_animationTimer > 0.2)
                     {
-                        _animationFrame++;
-                        if (_animationFrame > 1) _animationFrame = 1;
+                        if (_animationFrame < 1) _animationFrame++;
+                        
                         _animationTimer -= 0.2;
                     }
                 }
