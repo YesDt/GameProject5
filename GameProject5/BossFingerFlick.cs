@@ -24,7 +24,7 @@ namespace GameProject5
 
         private float _gravity = 1;
 
-        public float Speed = 300;
+        public float Speed = 350;
 
 
         public bool Flipped;

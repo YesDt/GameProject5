@@ -124,7 +124,7 @@ namespace GameProject5
             }
             if (Action == BossAction.ShoulderCharge)
             {
-                _bounds = new BoundingRectangle(new Vector2(Position.X, Position.Y + 64), 48, 56);
+                _bounds = new BoundingRectangle(new Vector2(Position.X, Position.Y + 128), 48, 128);
                 
                 Attacking = true;
                 _attackingTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -132,7 +132,7 @@ namespace GameProject5
 
                 if (_attackingTimer > 3)
                 {
-                    _direction = new Vector2(300 * (float)gameTime.ElapsedGameTime.TotalSeconds, 0);
+                    _direction = new Vector2(400 * (float)gameTime.ElapsedGameTime.TotalSeconds, 0);
                     if (Flipped) Position -= _direction;
                     else Position += _direction;
 
@@ -200,12 +200,12 @@ namespace GameProject5
         {
             if (!Flipped)
             {
-                var proj = new BossFingerFlick(new Vector2(Position.X , Position.Y - 100), this);
+                var proj = new BossFingerFlick(new Vector2(Position.X + 10 , Position.Y - 100), this);
                 ProjList.Add(proj);
             }
             else
             {
-                var proj = new BossFingerFlick(new Vector2(Position.X, Position.Y - 100), this);
+                var proj = new BossFingerFlick(new Vector2(Position.X - 10, Position.Y - 100), this);
                 ProjList.Add(proj);
             }
         }
@@ -222,6 +222,7 @@ namespace GameProject5
                     if (_animationTimer > 0.2)
                     {
                         if (_animationFrame < 1) _animationFrame++;
+                        else _animationFrame = 1;
                         
                         _animationTimer -= 0.2;
                     }
@@ -257,18 +258,22 @@ namespace GameProject5
             }
             else
             {
-                _animationTimer += gameTime.ElapsedGameTime.TotalSeconds;
-
-                if (_animationTimer > 0.2)
+                if(Action == BossAction.Idle)
                 {
-                    _animationFrame++;
-                    if (_animationFrame > 3)
-                    {
-                        _animationFrame = 0;
+                    _animationTimer += gameTime.ElapsedGameTime.TotalSeconds;
 
+                    if (_animationTimer > 0.2)
+                    {
+                        _animationFrame++;
+                        if (_animationFrame > 3)
+                        {
+                            _animationFrame = 0;
+
+                        }
+                        _animationTimer -= 0.2;
                     }
-                    _animationTimer -= 0.2;
                 }
+               
             }
 
             var source = new Rectangle(_animationFrame * 250, (int)Action * 512, 268, 512);
