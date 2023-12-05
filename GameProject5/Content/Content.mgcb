@@ -32,6 +32,11 @@
 /processorParam:Quality=Best
 /build:Boss GP.mp3
 
+#begin boss intro.mp4
+/importer:H264Importer
+/processor:VideoProcessor
+/build:boss intro.mp4
+
 #begin BossHealth.png
 /importer:TextureImporter
 /processor:TextureProcessor
