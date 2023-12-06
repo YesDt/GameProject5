@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using GameProject5.StateManagement;
+using System.IO;
 
 namespace GameProject5.Screens
 {
@@ -16,10 +17,13 @@ namespace GameProject5.Screens
         private ContentManager _content;
         private Texture2D _backgroundTexture;
         private SpriteFont _finalScore;
-       
+        private SpriteFont _scoreBoard;
+        private SpriteFont _highScore;
+        private bool _highScoreReached = false;
 
         public WinScreen()
         {
+            
             TransitionOnTime = TimeSpan.FromSeconds(0.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
         }
@@ -30,8 +34,22 @@ namespace GameProject5.Screens
             if (_content == null)
                 _content = new ContentManager(ScreenManager.Game.Services, "Content");
             _finalScore = _content.Load<SpriteFont>("FinalScoreBoard");
+            _scoreBoard = _content.Load<SpriteFont>("gamefont");
+            _highScore = _content.Load<SpriteFont>("gamefont");
             _backgroundTexture = _content.Load<Texture2D>("gameproject6winscreen");
-  
+            ScreenManager.ScoreList.Add(ScreenManager.score);
+            ScreenManager.ScoreList = ScreenManager.ScoreList.OrderBy(x => x).ToList();
+            if (ScreenManager.score == ScreenManager.ScoreList.Max())
+            {
+                _highScoreReached = true;
+            }
+
+            string text = File.ReadAllText("Scores.txt");
+            foreach(var s in ScreenManager.ScoreList)
+            {
+                File.WriteAllText((s + "\n"), "Scores.txt");
+            }
+
         }
 
         public override void Unload()
@@ -44,7 +62,6 @@ namespace GameProject5.Screens
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
-
                 ScreenManager.score = 0;
                 LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(), new MainMenuScreen());
             }
@@ -60,7 +77,12 @@ namespace GameProject5.Screens
 
             spriteBatch.Draw(_backgroundTexture, fullscreen,
                 new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha));
-            spriteBatch.DrawString(_finalScore, $"Final Score: " + ScreenManager.score, new Vector2(100, 200), Color.Gold);
+            spriteBatch.DrawString(_finalScore, $"Final Score: " + ScreenManager.score, new Vector2(100, 100), Color.Gold);
+            spriteBatch.DrawString(_scoreBoard, ScreenManager.ScoreList.ToString(), new Vector2(100, 300), Color.Red);
+            
+            
+
+
 
 
 

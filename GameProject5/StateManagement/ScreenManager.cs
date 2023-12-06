@@ -36,6 +36,8 @@ namespace GameProject5.StateManagement
 
         public static int score;
 
+        public static List<int> ScoreList = new List<int>();
+
         private bool _isInitialized;
 
         public GameState gameState;

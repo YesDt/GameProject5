@@ -56,6 +56,11 @@
 /processorParam:TextureFormat=Color
 /build:BossHealthbar.png
 
+#begin bossIntro.mp4
+/importer:H264Importer
+/processor:VideoProcessor
+/build:bossIntro.mp4
+
 #begin circle.png
 /importer:TextureImporter
 /processor:TextureProcessor

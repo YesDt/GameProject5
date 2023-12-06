@@ -33,7 +33,7 @@ namespace GameProject5.Screens
         private mcSprite _mc = new mcSprite(new Vector2(604, 520));
         private CoinSprite[] _coins;
         private Collectible[] _coinstacks;
-        private Collectible _specialCollectable = new Collectible(new Vector2(1250, 200), new BoundingRectangle(1250, 200, 48, 32));
+        private Collectible _specialCollectable = new Collectible(new Vector2(1250, 200), new BoundingRectangle(1250, 250, 48, 32));
         private Collectible[] _key;
         private Platform[] _platforms;
         private Goal _goal = new Goal(new Vector2(1298, 80), new BoundingRectangle(new Vector2(1298, 80), 30f, 24), 20, 20);
@@ -410,7 +410,7 @@ namespace GameProject5.Screens
                     //File.WriteAllText("progress.txt", "");
                     ScreenManager.score += _tempScore;
 
-                    LoadingScreen.Load(ScreenManager, false, player, new FinalLevelScreen());
+                    LoadingScreen.Load(ScreenManager, false, player, new FinalLevelScreen(),;
                 }
             }
         }
