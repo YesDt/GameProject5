@@ -300,6 +300,7 @@ namespace GameProject5.Screens
                     _tempScore += 5000;
                     ScreenManager.score += _tempScore;
                     MediaPlayer.Stop();
+                    File.WriteAllText("progress.txt", "");
                     LoadingScreen.Load(ScreenManager, false, null, new WinScreen());
                 }
 

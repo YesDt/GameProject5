@@ -278,7 +278,9 @@ namespace GameProject5
 
             var source = new Rectangle(_animationFrame * 250, (int)Action * 512, 268, 512);
             if (Action == BossAction.ShoulderCharge && _attackingTimer >= 2 && _attackingTimer <= 2.5) spriteBatch.Draw(_texture, Position, source, Color.Red, 0f, new Vector2(80, 120), 0.5f, spriteEffects, 0);
+            else if (Action == BossAction.ShoulderCharge && _attackingTimer < 2 || _attackingTimer > 2.5) spriteBatch.Draw(_texture, Position, source, Color.Orange, 0f, new Vector2(80, 120), 0.5f, spriteEffects, 0);
             else if (Action == BossAction.FingerFlick && _attackingTimer >= 1.5 && _attackingTimer <= 2) spriteBatch.Draw(_texture, Position, source, Color.Red, 0f, new Vector2(80, 120), 0.5f, spriteEffects, 0);
+            else if (Action == BossAction.FingerFlick && _attackingTimer < 1.5 || _attackingTimer > 2) spriteBatch.Draw(_texture, Position, source, Color.Orange, 0f, new Vector2(80, 120), 0.5f, spriteEffects, 0);
             else spriteBatch.Draw(_texture, Position, source, Color.White, 0f, new Vector2(80, 120), 0.5f, spriteEffects, 0);
 
             foreach (var proj in ProjList)

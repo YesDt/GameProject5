@@ -18,6 +18,7 @@ namespace GameProject5.Screens
         private Texture2D _backgroundTexture;
         private SpriteFont _finalScore;
         private SpriteFont _scoreBoard;
+        private SpriteFont _scoreLabel;
         private SpriteFont _highScore;
         private bool _highScoreReached = false;
 
@@ -35,6 +36,7 @@ namespace GameProject5.Screens
                 _content = new ContentManager(ScreenManager.Game.Services, "Content");
             _finalScore = _content.Load<SpriteFont>("FinalScoreBoard");
             _scoreBoard = _content.Load<SpriteFont>("gamefont");
+            _scoreLabel = _content.Load<SpriteFont>("menufont");
             _highScore = _content.Load<SpriteFont>("gamefont");
             _backgroundTexture = _content.Load<Texture2D>("gameproject6winscreen");
             ScreenManager.ScoreList.Add(ScreenManager.score);
@@ -84,8 +86,9 @@ namespace GameProject5.Screens
             {
                 scores = scores + (s.ToString() + "\n");
             }
-            spriteBatch.DrawString(_scoreBoard, scores, new Vector2(100, 200), Color.Blue);
-            if(_highScoreReached) spriteBatch.DrawString(_highScore, "WOW! HIGH SCORE!!!", new Vector2(10, 340), Color.Red);
+            spriteBatch.DrawString(_scoreLabel, "SCORES:", new Vector2(70, 200), Color.Red);
+            spriteBatch.DrawString(_scoreBoard, scores, new Vector2(560, 200), Color.Blue);
+            if(_highScoreReached) spriteBatch.DrawString(_highScore, "WOW! HIGH SCORE!!!", new Vector2(10, 440), Color.Red);
 
 
 

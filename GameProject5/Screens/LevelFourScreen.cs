@@ -177,8 +177,8 @@ namespace GameProject5.Screens
 
             _enemies = new enemy[]
           {
-                new enemy(new Vector2(740, 658), 680, 740, 96),
-                new enemy(new Vector2(590, 658), 580, 620, 128),
+                new enemy(new Vector2(740, 664), 680, 740, 96),
+                new enemy(new Vector2(590, 664), 580, 620, 128),
                 new enemy(new Vector2(1052, 24), 1000, 1160, 128),
           };
             foreach (var e in _enemies) e.LoadContent(_content);
@@ -198,8 +198,8 @@ namespace GameProject5.Screens
             };
             _coinstacks = new Collectible[]
             {
-                new Collectible(new Vector2(10, 620), new BoundingRectangle(new Vector2(10, 620), 32, 32)),
-                new Collectible(new Vector2(386, 180), new BoundingRectangle(new Vector2(386, 180), 32, 32)),
+                new Collectible(new Vector2(30, 620), new BoundingRectangle(new Vector2(30, 620), 32, 32)),
+                new Collectible(new Vector2(386, 160), new BoundingRectangle(new Vector2(386, 160), 32, 32)),
             };
             _coinsLeft = _coins.Length;
             foreach (var coin in _coins) coin.LoadContent(_content);
