@@ -410,7 +410,7 @@ namespace GameProject5.Screens
                     //File.WriteAllText("progress.txt", "");
                     ScreenManager.score += _tempScore;
 
-                    LoadingScreen.Load(ScreenManager, false, player, new FinalLevelScreen(),;
+                    LoadingScreen.Load(ScreenManager, false, player, new FinalLevelScreen(), new BossIntro());
                 }
             }
         }

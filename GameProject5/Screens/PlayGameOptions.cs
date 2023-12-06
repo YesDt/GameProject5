@@ -49,6 +49,7 @@ namespace GameProject5.Screens
             if (text.Contains("Level: Level 2")) LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new LevelTwoScreen());
             else if (text.Contains("Level: Level 3")) LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new LevelThreeScreen());
             else if (text.Contains("Level: Level 4")) LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new LevelFourScreen());
+            else if (text.Contains("Level: Final Level")) LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new FinalLevelScreen());
             else
             {
                 LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new LevelOneScreen());
