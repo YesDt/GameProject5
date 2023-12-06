@@ -39,16 +39,17 @@ namespace GameProject5.Screens
             _backgroundTexture = _content.Load<Texture2D>("gameproject6winscreen");
             ScreenManager.ScoreList.Add(ScreenManager.score);
             ScreenManager.ScoreList = ScreenManager.ScoreList.OrderBy(x => x).ToList();
+            ScreenManager.ScoreList.Reverse();
             if (ScreenManager.score == ScreenManager.ScoreList.Max())
             {
                 _highScoreReached = true;
             }
 
-            string text = File.ReadAllText("Scores.txt");
-            foreach(var s in ScreenManager.ScoreList)
-            {
-                File.WriteAllText((s + "\n"), "Scores.txt");
-            }
+            //string text = File.ReadAllText("Scores.txt");
+            //foreach(var s in ScreenManager.ScoreList)
+            //{
+            //    File.WriteAllText((s + "\n"), "Scores.txt");
+            //}
 
         }
 
@@ -78,9 +79,15 @@ namespace GameProject5.Screens
             spriteBatch.Draw(_backgroundTexture, fullscreen,
                 new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha));
             spriteBatch.DrawString(_finalScore, $"Final Score: " + ScreenManager.score, new Vector2(100, 100), Color.Gold);
-            spriteBatch.DrawString(_scoreBoard, ScreenManager.ScoreList.ToString(), new Vector2(100, 300), Color.Red);
-            
-            
+            string scores = "";
+            foreach (var s in ScreenManager.ScoreList)
+            {
+                scores = scores + (s.ToString() + "\n");
+            }
+            spriteBatch.DrawString(_scoreBoard, scores, new Vector2(100, 200), Color.Blue);
+            if(_highScoreReached) spriteBatch.DrawString(_highScore, "WOW! HIGH SCORE!!!", new Vector2(10, 340), Color.Red);
+
+
 
 
 

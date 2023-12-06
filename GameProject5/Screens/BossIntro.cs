@@ -36,7 +36,7 @@ namespace GameProject5.Screens
                 _content = new ContentManager(ScreenManager.Game.Services, "Content");
 
             }
-            _video = _content.Load<Video>("boss intro");
+            _video = _content.Load<Video>("bossIntro");
            // _pressEsc = _content.Load<Texture2D>("escToSkip");
             if (!_isPlaying)
             {

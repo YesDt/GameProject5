@@ -457,7 +457,7 @@ namespace GameProject5.Screens
                 foreach(var e in _enemies)
                 {
                     e.Update(gameTime, _mc);
-                    if (_mc.Bounds.CollidesWith(e.Searching))
+                    if (_mc.Bounds.CollidesWith(e.Searching) && !e.Dead)
                     {
 
                         e.AboutToAttack();

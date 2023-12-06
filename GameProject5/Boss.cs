@@ -132,7 +132,7 @@ namespace GameProject5
 
                 if (_attackingTimer > 3)
                 {
-                    _direction = new Vector2(400 * (float)gameTime.ElapsedGameTime.TotalSeconds, 0);
+                    _direction = new Vector2(500 * (float)gameTime.ElapsedGameTime.TotalSeconds, 0);
                     if (Flipped) Position -= _direction;
                     else Position += _direction;
 
@@ -200,12 +200,12 @@ namespace GameProject5
         {
             if (!Flipped)
             {
-                var proj = new BossFingerFlick(new Vector2(Position.X + 10 , Position.Y - 100), this);
+                var proj = new BossFingerFlick(new Vector2(Position.X + 10 , Position.Y - 50), this);
                 ProjList.Add(proj);
             }
             else
             {
-                var proj = new BossFingerFlick(new Vector2(Position.X - 10, Position.Y - 100), this);
+                var proj = new BossFingerFlick(new Vector2(Position.X - 10, Position.Y - 50), this);
                 ProjList.Add(proj);
             }
         }

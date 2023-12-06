@@ -345,20 +345,20 @@ namespace GameProject5.Screens
             spriteBatch.Draw(_boss.HealthTexture, _boss.HealthBar, Color.White);
             spriteBatch.Draw(_boss.HealthBarTexture, new Rectangle(592, 420, 106, 50), Color.White);
 
-            foreach (var f in _boss.ProjList)
-            {
-                spriteBatch.Draw(Circle, new Vector2(f.Bounds.Left, f.Bounds.Top), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
-                spriteBatch.Draw(Circle, new Vector2(f.Bounds.Right, f.Bounds.Top), null, Color.Red, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
-                spriteBatch.Draw(Circle, new Vector2(f.Bounds.Left, f.Bounds.Bottom), null, Color.Blue, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
-                spriteBatch.Draw(Circle, new Vector2(f.Bounds.Right, f.Bounds.Bottom), null, Color.Green, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
-            }
+            //foreach (var f in _boss.ProjList)
+            //{
+            //    spriteBatch.Draw(Circle, new Vector2(f.Bounds.Left, f.Bounds.Top), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //    spriteBatch.Draw(Circle, new Vector2(f.Bounds.Right, f.Bounds.Top), null, Color.Red, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //    spriteBatch.Draw(Circle, new Vector2(f.Bounds.Left, f.Bounds.Bottom), null, Color.Blue, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //    spriteBatch.Draw(Circle, new Vector2(f.Bounds.Right, f.Bounds.Bottom), null, Color.Green, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //}
 
 
             //spriteBatch.Draw(circle, new Vector2(_mc.Bounds.Left, _mc.Bounds.Bottom), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Circle, new Vector2(_boss.Bounds.Left, _boss.Bounds.Top), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Circle, new Vector2(_boss.Bounds.Right, _boss.Bounds.Top), null, Color.Red, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Circle, new Vector2(_boss.Bounds.Left, _boss.Bounds.Bottom), null, Color.Blue, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Circle, new Vector2(_boss.Bounds.Right, _boss.Bounds.Bottom), null, Color.Green, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //spriteBatch.Draw(Circle, new Vector2(_boss.Bounds.Left, _boss.Bounds.Top), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //spriteBatch.Draw(Circle, new Vector2(_boss.Bounds.Right, _boss.Bounds.Top), null, Color.Red, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //spriteBatch.Draw(Circle, new Vector2(_boss.Bounds.Left, _boss.Bounds.Bottom), null, Color.Blue, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            //spriteBatch.Draw(Circle, new Vector2(_boss.Bounds.Right, _boss.Bounds.Bottom), null, Color.Green, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
             //spriteBatch.Draw(circle, _platforms.Position, null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
 
             spriteBatch.End();

@@ -104,7 +104,7 @@ namespace GameProject5
             //int randNum = random.Next(1, 3);
             if (Action == EnemyAction.Idle)
             {
-                if (mc.Position.X < Position.X && !Dead) Flipped = true;
+                if (mc.Position.X < Position.X ) Flipped = true;
                 else Flipped = false;
                 _passiveTimer += gameTime.ElapsedGameTime.TotalSeconds;
                 if (_passiveTimer >= 2.5 && Action != EnemyAction.Attacking && Action != EnemyAction.Dying)
@@ -150,7 +150,7 @@ namespace GameProject5
             }
             if (Action == EnemyAction.Attacking)
             {
-                if (mc.Position.X < Position.X && !Dead) Flipped = true;
+                if (mc.Position.X < Position.X ) Flipped = true;
                 else Flipped = false;
                 _attackingTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
                 if (_attackingTimer >= 3 && !_hasShot)
@@ -174,13 +174,14 @@ namespace GameProject5
             if (Health <= 0)
             {
                 _passiveTimer = 0;
-                Action = EnemyAction.Dying;
-            }
-            if (Action == EnemyAction.Dying)
-            {
-                _bounds = new BoundingRectangle(Vector2.Zero, 0, 0);
-                _searching = new BoundingCircle(new Vector2(1000, 1000), 0);
                 Dead = true;
+            }
+            if (Dead)
+            {
+                Attacking = false;
+                _bounds = new BoundingRectangle(new Vector2(10000,10000), 0, 0);
+                _searching = new BoundingCircle(new Vector2(10000, 10000), 0);
+                Action = EnemyAction.Dying;
             }
             _bounds.X = _position.X;
             _bounds.Y = _position.Y;
@@ -263,8 +264,7 @@ namespace GameProject5
 
             if (Action == EnemyAction.Dying)
             {
-                if (Flipped) Flipped = true;
-                else Flipped = false;
+               
                 _attackingTimer = 0;
                 _animationTimer += gameTime.ElapsedGameTime.TotalSeconds;
                 if (_animationTimer > 0.1)

@@ -37,6 +37,7 @@ namespace GameProject5.Screens
         private Collectible[] _key;
         private Platform[] _platforms;
         private Goal _goal = new Goal(new Vector2(1298, 80), new BoundingRectangle(new Vector2(1298, 80), 30f, 24), 20, 20);
+        private enemy[] _enemies;
 
 
         //private Texture2D _level2;
@@ -156,7 +157,8 @@ namespace GameProject5.Screens
                 new Platform(new Vector2(1223, 700), new BoundingRectangle(new Vector2(1223, 700), 72f, 100)),
                 new Platform(new Vector2(1044, 575), new BoundingRectangle(new Vector2(1044, 575), 82f, 32)),
                 new Platform(new Vector2(1250, 430), new BoundingRectangle(new Vector2(1250, 430), 72f, 48)),
-                
+                new Platform(new Vector2(992, 420), new BoundingRectangle(new Vector2(992, 420), 42f, 96)),
+
 
                 new Platform(new Vector2(203, 750), new BoundingRectangle(new Vector2(203, 750), 48f, 32)),
                 new Platform(new Vector2(143, 700), new BoundingRectangle(new Vector2(143, 700), 38f, 32)),
@@ -168,21 +170,18 @@ namespace GameProject5.Screens
                 new Platform(new Vector2(310, 300), new BoundingRectangle(new Vector2(310, 300), 72f, 72)),
                 new Platform(new Vector2(382, 200), new BoundingRectangle(new Vector2(382, 200), 80f, 300)),
                 new Platform(new Vector2(916, 150), new BoundingRectangle(new Vector2(916, 150), 464f, 64)),
-                new Platform(new Vector2(916, 150), new BoundingRectangle(new Vector2(916, 150), 64f, 256)),
+                new Platform(new Vector2(916, 150), new BoundingRectangle(new Vector2(916, 150), 128f, 256)),
                 new Platform(new Vector2(981, 264), new BoundingRectangle(new Vector2(916, 150), 64f, 192)),
-
-                //new Platform(new Vector2())
-                
-                //new Platform(new Vector2(400, 423+ 744), new BoundingRectangle(new Vector2(400, 423+ 744), 60f, 300)),
-                //new Platform(new Vector2(460, 400+ 744), new BoundingRectangle(new Vector2(460, 400+ 744), 60f, 300)),
-                //new Platform(new Vector2(520, 377+ 744), new BoundingRectangle(new Vector2(520, 377+ 744), 60f, 300)),
-                //new Platform(new Vector2(580, 334+ 744), new BoundingRectangle(new Vector2(580, 334+ 744), 60f, 300)),
-                //new Platform(new Vector2(200, 100+ 744), new BoundingRectangle(new Vector2(0, 165+ 744), 500f, 30)),
-                //new Platform(new Vector2(1020, 100+ 744), new BoundingRectangle(new Vector2(1020, 453+ 744), 300f, 300))
 
             };
 
-
+            _enemies = new enemy[]
+          {
+                new enemy(new Vector2(740, 658), 680, 740, 96),
+                new enemy(new Vector2(590, 658), 580, 620, 128),
+                new enemy(new Vector2(1052, 24), 1000, 1160, 128),
+          };
+            foreach (var e in _enemies) e.LoadContent(_content);
             _goal.LoadContent(_content);
             _doorOne = new door(new Vector2(420, 570), new BoundingRectangle(420, 570, 42f, 400), DoorOne, 1.1f);
             _coinCounter = _content.Load<SpriteFont>("CoinsLeft");
@@ -193,14 +192,14 @@ namespace GameProject5.Screens
                 new CoinSprite(new Vector2(1064, 520)),
                 new CoinSprite(new Vector2(1064, 520)),
                 new CoinSprite(new Vector2(900, 480)),
-                new CoinSprite(new Vector2(400, 520)),
+                new CoinSprite(new Vector2(400, 560)),
 
 
             };
             _coinstacks = new Collectible[]
             {
                 new Collectible(new Vector2(10, 620), new BoundingRectangle(new Vector2(10, 620), 32, 32)),
-                new Collectible(new Vector2(386, 200), new BoundingRectangle(new Vector2(386, 200), 32, 32)),
+                new Collectible(new Vector2(386, 180), new BoundingRectangle(new Vector2(386, 180), 32, 32)),
             };
             _coinsLeft = _coins.Length;
             foreach (var coin in _coins) coin.LoadContent(_content);
@@ -265,9 +264,24 @@ namespace GameProject5.Screens
 
                     foreach (var proj in _mc.ProjList)
                     {
-                        if (proj.Bounds.CollidesWith(plat.Bounds))
+                        if (proj.Bounds.CollidesWith(_doorOne.Bounds))
                         {
                             proj.projState = state.connected;
+
+                        }
+                        if (proj.Bounds.X >= _mc.Wall || proj.Bounds.X <= 0)
+                        {
+                            proj.projState = state.connected;
+                        }
+                        foreach (var e in _enemies)
+                        {
+                            if (proj.Bounds.CollidesWith(e.Bounds))
+                            {
+                                proj.projState = state.connected;
+                                proj.Destroy(proj);
+                                e.Health = 0;
+                                _tempScore += 50;
+                            }
                         }
                     }
                 }
@@ -412,6 +426,25 @@ namespace GameProject5.Screens
 
                     LoadingScreen.Load(ScreenManager, false, player, new FinalLevelScreen(), new BossIntro());
                 }
+                foreach (var e in _enemies)
+                {
+                    e.Update(gameTime, _mc);
+                    if (_mc.Bounds.CollidesWith(e.Searching) && !e.Dead)
+                    {
+
+                        e.AboutToAttack();
+                    }
+                    foreach (var b in e.BulletList)
+                    {
+                        if (_mc.Bounds.CollidesWith(b.Bounds) && !_mc.Recovering)
+                        {
+                            _mc.Health -= 10;
+                            _mc.Hurt = true;
+                            b.Destroy(b);
+                        }
+                    }
+
+                }
             }
         }
 
@@ -457,7 +490,12 @@ namespace GameProject5.Screens
                     _fireworks.placeFirework(cs.Position);
                 }
             }
-                
+
+            foreach (var e in _enemies)
+            {
+                e.Draw(gameTime, spriteBatch);
+            }
+
 
             if (_specialCollectable.RecBounds.CollidesWith(_mc.Bounds) || _specialCollectable.RecBounds.CollidesWith(_mc.FeetBounds))
             {
