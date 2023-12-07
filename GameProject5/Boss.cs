@@ -121,10 +121,12 @@ namespace GameProject5
                     }
                     _passiveTimer = 0;
                 }
+                _bounds.X = Position.X;
+                _bounds.Y = Position.Y;
             }
             if (Action == BossAction.ShoulderCharge)
             {
-                _bounds = new BoundingRectangle(new Vector2(Position.X, Position.Y + 128), 48, 128);
+                _bounds = new BoundingRectangle(new Vector2(Position.X, Position.Y + 48), 48, 128);
                 
                 Attacking = true;
                 _attackingTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -175,10 +177,11 @@ namespace GameProject5
                     Attacking = false;
 
                 }
+                _bounds.X = Position.X;
+                _bounds.Y = Position.Y;
             }
 
-            _bounds.X = Position.X;
-            _bounds.Y = Position.Y;
+
             foreach (var proj in ProjList.ToList())
             {
 

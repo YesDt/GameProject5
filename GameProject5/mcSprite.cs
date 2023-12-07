@@ -136,7 +136,7 @@ namespace GameProject5
         {
             HealthBar = new Rectangle(50, 420, Health, 50);
             _jumpHeight = 150;
-            _gravity = 10;
+            _gravity = 7;
             _direction = new Vector2(200 * (float)gameTime.ElapsedGameTime.TotalSeconds, 0);
 
 
