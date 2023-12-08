@@ -3,30 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GameProject5.StateManagement;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using GameProject5.StateManagement;
-using System.IO;
+using Microsoft.Xna.Framework.Input;
 
 namespace GameProject5.Screens
 {
-    public class WinScreen : GameScreen
+    public class FinalJudgmentScreen: GameScreen
     {
         private ContentManager _content;
         private Texture2D _backgroundTexture;
-        private SpriteFont _finalScore;
-        private SpriteFont _scoreBoard;
-        private SpriteFont _scoreLabel;
-        private SpriteFont _highScore;
         private SpriteFont _coinLabel;
         private SpriteFont _coinCounter;
-        private bool _highScoreReached = false;
 
-        public WinScreen()
+        public FinalJudgmentScreen()
         {
-            
+
             TransitionOnTime = TimeSpan.FromSeconds(0.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
         }
@@ -36,20 +30,10 @@ namespace GameProject5.Screens
             base.Activate();
             if (_content == null)
                 _content = new ContentManager(ScreenManager.Game.Services, "Content");
-            _finalScore = _content.Load<SpriteFont>("FinalScoreBoard");
-            _scoreBoard = _content.Load<SpriteFont>("gamefont");
-            _scoreLabel = _content.Load<SpriteFont>("menufont");
-            _coinLabel = _content.Load<SpriteFont>("menufont");
+            _coinLabel = _content.Load<SpriteFont>("FinalScoreBoard");
             _coinCounter = _content.Load<SpriteFont>("gamefont");
-            _highScore = _content.Load<SpriteFont>("gamefont");
             _backgroundTexture = _content.Load<Texture2D>("gameproject6winscreen");
-            ScreenManager.ScoreList.Add(ScreenManager.score);
-            ScreenManager.ScoreList = ScreenManager.ScoreList.OrderBy(x => x).ToList();
-            ScreenManager.ScoreList.Reverse();
-            if (ScreenManager.score == ScreenManager.ScoreList.Max())
-            {
-                _highScoreReached = true;
-            }
+
 
             //string text = File.ReadAllText("Scores.txt");
             //foreach(var s in ScreenManager.ScoreList)
@@ -84,23 +68,8 @@ namespace GameProject5.Screens
 
             spriteBatch.Draw(_backgroundTexture, fullscreen,
                 new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha));
-            spriteBatch.DrawString(_finalScore, $"Final Score: " + ScreenManager.score, new Vector2(100, 100), Color.Gold);
-            string scores = "";
-            foreach (var s in ScreenManager.ScoreList)
-            {
-                scores = scores + (s.ToString() + "\n");
-            }
-            spriteBatch.DrawString(_scoreLabel, "SCORES:", new Vector2(70, 200), Color.Red);
-            spriteBatch.DrawString(_coinLabel, "COINS:", new Vector2(70, 400), Color.Red);
-            spriteBatch.DrawString(_scoreBoard, scores, new Vector2(560, 200), Color.Blue);
-            spriteBatch.DrawString(_coinCounter, ScreenManager.TotalCoinsCollected.ToString(), new Vector2(560, 400), Color.Blue);
-            if (_highScoreReached) spriteBatch.DrawString(_highScore, "WOW! HIGH SCORE!!!", new Vector2(10, 440), Color.Red);
-
-
-
-
-
-
+            spriteBatch.DrawString(_coinLabel, "Final Judgement...", new Vector2(100, 100), Color.Gold);
+            spriteBatch.DrawString(_coinCounter, $"Coins Collected: " + ScreenManager.TotalCoinsCollected, new Vector2(300, 300), Color.White);
 
             spriteBatch.End();
         }

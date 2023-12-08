@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using GameProject5.StateManagement;
+using SharpDX.Direct2D1;
 
 namespace GameProject5.Screens
 {
@@ -40,7 +41,7 @@ namespace GameProject5.Screens
             _loadingIsSlow = loadingIsSlow;
             _screensToLoad = screensToLoad;
 
-            TransitionOnTime = TimeSpan.FromSeconds(0.5);
+            TransitionOnTime = TimeSpan.FromSeconds(0.2);
 
 
         }
@@ -123,6 +124,17 @@ namespace GameProject5.Screens
                 spriteBatch.Draw(_backgroundTexture, new Vector2(0, 0), null,
                 new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha), 0f, new Vector2(0, 0), 1.09f, SpriteEffects.None, 0f);
                 spriteBatch.DrawString(font, message, textPosition, color);
+                spriteBatch.End();
+            }
+            else
+            {
+                var spriteBatch = ScreenManager.SpriteBatch;
+                var font = ScreenManager.Font;
+
+                spriteBatch.Begin();
+                spriteBatch.Draw(_backgroundTexture, new Vector2(0, 0), null,
+                new Color(0, 0, 0), 0f, new Vector2(0, 0), 1.09f, SpriteEffects.None, 0f);
+        
                 spriteBatch.End();
             }
         }
