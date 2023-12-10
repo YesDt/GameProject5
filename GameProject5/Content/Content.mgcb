@@ -37,6 +37,11 @@
 /processor:VideoProcessor
 /build:boss intro.mp4
 
+#begin bossEnd.mp4
+/importer:H264Importer
+/processor:VideoProcessor
+/build:bossEnd.mp4
+
 #begin BossHealth.png
 /importer:TextureImporter
 /processor:TextureProcessor

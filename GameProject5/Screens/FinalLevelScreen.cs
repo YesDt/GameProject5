@@ -301,7 +301,7 @@ namespace GameProject5.Screens
                     ScreenManager.score += _tempScore;
                     MediaPlayer.Stop();
                     File.WriteAllText("progress.txt", "");
-                    LoadingScreen.Load(ScreenManager, false, null, new WinScreen());
+                    LoadingScreen.Load(ScreenManager, false, null, new WinScreen(), new BossDefeat());
                 }
 
 
@@ -344,7 +344,7 @@ namespace GameProject5.Screens
             spriteBatch.Draw(_mc.HealthTexture, _mc.HealthBar, Color.White);
             spriteBatch.Draw(_mc.HealthBarTexture, new Rectangle(45, 420, 105, 50), Color.White);
             spriteBatch.Draw(_boss.HealthTexture, _boss.HealthBar, Color.White);
-            spriteBatch.Draw(_boss.HealthBarTexture, new Rectangle(592, 420, 106, 50), Color.White);
+            spriteBatch.Draw(_boss.HealthBarTexture, new Rectangle(592, 420, 107, 50), Color.White);
 
             //foreach (var f in _boss.ProjList)
             //{
