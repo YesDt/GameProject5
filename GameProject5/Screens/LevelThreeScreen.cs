@@ -94,9 +94,9 @@ namespace GameProject5.Screens
         public LevelThreeScreen()
         {
             string text = File.ReadAllText("progress.txt");
-            if (text.Contains("Level: Level 2\n Score: " + ScreenManager.score))
+            if (text.Contains("Level: Level 2\n Score: " + ScreenManager.score + "\n Coins: " + ScreenManager.TotalCoinsCollected))
             {
-                text = text.Replace("Level: Level 2\n Score: " + ScreenManager.score, "Level: Level 3\n Score: " + ScreenManager.score);
+                text = text.Replace("Level: Level 2\n Score: " + ScreenManager.score + "\n Coins: " + ScreenManager.TotalCoinsCollected, "Level: Level 3\n Score: " + ScreenManager.score + "\n Coins: " + ScreenManager.TotalCoinsCollected);
                 File.WriteAllText("progress.txt", text);
 
 
@@ -106,7 +106,7 @@ namespace GameProject5.Screens
                 using (StreamWriter sw = new StreamWriter("progress.txt"))
                 {
 
-                    sw.WriteLine("Level: Level 3\n Score: " + ScreenManager.score);
+                    sw.WriteLine("Level: Level 3\n Score: " + ScreenManager.score + "\n Coins: " + ScreenManager.TotalCoinsCollected);
                 }
             }
 
@@ -450,7 +450,7 @@ namespace GameProject5.Screens
                     MediaPlayer.Stop();
                     //File.WriteAllText("progress.txt", "");
                     ScreenManager.score += _tempScore;
-
+                    ScreenManager.TotalCoinsCollected += _mc.coinsCollected;
                     LoadingScreen.Load(ScreenManager, false, player, new LevelFourScreen());
                 }
 

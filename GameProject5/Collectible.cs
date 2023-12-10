@@ -38,8 +38,8 @@ namespace GameProject5
 
         public void destroy()
         {
-            _recBounds = new BoundingRectangle(0, 0, 0, 0);
-            _circleBounds = new BoundingCircle(Vector2.Zero, 0);
+            _recBounds = new BoundingRectangle(-1000000, -1000000, 0, 0);
+            _circleBounds = new BoundingCircle(new Vector2(-1000000, -1000000), 0);
         }
     }
 }
