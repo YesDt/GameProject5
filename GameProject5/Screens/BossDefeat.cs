@@ -52,6 +52,7 @@ namespace GameProject5.Screens
             PlayerIndex player;
             if (_skip.Occurred(input, null, out player))
             {
+                _player.Pause();
                 _player.Stop();
                 ExitScreen();
             }

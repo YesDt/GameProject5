@@ -32,7 +32,7 @@ namespace GameProject5.Screens
                 _content = new ContentManager(ScreenManager.Game.Services, "Content");
             _coinLabel = _content.Load<SpriteFont>("FinalScoreBoard");
             _coinCounter = _content.Load<SpriteFont>("gamefont");
-            _backgroundTexture = _content.Load<Texture2D>("gameproject6winscreen");
+            _backgroundTexture = _content.Load<Texture2D>("FinalJudgement");
 
 
             //string text = File.ReadAllText("Scores.txt");

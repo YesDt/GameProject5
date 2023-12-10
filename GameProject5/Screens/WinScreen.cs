@@ -20,8 +20,7 @@ namespace GameProject5.Screens
         private SpriteFont _scoreBoard;
         private SpriteFont _scoreLabel;
         private SpriteFont _highScore;
-        private SpriteFont _coinLabel;
-        private SpriteFont _coinCounter;
+
         private bool _highScoreReached = false;
 
         public WinScreen()
@@ -39,8 +38,7 @@ namespace GameProject5.Screens
             _finalScore = _content.Load<SpriteFont>("FinalScoreBoard");
             _scoreBoard = _content.Load<SpriteFont>("gamefont");
             _scoreLabel = _content.Load<SpriteFont>("menufont");
-            _coinLabel = _content.Load<SpriteFont>("menufont");
-            _coinCounter = _content.Load<SpriteFont>("gamefont");
+            
             _highScore = _content.Load<SpriteFont>("gamefont");
             _backgroundTexture = _content.Load<Texture2D>("gameproject6winscreen");
             ScreenManager.ScoreList.Add(ScreenManager.score);
@@ -70,7 +68,7 @@ namespace GameProject5.Screens
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
                 ScreenManager.score = 0;
-                LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(), new MainMenuScreen());
+                LoadingScreen.Load(ScreenManager, false, null, new FinalJudgmentScreen());
             }
         }
 
@@ -91,9 +89,9 @@ namespace GameProject5.Screens
                 scores = scores + (s.ToString() + "\n");
             }
             spriteBatch.DrawString(_scoreLabel, "SCORES:", new Vector2(70, 200), Color.Red);
-            spriteBatch.DrawString(_coinLabel, "COINS:", new Vector2(70, 400), Color.Red);
+
             spriteBatch.DrawString(_scoreBoard, scores, new Vector2(560, 200), Color.Blue);
-            spriteBatch.DrawString(_coinCounter, ScreenManager.TotalCoinsCollected.ToString(), new Vector2(560, 400), Color.Blue);
+
             if (_highScoreReached) spriteBatch.DrawString(_highScore, "WOW! HIGH SCORE!!!", new Vector2(10, 440), Color.Red);
 
 
