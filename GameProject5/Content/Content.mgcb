@@ -83,6 +83,18 @@
 /processorParam:TextureFormat=Color
 /build:cheapbozoending.png
 
+#begin cheapbozoending.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:cheapbozoending.png
+
 #begin circle.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -125,6 +137,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:escToSkip.png
+
+#begin Explosion2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Explosion2.wav
 
 #begin FinalJudgement.png
 /importer:TextureImporter
@@ -272,6 +290,36 @@
 /processorParam:TextureFormat=Color
 /build:healthBar.png
 
+#begin Hit_Hurt.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Hit_Hurt.wav
+
+#begin incredibleending.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:incredibleending.png
+
+#begin Jump.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Jump.wav
+
+#begin Laser_Shoot.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Laser_Shoot.wav
+
 #begin level.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -350,6 +398,18 @@
 /processorParam:Scale=0.865
 /build:Level4.tmap;TheFourthLevel.tmap
 
+#begin mehending.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:mehending.png
+
 #begin menufont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -392,11 +452,29 @@
 /processorParam:TextureFormat=Color
 /build:PlayerHealth.png
 
+#begin prettygoodending.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:prettygoodending.png
+
 #begin Project2music.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:Project2music.mp3
+
+#begin PunchCollide.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:PunchCollide.wav
 
 #begin scoreFont.spritefont
 /importer:FontDescriptionImporter

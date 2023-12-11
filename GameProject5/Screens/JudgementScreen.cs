@@ -11,14 +11,16 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GameProject5.Screens
 {
-    public class FinalJudgmentScreen: GameScreen
+    public class JudgementScreen : GameScreen
     {
         private ContentManager _content;
-        private Texture2D _backgroundTexture;
-        private SpriteFont _coinLabel;
-        private SpriteFont _coinCounter;
+        private Texture2D _backgroundTextureOne;
+        private Texture2D _backgroundTextureTwo;
+        private Texture2D _backgroundTextureThree;
+        private Texture2D _backgroundTextureFour;
 
-        public FinalJudgmentScreen()
+
+        public JudgementScreen()
         {
 
             TransitionOnTime = TimeSpan.FromSeconds(0.5);
@@ -30,10 +32,11 @@ namespace GameProject5.Screens
             base.Activate();
             if (_content == null)
                 _content = new ContentManager(ScreenManager.Game.Services, "Content");
-            _coinLabel = _content.Load<SpriteFont>("FinalScoreBoard");
-            _coinCounter = _content.Load<SpriteFont>("gamefont");
-            _backgroundTexture = _content.Load<Texture2D>("FinalJudgement");
 
+            _backgroundTextureOne = _content.Load<Texture2D>("cheapbozoending");
+            _backgroundTextureTwo = _content.Load<Texture2D>("mehending");
+            _backgroundTextureThree = _content.Load<Texture2D>("prettygoodending");
+            _backgroundTextureFour = _content.Load<Texture2D>("incredibleending");
 
             //string text = File.ReadAllText("Scores.txt");
             //foreach(var s in ScreenManager.ScoreList)
@@ -53,7 +56,9 @@ namespace GameProject5.Screens
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
-                LoadingScreen.Load(ScreenManager, false, null, new JudgementScreen());
+                ScreenManager.score = 0;
+                ScreenManager.TotalCoinsCollected = 0;
+                LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(), new MainMenuScreen());
             }
         }
 
@@ -65,10 +70,15 @@ namespace GameProject5.Screens
 
             spriteBatch.Begin();
 
-            spriteBatch.Draw(_backgroundTexture, fullscreen,
+            if (ScreenManager.TotalCoinsCollected <= 38) spriteBatch.Draw(_backgroundTextureOne, fullscreen,
                 new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha));
-            spriteBatch.DrawString(_coinLabel, "Final Judgement...", new Vector2(100, 100), Color.Gold);
-            spriteBatch.DrawString(_coinCounter, $"Coins Collected: " + ScreenManager.TotalCoinsCollected, new Vector2(300, 300), Color.White);
+            else if (ScreenManager.TotalCoinsCollected <= 44) spriteBatch.Draw(_backgroundTextureTwo, fullscreen,
+                new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha));
+            else if (ScreenManager.TotalCoinsCollected < 52) spriteBatch.Draw(_backgroundTextureThree, fullscreen,
+                new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha));
+            else spriteBatch.Draw(_backgroundTextureFour, fullscreen,
+                new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha));
+
 
             spriteBatch.End();
         }
