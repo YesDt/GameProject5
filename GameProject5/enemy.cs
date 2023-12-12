@@ -7,6 +7,7 @@ using GameProject5.Collisions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace GameProject5
@@ -40,6 +41,8 @@ namespace GameProject5
         private bool _hasShot = false;
 
         private Random random = new Random();
+
+        
 
       
 
@@ -77,7 +80,7 @@ namespace GameProject5
 
         public BoundingCircle Searching => _searching;
 
-
+        public SoundEffect _death;
         #endregion
 
         #region publicMethods
@@ -96,6 +99,7 @@ namespace GameProject5
         {
             _texture = content.Load<Texture2D>("Sprite_enemy");
             bullet.LoadContent(content);
+            _death = content.Load<SoundEffect>("EnemyHit_Hurt");
         }
 
         public void Update(GameTime gameTime, mcSprite mc)

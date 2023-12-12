@@ -7,6 +7,7 @@ using GameProject5.Collisions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace GameProject5
@@ -41,7 +42,7 @@ namespace GameProject5
 
         private Random random = new Random();
 
-
+        private SoundEffect _charge;
 
         #endregion
 
@@ -91,6 +92,7 @@ namespace GameProject5
             BossFingerFlick.LoadContent(content);
             HealthTexture = content.Load<Texture2D>("BossHealth");
             HealthBarTexture = content.Load<Texture2D>("BossHealthBar");
+            _charge = content.Load<SoundEffect>("ShoulderChargesound");
         }
 
         public void Update(GameTime gameTime, mcSprite mc)
@@ -109,6 +111,7 @@ namespace GameProject5
                     int randomNum = random.Next(1, 3);
                     if (randomNum == 1)
                     {
+                        _charge.Play();
                         Action = BossAction.ShoulderCharge;
                         _animationFrame = 0;
                         randomNum = 0;

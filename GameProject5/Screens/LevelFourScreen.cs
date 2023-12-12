@@ -56,6 +56,7 @@ namespace GameProject5.Screens
         private SoundEffect _coinPickup;
         private SoundEffect _stackPickup;
         private SoundEffect _specialPickup;
+        private SoundEffect _hurt;
 
         private bool _noCoinsLeft { get; set; } = false;
 
@@ -217,6 +218,7 @@ namespace GameProject5.Screens
             _backgroundMusic = _content.Load<Song>("Level4 music GP6");
             _stackPickup = _content.Load<SoundEffect>("Pickup_Coin5");
             _specialPickup = _content.Load<SoundEffect>("Pickup_Special");
+            _hurt = _content.Load<SoundEffect>("Hit_Hurt");
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Play(_backgroundMusic);
 
@@ -277,8 +279,10 @@ namespace GameProject5.Screens
                         {
                             if (proj.Bounds.CollidesWith(e.Bounds))
                             {
+                                PunchProjectile._collide.Play();
                                 proj.projState = state.connected;
                                 proj.Destroy(proj);
+                                e._death.Play();
                                 e.Health = 0;
                                 _tempScore += 50;
                             }
@@ -440,6 +444,7 @@ namespace GameProject5.Screens
                         {
                             _mc.Health -= 10;
                             _mc.Hurt = true;
+                            _hurt.Play();
                             b.Destroy(b);
                         }
                     }

@@ -49,6 +49,7 @@ namespace GameProject5.Screens
 
         private Song _backgroundMusic;
         private SoundEffect _coinPickup;
+        private SoundEffect _hurt;
 
 
         private bool _noCoinsLeft { get; set; } = false;
@@ -160,6 +161,7 @@ namespace GameProject5.Screens
 
             _coinPickup = _content.Load<SoundEffect>("Pickup_Coin15");
             _backgroundMusic = _content.Load<Song>("Boss GP");
+            _hurt = _content.Load<SoundEffect>("Hit_Hurt");
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Play(_backgroundMusic);
 
@@ -261,6 +263,7 @@ namespace GameProject5.Screens
                     }
                     if (proj.Bounds.CollidesWith(_boss.Bounds) && !_boss.Attacking)
                     {
+                        PunchProjectile._collide.Play();
                         proj.projState = state.connected;
                         proj.Destroy(proj);
                         _boss.Health -= 5;
@@ -278,6 +281,7 @@ namespace GameProject5.Screens
                 {
                     _mc.Position.Y -= 50;
                     _mc.Health -= 40;
+                    _hurt.Play();
                     _mc.Hurt = true;
                 }
                 
@@ -286,13 +290,17 @@ namespace GameProject5.Screens
                 {
                     if (proj.Bounds.X >= _boss.Boundary || proj.Bounds.X <= 0)
                     {
+                        PunchProjectile._collide.Play();
                         proj.Connected = true;
 
                     }
                     if (proj.Bounds.CollidesWith(_mc.Bounds))
                     {
+                        PunchProjectile._collide.Play();
                         proj.Connected = true;
+                        _hurt.Play();
                         _mc.Health -= 20;
+                        _mc.Hurt = true;
                     }
                 }
                 if (_boss.Health <= 0)

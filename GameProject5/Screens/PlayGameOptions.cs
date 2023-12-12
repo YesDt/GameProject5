@@ -61,7 +61,7 @@ namespace GameProject5.Screens
             ScreenManager.score = 0;
             ScreenManager.TotalCoinsCollected = 0;
             File.WriteAllText("progress.txt", "");
-            LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new LevelTwoScreen(), new LevelOneScreen(), new NewGameCSScreen());
+            LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new LevelOneScreen(), new NewGameCSScreen());
 
         }
 

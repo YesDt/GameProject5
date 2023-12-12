@@ -70,13 +70,21 @@ namespace GameProject5.Screens
 
             spriteBatch.Begin();
 
-            if (ScreenManager.TotalCoinsCollected <= 38) spriteBatch.Draw(_backgroundTextureOne, fullscreen,
+            //if (ScreenManager.TotalCoinsCollected <= 38) spriteBatch.Draw(_backgroundTextureOne, fullscreen,
+            //    new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha));
+            //else if (ScreenManager.TotalCoinsCollected <= 44) spriteBatch.Draw(_backgroundTextureTwo, fullscreen,
+            //    new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha));
+            //else if (ScreenManager.TotalCoinsCollected < 52) spriteBatch.Draw(_backgroundTextureThree, fullscreen,
+            //    new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha));
+            //else spriteBatch.Draw(_backgroundTextureFour, fullscreen,
+            //    new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha));
+            if (ScreenManager.TotalCoinsCollected >= 52) spriteBatch.Draw(_backgroundTextureFour, fullscreen,
+               new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha));
+            else if (ScreenManager.TotalCoinsCollected >= 45) spriteBatch.Draw(_backgroundTextureThree, fullscreen,
                 new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha));
-            else if (ScreenManager.TotalCoinsCollected <= 44) spriteBatch.Draw(_backgroundTextureTwo, fullscreen,
+            else if (ScreenManager.TotalCoinsCollected >= 40) spriteBatch.Draw(_backgroundTextureTwo, fullscreen,
                 new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha));
-            else if (ScreenManager.TotalCoinsCollected < 52) spriteBatch.Draw(_backgroundTextureThree, fullscreen,
-                new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha));
-            else spriteBatch.Draw(_backgroundTextureFour, fullscreen,
+            else spriteBatch.Draw(_backgroundTextureOne, fullscreen,
                 new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha));
 
 

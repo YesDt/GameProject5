@@ -68,7 +68,7 @@ namespace GameProject5.Screens
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
                 ScreenManager.score = 0;
-                LoadingScreen.Load(ScreenManager, false, null, new JudgementScreen(), new FinalJudgmentScreen());
+                LoadingScreen.Load(ScreenManager, false, null,  new FinalJudgmentScreen());
             }
         }
 

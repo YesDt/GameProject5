@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Audio;
 using GameProject5.Collisions;
 
 namespace GameProject5
@@ -58,6 +59,10 @@ namespace GameProject5
         public List<PunchProjectile> ProjList = new List<PunchProjectile>();
 
         private bool _hasShot = false;
+
+        private SoundEffect _jump;
+
+        private SoundEffect _punch;
         #endregion
 
         #region publicFields
@@ -124,6 +129,8 @@ namespace GameProject5
 
             HealthTexture = content.Load<Texture2D>("PlayerHealth");
             HealthBarTexture = content.Load<Texture2D>("healthBar");
+            _jump = content.Load<SoundEffect>("Jump");
+            _punch = content.Load<SoundEffect>("Punchsound");
 
         }
 
@@ -191,6 +198,7 @@ namespace GameProject5
             //Jump Function
             if (_currentKeyboardState.IsKeyDown(Keys.Space) && !OffGround)
             {
+                _jump.Play();
                 _velocityY -= _jumpHeight;
                 if (!Attacking) _animationFrame = 0;
                 if (!Attacking) _animationTimer = 0;
@@ -269,11 +277,13 @@ namespace GameProject5
             {
                 var proj = new PunchProjectile(new Vector2(Position.X + 60, Position.Y + 10), this);
                 ProjList.Add(proj);
+                _punch.Play();
             }
            else
             {
                 var proj = new PunchProjectile(new Vector2(Position.X - 60, Position.Y + 10), this);
                 ProjList.Add(proj);
+                _punch.Play();
             }
         }
 

@@ -38,6 +38,7 @@ namespace GameProject5.Screens
         //private List<PunchProjectile> _p;
         private CoinSprite[] _coins;
         private Platform _platforms;
+        private enemy[] _enemies;
 
 
         private Texture2D _level;
@@ -51,6 +52,7 @@ namespace GameProject5.Screens
 
         private Song _backgroundMusic;
         private SoundEffect _coinPickup;
+        private SoundEffect _hurt;
 
         private bool _noCoinsLeft { get; set; } = false;
 
@@ -144,11 +146,15 @@ namespace GameProject5.Screens
             };
             _coinsLeft = _coins.Length;
             foreach (var coin in _coins) coin.LoadContent(_content);
-
-
+            _enemies = new enemy[]
+            {
+                new enemy(new Vector2(1000, 300), 950, 1100, 128),
+            };
+            foreach (var e in _enemies) e.LoadContent(_content);
 
             _coinPickup = _content.Load<SoundEffect>("Pickup_Coin15");
             _backgroundMusic = _content.Load<Song>("Project2music");
+            _hurt = _content.Load<SoundEffect>("Hit_Hurt");
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Play(_backgroundMusic);
 
@@ -256,23 +262,52 @@ namespace GameProject5.Screens
                     if (proj.Bounds.X >= _mc.Wall || proj.Bounds.X <= 0)
                     {
                         proj.projState = state.connected;
-                        
+
+
+                    }
+                    foreach (var e in _enemies)
+                    {
+                        if (proj.Bounds.CollidesWith(e.Bounds))
+                        {
+                            PunchProjectile._collide.Play();
+                            proj.projState = state.connected;
+                            proj.Destroy(proj);
+                            e._death.Play();
+                            e.Health = 0;
+                            _tempScore += 50;
+                        }
                     }
                 }
-                //foreach (var proj in _p)
-                //{
-                //    proj.update(gameTime);
-                //}
+                foreach (var e in _enemies)
+                {
+                    e.Update(gameTime, _mc);
+                    if (_mc.Bounds.CollidesWith(e.Searching) && !e.Dead)
+                    {
 
-            }
+                        e.AboutToAttack();
+                    }
+                    foreach (var b in e.BulletList)
+                    {
+                        if (_mc.Bounds.CollidesWith(b.Bounds) && !_mc.Recovering)
+                        {
+                            _mc.Health -= 10;
+                            _mc.Hurt = true;
+                            _hurt.Play();
+                            b.Destroy(b);
+                        }
+                    }
+                   
 
-            if (_noCoinsLeft)
-            {
-                MediaPlayer.Stop();
-                ScreenManager.score += _tempScore;
-                ScreenManager.TotalCoinsCollected += _mc.coinsCollected;
+                }
 
-                LoadingScreen.Load(ScreenManager, false, player, new LevelTwoScreen());
+                if (_noCoinsLeft)
+                {
+                    MediaPlayer.Stop();
+                    ScreenManager.score += _tempScore;
+                    ScreenManager.TotalCoinsCollected += _mc.coinsCollected;
+
+                    LoadingScreen.Load(ScreenManager, false, player, new LevelTwoScreen());
+                }
             }
         }
 
@@ -308,7 +343,10 @@ namespace GameProject5.Screens
 
 
             _mc.Draw(gameTime, spriteBatch);
-          
+            foreach (var e in _enemies)
+            {
+                e.Draw(gameTime, spriteBatch);
+            }
 
             spriteBatch.End();
 

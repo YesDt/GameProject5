@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Audio;
 using GameProject5.Collisions;
 using GameProject5;
 
@@ -29,6 +30,8 @@ namespace GameProject5
 
         private short _animationFrame;
 
+        public static SoundEffect _collide;
+
 
         public double ProjTimer;
 
@@ -39,6 +42,8 @@ namespace GameProject5
         public bool Flipped;
 
         public bool Expired = false;
+
+        public bool Collided = true;
 
        // public Vector2 Position => _position;
 
@@ -54,6 +59,7 @@ namespace GameProject5
         public static void LoadContent(ContentManager content)
         {
             _texture = content.Load<Texture2D>("Sprite_PunchProjectile ");
+            _collide = content.Load<SoundEffect>("PunchCollide");
 
 
         }
@@ -65,8 +71,10 @@ namespace GameProject5
                 Position -= new Vector2(Speed * (float)gameTime.ElapsedGameTime.TotalSeconds, 0);
                 if (projState == state.connected)
                 {
+
                     Speed = 0;
                     Position -= Vector2.Zero;
+                    _bounds = new BoundingRectangle(new Vector2(100000000, 100000000), 0, 0);
                 }
             }
             else
@@ -76,6 +84,7 @@ namespace GameProject5
                 {
                     Speed = 0;
                     Position += Vector2.Zero;
+                    _bounds = new BoundingRectangle(new Vector2(100000000, 100000000), 0, 0);
                 }
             }
 
@@ -87,13 +96,18 @@ namespace GameProject5
             {
                 Destroy(this);
             }
+            if (projState == state.connected && Collided)
+            {
+                _collide.Play();
+                Collided = false;
+            }
 
         }
 
         public void Destroy(PunchProjectile p)
         {
 
-            p._bounds = new BoundingRectangle(Vector2.Zero, 0, 0);
+            p._bounds = new BoundingRectangle(new Vector2(100000000, 100000000), 0, 0);
             Expired = true;
         }
 
@@ -127,6 +141,7 @@ namespace GameProject5
             }
             if(projState == state.connected)
             {
+                
                 _animationTimer += gameTime.ElapsedGameTime.TotalSeconds;
                 if (_animationTimer > 0.1)
                 {

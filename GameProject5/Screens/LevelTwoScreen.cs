@@ -38,6 +38,7 @@ namespace GameProject5.Screens
         private Collectible _specialCollectable = new Collectible(new Vector2(180, 150), new BoundingRectangle(180, 110, 48, 32));
         private Platform[] _platforms;
         private Goal _goal = new Goal(new Vector2(1150, 210), new BoundingRectangle(new Vector2(1150, 210), 30f, 260), 640, 280);
+        private enemy[] _enemies;
 
 
         //private Texture2D _level2;
@@ -56,6 +57,7 @@ namespace GameProject5.Screens
         private SoundEffect _coinPickup;
         private SoundEffect _stackPickup;
         private SoundEffect _specialPickup;
+        private SoundEffect _hurt;
 
         private bool _noCoinsLeft { get; set; } = false;
 
@@ -170,6 +172,12 @@ namespace GameProject5.Screens
             _coinsLeft = _coins.Length;
             foreach (var coin in _coins) coin.LoadContent(_content);
 
+            _enemies = new enemy[]
+            {
+                new enemy(new Vector2(100, 50), 90, 200, 128),
+            };
+            foreach (var e in _enemies) e.LoadContent(_content);
+
             _specialGet = _content.Load<SpriteFont>("SpecialGet");
 
             _coinstack.cTexture = _content.Load<Texture2D>("gold");
@@ -178,6 +186,7 @@ namespace GameProject5.Screens
             _backgroundMusic = _content.Load<Song>("GP4Level2");
             _stackPickup = _content.Load<SoundEffect>("Pickup_Coin5");
             _specialPickup = _content.Load<SoundEffect>("Pickup_Special");
+            _hurt = _content.Load<SoundEffect>("Hit_Hurt");
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Play(_backgroundMusic);
 
@@ -227,6 +236,18 @@ namespace GameProject5.Screens
                         if (proj.Bounds.CollidesWith(plat.Bounds))
                         {
                             proj.projState = state.connected;
+                        }
+                        foreach (var e in _enemies)
+                        {
+                            if (proj.Bounds.CollidesWith(e.Bounds))
+                            {
+                                PunchProjectile._collide.Play();
+                                proj.projState = state.connected;
+                                proj.Destroy(proj);
+                                e._death.Play();
+                                e.Health = 0;
+                                _tempScore += 50;
+                            }
                         }
                     }
 
@@ -335,6 +356,27 @@ namespace GameProject5.Screens
                 {
                     LoadingScreen.Load(ScreenManager, false, player, new LevelTwoScreen());
                 }
+                foreach (var e in _enemies)
+                {
+                    e.Update(gameTime, _mc);
+                    if (_mc.Bounds.CollidesWith(e.Searching) && !e.Dead)
+                    {
+
+                        e.AboutToAttack();
+                    }
+                    foreach (var b in e.BulletList)
+                    {
+                        if (_mc.Bounds.CollidesWith(b.Bounds) && !_mc.Recovering)
+                        {
+                            _mc.Health -= 10;
+                            _mc.Hurt = true;
+                            _hurt.Play();
+                            b.Destroy(b);
+                        }
+                    }
+
+
+                }
             }
         }
 
@@ -384,7 +426,10 @@ namespace GameProject5.Screens
             }
             if (!_secretObtained) spriteBatch.Draw(Secret, _specialCollectable.Position, null, Color.White, 0f, new Vector2(16, 32), 1f, SpriteEffects.None, 0);
             _mc.Draw(gameTime, spriteBatch);
-
+            foreach (var e in _enemies)
+            {
+                e.Draw(gameTime, spriteBatch);
+            }
 
             //Debugging purposes
             #region Debugging
