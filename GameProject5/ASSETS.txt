@@ -86,10 +86,49 @@ Sprite_door2.png - created by Darius Tyson with fire Alpaca, released under publ
 Sprite_bullet.png - created by Darius Tyson with fire Alpaca, released under public domain
 
 
+FinalJudgment.png - created by Darius Tyson with fire Alpaca, released under public domain
+
+
+cheapbozoending.png - created by Darius Tyson with fire Alpaca, released under public domain
+
+
+mehending.png - created by Darius Tyson with fire Alpaca, released under public domain
+
+
+prettygoodending.png - created by Darius Tyson with fire Alpaca, released under public domain
+
+
+incredibleending.png - created by Darius Tyson with fire Alpaca, released under public domain
+
+
 PickupCoin5.wav - ceated by Darius Tyson using BFXR, released under public domain
 
 
 Pickup_Special.wav - created by Darius Tyson using BFXR, released under public domain
+
+
+PickupCoin5.wav - ceated by Darius Tyson using BFXR, released under public domain
+
+
+Explosion2.wav - ceated by Darius Tyson using BFXR, released under public domain
+
+
+EnemyHit_Hurt.wav - ceated by Darius Tyson using BFXR, released under public domain
+
+
+Hit_Hurt.wav - ceated by Darius Tyson using BFXR, released under public domain
+
+
+Jump.wav - ceated by Darius Tyson using BFXR, released under public domain
+
+
+Punchsound.wav - ceated by Darius Tyson using BFXR, released under public domain
+
+
+ShouldChargesound.wav - ceated by Darius Tyson using BFXR, released under public domain
+
+
+PunchCollide.wav - created by Darius Tyson using BFXR, released under public domain
 
 
 Level3 music GP6.mp3 - created by Darius Tyson with fire Alpaca, released under public domain
@@ -108,6 +147,12 @@ GP4Level2.mp3 - created by Darius Tysom with LMMS, released under public domain
 
 
 newGameCutscene.mp4 - created by Darius Tyson using Fire Alpaca, and Davinci Resolve, released under public domain
+
+
+Punchsound.mp4 - created by Darius Tyson using Fire Alpaca, and Davinci Resolve, released under public domain
+
+
+ShouldChargesound.mp4 - created by Darius Tyson using Fire Alpaca, and Davinci Resolve, released under public domain
 
 
 Level2.tmap - created by Darius Tyson, released under public domain
